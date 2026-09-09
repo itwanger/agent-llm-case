@@ -1,0 +1,32 @@
+name: 问题反馈
+description: 报告案例无法运行、交互异常或文档问题。
+title: "[Bug] "
+body:
+  - type: input
+    id: case_path
+    attributes:
+      label: 案例路径
+      placeholder: deepseek/ds41-road-rash
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: 运行环境
+      description: 操作系统、Node.js 或其他运行时版本、浏览器版本及代码提交版本。
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现步骤
+      description: 提供执行的命令、操作步骤和预期结果。
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果
+      description: 说明错误表现，可附日志或截图；请移除敏感信息。
+    validations:
+      required: true

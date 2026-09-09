@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 选题交流与测试心得
+    url: https://github.com/itwanger/agent-llm-case/discussions
+    about: 一般讨论、使用交流和测试心得请前往 Discussions。

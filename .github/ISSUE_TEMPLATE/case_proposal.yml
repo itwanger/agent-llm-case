@@ -1,0 +1,28 @@
+name: 案例提议
+description: 提议新的测试题、模型或 Agent 对比案例。
+title: "[Case] "
+body:
+  - type: textarea
+    id: task
+    attributes:
+      label: 任务或提示词
+      description: 描述希望完成的任务，提供原始提示词；改编内容请注明来源。
+    validations:
+      required: true
+  - type: input
+    id: model_agent
+    attributes:
+      label: 模型与 Agent
+      description: 如已确定，请分别写明模型和 Agent；尚未确定可留空。
+  - type: textarea
+    id: evaluation
+    attributes:
+      label: 观察点与验收方式
+      description: 这个案例想观察什么能力？如何判断任务完成？
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 已有结果或参考
+      description: 可附代码、截图、测试记录或原始来源链接。
