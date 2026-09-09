@@ -1,0 +1,18 @@
+{
+  "name": "ds41-xiaoer-playroom",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "小二的三维玩具房 — Vite + Three.js 动森风格 3D 玩具房",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  }
+}

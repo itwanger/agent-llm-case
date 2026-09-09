@@ -1,0 +1,14 @@
+{
+  "name": "ds41-koi-pond",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "可交互的日式锦鲤池 —— 纯代码绘制的俯视池塘，含水面波动、焦散、程序化锦鲤与投食交互",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

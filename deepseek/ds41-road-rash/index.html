@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ROAD RASH 41 — 暴力摩托</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="scene"></canvas>
+
+      <!-- CRT / retro overlays -->
+      <div id="scanlines"></div>
+      <div id="vignette"></div>
+      <div id="flash"></div>
+
+      <!-- HUD -->
+      <div id="hud">
+        <div id="hud-top">
+          <div id="hud-left">
+            <div class="panel" id="rank-panel">
+              <div class="label">POS</div>
+              <div class="big" id="rank-value">6<span class="small">/6</span></div>
+              <div class="sub" id="lap-value">LAP 1/3</div>
+            </div>
+            <div class="panel" id="time-panel">
+              <div class="label">TIME</div>
+              <div class="big mono" id="time-value">00:00.00</div>
+              <div class="sub" id="best-value">BEST --:--.--</div>
+            </div>
+          </div>
+          <div id="hud-right">
+            <div id="speedo-wrap">
+              <canvas id="speedo" width="230" height="230"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div id="hud-bottom">
+          <div id="health-wrap">
+            <div class="label">DAMAGE</div>
+            <div id="health-track">
+              <div id="health-fill"></div>
+              <div id="health-ticks"></div>
+            </div>
+          </div>
+          <div id="combo"></div>
+        </div>
+
+        <div id="center-msg"></div>
+        <div id="sub-msg"></div>
+
+        <div id="attack-hint">
+          <span class="k">J</span> 左拳
+          <span class="k">K</span> 右拳
+          <span class="k">SPACE</span> 挥棍
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="results" class="hidden">
+        <div class="results-inner">
+          <h1 id="results-title">RACE FINISHED</h1>
+          <div id="results-table"></div>
+          <div id="results-foot">
+            <button id="restart-btn">重新开始 (R)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="loading">
+        <div class="loading-inner">
+          <div class="logo">ROAD<span>RASH</span>41</div>
+          <div class="bar"><i></i></div>
+          <div class="hint">正在用代码生成赛道与车辆…</div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

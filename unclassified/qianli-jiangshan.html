@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>千里江山 · 数字长卷</title>
+<style>
+  :root{
+    --silk:#F2E8D5;
+    --ink:#2a2620;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:100%;height:100%;overflow:hidden;background:var(--silk);}
+  body{
+    font-family: "Songti SC","STSong","SimSun","Noto Serif CJK SC",Georgia,serif;
+    cursor: grab;
+    -webkit-user-select:none;user-select:none;
+    color:var(--ink);
+  }
+  body.dragging{cursor:grabbing;}
+  #stage{display:block;position:fixed;inset:0;}
+
+  /* 竖排标题 */
+  #title{
+    position:fixed;top:6.5vh;left:5.2vw;z-index:20;pointer-events:none;
+    display:flex;align-items:flex-start;gap:1.1vw;
+  }
+  #title .main{
+    writing-mode:vertical-rl;text-orientation:upright;
+    font-size:clamp(34px,5.6vw,74px);
+    letter-spacing:0.14em;font-weight:600;
+    color:#1c3a3c;
+    text-shadow:0 1px 0 rgba(255,255,255,.35);
+  }
+  #title .meta{
+    writing-mode:vertical-rl;text-orientation:upright;
+    font-size:clamp(11px,1.15vw,15px);
+    letter-spacing:0.34em;color:#6d6152;margin-top:.4em;opacity:.85;
+  }
+  #seal{
+    position:fixed;top:6.0vh;left:1.9vw;z-index:20;pointer-events:none;
+    width:clamp(32px,3.2vw,44px);height:clamp(32px,3.2vw,44px);
+    border:2px solid #9d3b2f;border-radius:5px;color:#9d3b2f;
+    display:flex;align-items:center;justify-content:center;
+    font-size:clamp(11px,1.15vw,15px);line-height:1.02;writing-mode:vertical-rl;
+    letter-spacing:.02em;opacity:.82;transform:rotate(-1.5deg);
+    box-shadow:inset 0 0 0 1px rgba(157,59,47,.25);
+  }
+
+  #hint{
+    position:fixed;left:0;right:0;bottom:3.4vh;z-index:20;text-align:center;
+    font-size:13px;letter-spacing:.42em;color:#5c5346;pointer-events:none;
+    opacity:0;transition:opacity 1.2s ease;
+  }
+  #hint.show{opacity:.72;}
+
+  #sound{
+    position:fixed;top:6.4vh;right:4.4vw;z-index:30;
+    width:42px;height:42px;border-radius:50%;
+    border:1px solid rgba(28,58,60,.35);background:rgba(242,232,213,.5);
+    color:#1c3a3c;font-size:17px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(2px);transition:all .3s ease;
+  }
+  #sound:hover{background:rgba(242,232,213,.9);}
+
+  /* 展卷序幕 */
+  #veil{
+    position:fixed;inset:0;z-index:40;background:var(--silk);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;
+    gap:2.2em;transition:opacity 1.6s ease;
+  }
+  #veil.gone{opacity:0;pointer-events:none;}
+  #veil .v-main{
+    writing-mode:vertical-rl;text-orientation:upright;
+    font-size:clamp(40px,7vw,92px);letter-spacing:.2em;font-weight:600;color:#1c3a3c;
+  }
+  #veil .v-sub{
+    font-size:14px;letter-spacing:.5em;color:#6d6152;
+    border:1px solid rgba(109,97,82,.4);padding:.7em 1.4em;border-radius:2px;
+    animation:breathe 3.4s ease-in-out infinite;
+  }
+  @keyframes breathe{0%,100%{opacity:.55;}50%{opacity:1;}}
+</style>
+</head>
+<body>
+  <canvas id="stage"></canvas>
+
+  <div id="seal">希孟</div>
+  <div id="title">
+    <div class="main">千里江山</div>
+    <div class="meta">北宋 · 王希孟 · 绢本设色</div>
+  </div>
+
+  <button id="sound" title="古琴泛音">♪</button>
+  <div id="hint">横向滚动以展卷 · 点击山峰以观题跋</div>
+
+  <div id="veil">
+    <div class="v-main">千里江山</div>
+    <div class="v-sub">轻 触 展 卷</div>
+  </div>
+
+<script>
+"use strict";
+(function(){
+
+  /* ---------- 基础 ---------- */
+  const cv = document.getElementById('stage');
+  const ctx = cv.getContext('2d', { alpha:false });
+  let W=0, H=0, DPR=1;
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio||1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = W*DPR; cv.height = H*DPR;
+    cv.style.width = W+'px'; cv.style.height = H+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* ---------- 分形噪声（值噪声 + fBm） ---------- */
+  function mulberry32(a){
+    return function(){
+      a|=0; a=(a+0x6D2B79F5)|0;
+      let t=Math.imul(a^(a>>>15),1|a);
+      t=(t+Math.imul(t^(t>>>7),61|t))^t;
+      return ((t^(t>>>14))>>>0)/4294967296;
+    };
+  }
+  function makeNoise(seed){
+    const rand = mulberry32(seed);
+    const N=1024;
+    const table = new Float32Array(N);
+    for(let i=0;i<N;i++) table[i]=rand();
+    function val(x){
+      const xi=Math.floor(x);
+      const xf=x-xi;
+      const a=table[((xi%N)+N)%N];
+      const b=table[(((xi+1)%N)+N)%N];
+      const t=xf*xf*(3-2*xf);
+      return a+(b-a)*t;
+    }
+    function fbm(x,oct,lac,gain){
+      let amp=1,freq=1,sum=0,norm=0;
+      for(let i=0;i<oct;i++){ sum+=amp*val(x*freq); norm+=amp; amp*=gain; freq*=lac; }
+      return sum/norm;
+    }
+    return { fbm, val };
+  }
+  const NZ = makeNoise(19012001); // 王希孟约1101年 · 播下一颗种子
+
+  /* ---------- 山峦层（大气透视：远→近，浅→深） ---------- */
+  // base: 基线所在高度比例；amp: 起伏幅度比例；factor: 视差系数
+  const layers = [
+    { factor:0.10, base:0.520, amp:0.085, seed: 11.3, freq:0.0011, oct:5,
+      top:'#BBD2CB', bot:'#9CBBB2', mist:true },
+    { factor:0.22, base:0.575, amp:0.120, seed: 47.7, freq:0.0014, oct:5,
+      top:'#84B2A8', bot:'#5A9488', mist:true },
+    { factor:0.40, base:0.640, amp:0.150, seed: 89.1, freq:0.0017, oct:5,
+      top:'#43997C', bot:'#2E8B6E', mist:true, clickable:true },
+    { factor:0.66, base:0.710, amp:0.180, seed:151.9, freq:0.0020, oct:6,
+      top:'#2C7F8E', bot:'#1B5E7A', clickable:true },
+    { factor:1.00, base:0.792, amp:0.205, seed:233.5, freq:0.0024, oct:6,
+      top:'#164B60', bot:'#0E3346', clickable:true },
+  ];
+
+  const WATER_TOP = 0.80;    // 水面所在高度比例
+  const MAX_SCROLL = 5200;   // 卷轴总展开长度
+
+  // 峰形：脊状化让山尖挺拔，接近宋画的层叠感
+  function surfaceY(layer, worldX){
+    const n1 = NZ.fbm(worldX*layer.freq + layer.seed, layer.oct, 2.0, 0.5);
+    const n2 = NZ.fbm(worldX*layer.freq*2.7 + layer.seed*1.7, 3, 2.0, 0.5);
+    let n = n1*0.78 + n2*0.22;
+    n = Math.pow(n, 1.22);            // 略微拔高峰尖
+    return layer.base*H - layer.amp*H*n;
+  }
+
+  /* ---------- 山峰采集（供点击题跋） ---------- */
+  const poems = [
+    "千里江山寒色远","芦花深处泊孤舟","咫尺应须论万里",
+    "江流天地外","山色有无中","无穷烟水碧连天",
+    "青绿千载只此卷","少年心事当拏云","万壑有声含晚籁","数峰无语立斜阳"
+  ];
+  const peaks = []; // {layer, worldX, y}
+  function collectPeaks(){
+    peaks.length=0;
+    const range = MAX_SCROLL + W + 200;
+    layers.forEach((layer,li)=>{
+      if(!layer.clickable) return;
+      const step=6;
+      let prev=Infinity, prev2=Infinity, prevX=0, prev2X=0, prevY=0;
+      for(let x=0;x<=range;x+=step){
+        const y=surfaceY(layer,x);
+        // 局部极小 y = 峰顶
+        if(prevY<prev2 && prevY<y){
+          // 突出度筛选，避免太密
+          if(peaks.length===0 || Math.abs(prevX - (peaks[peaks.length-1].worldX)) > 190 || peaks[peaks.length-1].layer!==li){
+            peaks.push({layer:li, worldX:prevX, y:prevY});
+          }
+        }
+        prev2=prev; prev2X=prevX; prev=y; prevX=x; prevY=y;
+      }
+    });
+    // 为每个峰分配题跋
+    peaks.forEach((p,i)=> p.poem = poems[i % poems.length]);
+  }
+  collectPeaks();
+
+  /* ---------- 卷轴滚动 ---------- */
+  let scroll=0, target=0;
+  function clampT(){ target=Math.max(0,Math.min(MAX_SCROLL,target)); }
+
+  window.addEventListener('wheel', (e)=>{
+    startAudio();
+    // 竖向滚轮映射为横向展卷
+    const d = Math.abs(e.deltaY)>Math.abs(e.deltaX)? e.deltaY : e.deltaX;
+    target += d*1.1; clampT();
+    e.preventDefault();
+  }, {passive:false});
+
+  // 拖拽展卷
+  let dragging=false, lastX=0, moved=false;
+  function down(x){ dragging=true; moved=false; lastX=x; document.body.classList.add('dragging'); }
+  function move(x){ if(!dragging) return; const dx=x-lastX; lastX=x; if(Math.abs(dx)>2) moved=true; target-=dx*1.35; clampT(); }
+  function up(){ dragging=false; document.body.classList.remove('dragging'); }
+
+  cv.addEventListener('pointerdown', e=>{ startAudio(); down(e.clientX); pointer.px=e.clientX; pointer.py=e.clientY; });
+  window.addEventListener('pointermove', e=>{ move(e.clientX); pointer.x=e.clientX; pointer.y=e.clientY; onHover(e.clientX,e.clientY); });
+  window.addEventListener('pointerup', e=>{ if(dragging && !moved) tryClick(e.clientX,e.clientY); up(); });
+
+  /* ---------- 涟漪 ---------- */
+  const ripples=[];
+  const pointer={x:-999,y:-999,px:0,py:0};
+  let lastRipT=0;
+  function onHover(x,y){
+    const wt=H*WATER_TOP;
+    if(y>wt){
+      const now=clock;
+      if(now-lastRipT>90){ ripples.push({x,y,t:0,max:34+Math.random()*22}); lastRipT=now; }
+    }
+  }
+
+  /* ---------- 题跋（墨迹晕染） ---------- */
+  const marks=[]; // {layer, worldX, y, poem, t}
+  function tryClick(sx,sy){
+    // 找最近的可点山峰（屏幕空间）
+    let best=null, bestD=70;
+    for(const p of peaks){
+      const lf=layers[p.layer].factor;
+      const px = p.worldX - scroll*lf;
+      if(px< -40 || px>W+40) continue;
+      const d=Math.hypot(px-sx, p.y-sy);
+      if(d<bestD){ bestD=d; best=p; }
+    }
+    if(best){
+      // 同一山峰不重复
+      if(!marks.some(m=>m.worldX===best.worldX && m.layer===best.layer)){
+        marks.push({layer:best.layer, worldX:best.worldX, y:best.y, poem:best.poem, t:0});
+        pluck(pentatonic[(marks.length)%pentatonic.length]*2); // 点击轻响一声泛音
+      }
+    }
+  }
+
+  /* ---------- Web Audio · 古琴泛音实时合成 ---------- */
+  let actx=null, master=null, audioOn=true, audioReady=false;
+  const pentatonic=[293.66,329.63,392.00,440.00,587.33,659.25]; // D E G A · 五声
+  function startAudio(){
+    if(audioReady) return;
+    try{
+      actx=new (window.AudioContext||window.webkitAudioContext)();
+      master=actx.createGain(); master.gain.value=0;
+      const conv=actx.createGain(); conv.gain.value=1;
+      master.connect(actx.destination);
+      master.gain.setTargetAtTime(audioOn?0.9:0, actx.currentTime, 1.2);
+      audioReady=true;
+    }catch(e){ audioReady=false; }
+    revealScene();
+  }
+  // 一声泛音：多正弦分音 + 快起长落 + 轻微揉弦
+  function pluck(freq){
+    if(!audioReady || !audioOn) return;
+    const t=actx.currentTime;
+    const g=actx.createGain();
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.9,t+0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+3.6);
+    const lp=actx.createBiquadFilter(); lp.type='lowpass';
+    lp.frequency.setValueAtTime(2600,t); lp.frequency.exponentialRampToValueAtTime(700,t+3.2);
+    g.connect(lp); lp.connect(master);
+
+    const partials=[[1,1.0],[2,0.42],[3,0.22],[4.02,0.12],[5.4,0.06]];
+    partials.forEach(([mult,amp],i)=>{
+      const o=actx.createOscillator();
+      o.type='sine'; o.frequency.value=freq*mult;
+      // 揉弦：极缓的频率漂移
+      const lfo=actx.createOscillator(); lfo.type='sine'; lfo.frequency.value=4.6+i*0.3;
+      const lg=actx.createGain(); lg.gain.value=freq*mult*0.004;
+      lfo.connect(lg); lg.connect(o.frequency);
+      const og=actx.createGain(); og.gain.value=amp;
+      o.connect(og); og.connect(g);
+      o.start(t); lfo.start(t);
+      o.stop(t+3.7); lfo.stop(t+3.7);
+    });
+  }
+  // 随展卷零星点声
+  let scrollAcc=0, noteIdx=0;
+  function auralScroll(delta){
+    scrollAcc+=Math.abs(delta);
+    if(scrollAcc>240){
+      scrollAcc=0;
+      pluck(pentatonic[noteIdx%pentatonic.length]);
+      noteIdx++;
+    }
+  }
+  const soundBtn=document.getElementById('sound');
+  soundBtn.addEventListener('click',(e)=>{
+    e.stopPropagation();
+    startAudio();
+    audioOn=!audioOn;
+    soundBtn.textContent=audioOn?'♪':'·';
+    if(audioReady) master.gain.setTargetAtTime(audioOn?0.9:0, actx.currentTime,0.4);
+  });
+
+  /* ---------- 序幕 ---------- */
+  const veil=document.getElementById('veil');
+  const hint=document.getElementById('hint');
+  let revealed=false;
+  function revealScene(){
+    if(revealed) return; revealed=true;
+    veil.classList.add('gone');
+    setTimeout(()=>hint.classList.add('show'),1400);
+    setTimeout(()=>{ if(hint) hint.classList.remove('show'); }, 8000);
+  }
+  veil.addEventListener('pointerdown', ()=>{ startAudio(); });
+
+  /* ---------- 绘制 ---------- */
+  function drawBackground(){
+    // 绢黄底 + 极淡天光渐变
+    const g=ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,'#F5EEDD');
+    g.addColorStop(0.55,'#F2E8D5');
+    g.addColorStop(1,'#EADFC7');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+
+    // 绢纹（极淡横纹，克制）
+    ctx.save();
+    ctx.globalAlpha=0.035; ctx.strokeStyle='#8a7a5c'; ctx.lineWidth=1;
+    for(let y=0;y<H;y+=6){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    ctx.restore();
+  }
+
+  function drawLayer(layer){
+    const off = scroll*layer.factor;
+    const step=2;
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    let firstY=surfaceY(layer, off);
+    ctx.lineTo(0, firstY);
+    for(let sx=0; sx<=W; sx+=step){
+      const y=surfaceY(layer, sx+off);
+      ctx.lineTo(sx, y);
+    }
+    ctx.lineTo(W, H);
+    ctx.closePath();
+
+    const g=ctx.createLinearGradient(0, layer.base*H - layer.amp*H, 0, H);
+    g.addColorStop(0, layer.top);
+    g.addColorStop(1, layer.bot);
+    ctx.fillStyle=g; ctx.fill();
+
+    // 峰脊高光线（宋画勾勒感）
+    ctx.beginPath();
+    for(let sx=0; sx<=W; sx+=step){
+      const y=surfaceY(layer, sx+off);
+      if(sx===0) ctx.moveTo(sx,y); else ctx.lineTo(sx,y);
+    }
+    ctx.strokeStyle='rgba(255,255,255,0.14)';
+    ctx.lineWidth=1.1; ctx.stroke();
+
+    // 层底薄雾：拉开层叠空间
+    if(layer.mist){
+      const mistY=layer.base*H;
+      const mg=ctx.createLinearGradient(0, mistY-24, 0, mistY+40);
+      mg.addColorStop(0,'rgba(242,236,222,0)');
+      mg.addColorStop(0.5,'rgba(238,232,216,0.55)');
+      mg.addColorStop(1,'rgba(242,236,222,0)');
+      ctx.fillStyle=mg;
+      ctx.fillRect(0, mistY-24, W, 64);
+    }
+  }
+
+  function drawWater(){
+    const wt=H*WATER_TOP;
+    const g=ctx.createLinearGradient(0,wt,0,H);
+    g.addColorStop(0,'#2E7A82');
+    g.addColorStop(0.4,'#236C77');
+    g.addColorStop(1,'#17505c');
+    ctx.fillStyle=g; ctx.fillRect(0,wt,W,H-wt);
+
+    // 水面横向微光（缓慢漂移）
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0,wt,W,H-wt); ctx.clip();
+    ctx.globalAlpha=0.10; ctx.strokeStyle='#DCEDE6'; ctx.lineWidth=1;
+    for(let i=0;i<6;i++){
+      const yy=wt + ( (i*37 + clock*0.012) % (H-wt) );
+      ctx.beginPath(); ctx.moveTo(0,yy); ctx.lineTo(W,yy); ctx.stroke();
+    }
+    ctx.restore();
+
+    // 涟漪
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0,wt,W,H-wt); ctx.clip();
+    for(let i=ripples.length-1;i>=0;i--){
+      const r=ripples[i]; r.t+=1;
+      const p=r.t/60;
+      if(p>=1){ ripples.splice(i,1); continue; }
+      const rad=p*r.max;
+      const a=(1-p)*0.5;
+      ctx.strokeStyle='rgba(224,238,232,'+a+')';
+      ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.ellipse(r.x,r.y,rad,rad*0.42,0,0,Math.PI*2); ctx.stroke();
+      if(rad>10){
+        ctx.strokeStyle='rgba(224,238,232,'+(a*0.5)+')';
+        ctx.beginPath(); ctx.ellipse(r.x,r.y,rad*0.6,rad*0.25,0,0,Math.PI*2); ctx.stroke();
+      }
+    }
+    ctx.restore();
+  }
+
+  function drawMarks(){
+    ctx.save();
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    const fs=Math.max(15, Math.min(22, W*0.014));
+    for(const m of marks){
+      if(m.t<1) m.t+=0.016;
+      const ease=1-Math.pow(1-Math.min(m.t,1),3);
+      const lf=layers[m.layer].factor;
+      const px=m.worldX - scroll*lf;
+      if(px<-120||px>W+120) continue;
+      const topY=m.y-18;
+      const chars=[...m.poem];
+      ctx.font='600 '+fs+'px "Songti SC","STSong","SimSun",serif';
+
+      // 墨底晕染（沿字轴的柔和竖向墨晕，避免方块感）
+      const midY=topY+chars.length*fs*0.5;
+      const blot=ease*(fs*0.6);
+      ctx.save();
+      ctx.globalAlpha=0.07*ease;
+      const bg=ctx.createRadialGradient(px, midY, 2, px, midY, chars.length*fs*0.6+blot);
+      bg.addColorStop(0,'rgba(28,26,22,0.85)');
+      bg.addColorStop(0.7,'rgba(28,26,22,0.18)');
+      bg.addColorStop(1,'rgba(28,26,22,0)');
+      ctx.fillStyle=bg;
+      ctx.beginPath();
+      ctx.ellipse(px, midY, fs*0.95, chars.length*fs*0.62+blot, 0, 0, Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+
+      // 逐字浮现，湿墨扩散逐渐收敛
+      chars.forEach((ch,ci)=>{
+        const cp=Math.max(0, Math.min(1,(m.t - ci*0.10)/0.6));
+        if(cp<=0) return;
+        const ce=1-Math.pow(1-cp,3);
+        ctx.save();
+        ctx.globalAlpha=ce;
+        ctx.shadowColor='rgba(28,26,22,0.75)';
+        ctx.shadowBlur=(1-ce)*10;
+        ctx.fillStyle='#1e1c18';
+        const cy=topY + ci*fs*1.06 + (1-ce)*6;
+        ctx.fillText(ch, px, cy);
+        ctx.restore();
+      });
+
+      // 峰顶落点：一点朱砂
+      ctx.save();
+      ctx.globalAlpha=0.8*ease;
+      ctx.fillStyle='#9d3b2f';
+      ctx.beginPath(); ctx.arc(px, m.y-4, 2.4, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+    }
+    ctx.restore();
+  }
+
+  // 峰顶微光：提示可点
+  function drawPeakHints(){
+    const pulse=0.5+0.5*Math.sin(clock*0.03);
+    ctx.save();
+    for(const p of peaks){
+      if(marks.some(m=>m.worldX===p.worldX && m.layer===p.layer)) continue;
+      const lf=layers[p.layer].factor;
+      const px=p.worldX - scroll*lf;
+      if(px<0||px>W) continue;
+      const d=Math.hypot(px-pointer.x, p.y-pointer.y);
+      if(d<80){
+        ctx.globalAlpha=0.35*(1-d/80)*(0.6+0.4*pulse);
+        ctx.fillStyle='#F2E8D5';
+        ctx.beginPath(); ctx.arc(px,p.y-3,3.2,0,Math.PI*2); ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
+
+  /* ---------- 主循环 ---------- */
+  let clock=0, prevScroll=0;
+  function frame(){
+    clock++;
+    // 平滑跟随
+    scroll += (target-scroll)*0.09;
+    const delta=scroll-prevScroll; prevScroll=scroll;
+    if(Math.abs(delta)>0.3) auralScroll(delta);
+
+    drawBackground();
+    for(let i=0;i<layers.length;i++) drawLayer(layers[i]);
+    drawWater();
+    drawPeakHints();
+    drawMarks();
+
+    requestAnimationFrame(frame);
+  }
+  frame();
+
+})();
+</script>
+</body>
+</html>

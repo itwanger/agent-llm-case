@@ -1,0 +1,21 @@
+{
+  "name": "ds41-road-rash",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "90s Road Rash style 3D motorcycle racing/fighting game built with Vite + Three.js",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5183",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 5184",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.185.4",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.6"
+  }
+}

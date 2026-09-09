@@ -1,0 +1,22 @@
+{
+  "name": "ds41-doodle-fps",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "横格笔记本涂鸦风第一人称射击游戏 —— Vite + Three.js，蓝圆珠笔线条与排线阴影，红色火柴人敌人",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5185 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 5186 --strictPort",
+    "verify": "node verify.mjs"
+  },
+  "dependencies": {
+    "three": "0.185.1"
+  },
+  "devDependencies": {
+    "vite": "^7.3.6"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

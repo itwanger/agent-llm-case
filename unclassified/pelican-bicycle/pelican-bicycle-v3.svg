@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-labelledby="title desc">
+  <title id="title">骑自行车的鹈鹕</title>
+  <desc id="desc">一只白色鹈鹕骑着红色自行车，双脚踏在踏板上，一只翅膀扶着车把，喉囊里兜着一条鱼。</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfeafb"/>
+      <stop offset="1" stop-color="#fdf3df"/>
+    </linearGradient>
+    <linearGradient id="plumage" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dbe2ea"/>
+    </linearGradient>
+    <linearGradient id="beakTop" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffb638"/>
+      <stop offset="1" stop-color="#f98a1b"/>
+    </linearGradient>
+    <linearGradient id="pouch" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffc96b"/>
+      <stop offset="1" stop-color="#f2913a"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a8d5a2"/>
+      <stop offset="1" stop-color="#7fbd7c"/>
+    </linearGradient>
+
+    <g id="wheel">
+      <circle r="82" fill="none" stroke="#2b2d42" stroke-width="11"/>
+      <circle r="70" fill="none" stroke="#c3cad3" stroke-width="5"/>
+      <g stroke="#98a2ad" stroke-width="2.5">
+        <line x1="70" y1="0" x2="-70" y2="0"/>
+        <line x1="60.6" y1="35" x2="-60.6" y2="-35"/>
+        <line x1="35" y1="60.6" x2="-35" y2="-60.6"/>
+        <line x1="0" y1="70" x2="0" y2="-70"/>
+        <line x1="-35" y1="60.6" x2="35" y2="-60.6"/>
+        <line x1="-60.6" y1="35" x2="60.6" y2="-35"/>
+      </g>
+      <circle r="10" fill="#6c757d"/>
+      <circle r="4" fill="#e9ecef"/>
+    </g>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <circle cx="672" cy="96" r="46" fill="#ffd166"/>
+
+  <g fill="#ffffff" opacity="0.9">
+    <ellipse cx="132" cy="104" rx="58" ry="24"/>
+    <ellipse cx="184" cy="118" rx="44" ry="18"/>
+    <ellipse cx="430" cy="72" rx="50" ry="20"/>
+    <ellipse cx="474" cy="84" rx="34" ry="14"/>
+  </g>
+
+  <rect y="490" width="800" height="110" fill="url(#ground)"/>
+  <rect y="486" width="800" height="8" fill="#6aa867"/>
+  <ellipse cx="410" cy="492" rx="230" ry="14" fill="#4d8f4c" opacity="0.28"/>
+
+  <use href="#wheel" x="255" y="402"/>
+  <use href="#wheel" x="565" y="402"/>
+
+  <g fill="none" stroke="#e0483e" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M255 402 L405 408"/>
+    <path d="M255 402 L348 300"/>
+    <path d="M405 408 L348 300"/>
+    <path d="M405 408 L512 314"/>
+    <path d="M348 300 L508 292"/>
+  </g>
+  <path d="M502 282 L520 322" stroke="#c33b32" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <path d="M514 314 L565 402" stroke="#8d99ae" stroke-width="8" stroke-linecap="round" fill="none"/>
+
+  <g fill="none" stroke="#8d99ae" stroke-width="7" stroke-linecap="round">
+    <path d="M348 300 L342 282"/>
+    <path d="M505 285 L500 264"/>
+    <path d="M466 272 Q500 250 536 262"/>
+  </g>
+  <path d="M306 280 Q342 266 378 280 Q342 292 306 280 Z" fill="#2b2d42"/>
+
+  <g stroke="#6c757d" stroke-width="4" fill="none">
+    <path d="M255 393 L405 388"/>
+    <path d="M255 411 L405 428"/>
+  </g>
+  <circle cx="255" cy="402" r="9" fill="#6c757d"/>
+  <circle cx="405" cy="408" r="21" fill="none" stroke="#4a4e59" stroke-width="6"/>
+  <circle cx="405" cy="408" r="6" fill="#4a4e59"/>
+  <g stroke="#4a4e59" stroke-width="8" stroke-linecap="round">
+    <line x1="405" y1="408" x2="441" y2="444"/>
+    <line x1="405" y1="408" x2="369" y2="372"/>
+  </g>
+  <g fill="#2b2d42">
+    <rect x="418" y="439" width="46" height="10" rx="4"/>
+    <rect x="346" y="367" width="46" height="10" rx="4"/>
+  </g>
+
+  <path d="M336 274 L348 330 L366 366" stroke="#d98324" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M352 360 Q374 356 384 366 Q374 378 352 374 Q344 366 352 360 Z" fill="#d98324"/>
+
+  <path d="M342 278 L392 350 L434 430" stroke="#f5a623" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <path d="M280 224 L218 234 L272 254 L220 272 L288 276 Z" fill="#c9d2dc"/>
+
+  <ellipse cx="352" cy="238" rx="88" ry="58" fill="url(#plumage)" transform="rotate(-10 352 238)"/>
+  <path d="M296 268 Q352 302 414 272 Q372 310 320 302 Q298 290 296 268 Z" fill="#c9d2dc" opacity="0.7"/>
+
+  <path d="M404 224 Q434 178 470 162" stroke="url(#plumage)" stroke-width="30" fill="none" stroke-linecap="round"/>
+
+  <g>
+    <path d="M508 138 Q566 144 620 166 Q623 174 616 176 Q562 158 508 156 Z" fill="url(#beakTop)"/>
+    <path d="M508 156 Q562 158 616 176 Q606 214 552 220 Q514 214 502 186 Q498 168 508 156 Z" fill="url(#pouch)"/>
+    <path d="M508 156 Q562 158 616 176" stroke="#e07b18" stroke-width="2.5" fill="none" opacity="0.7"/>
+    <g opacity="0.85">
+      <ellipse cx="556" cy="192" rx="22" ry="10" fill="#4d96c9" transform="rotate(-8 556 192)"/>
+      <path d="M534 186 L518 178 L520 196 Z" fill="#4d96c9"/>
+      <circle cx="568" cy="189" r="2.5" fill="#ffffff"/>
+    </g>
+  </g>
+
+  <ellipse cx="486" cy="152" rx="34" ry="31" fill="url(#plumage)"/>
+  <path d="M474 124 Q476 106 490 102 Q486 114 492 122 Z" fill="#c9d2dc"/>
+  <circle cx="498" cy="144" r="6.5" fill="#2b2d42"/>
+  <circle cx="500" cy="142" r="2.2" fill="#ffffff"/>
+  <path d="M489 134 Q498 130 507 134" stroke="#8d99ae" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+  <path d="M424 428 Q450 424 460 436 Q448 448 424 444 Q416 436 424 428 Z" fill="#f5a623"/>
+  <g stroke="#d98324" stroke-width="2" fill="none" stroke-linecap="round">
+    <path d="M434 430 L436 442"/>
+    <path d="M444 429 L448 441"/>
+  </g>
+
+  <path d="M378 242 Q436 236 470 254 Q490 262 502 268 L490 282 Q462 274 430 268 Q398 262 374 264 Z" fill="#eef2f6" stroke="#c9d2dc" stroke-width="2"/>
+  <g stroke="#c9d2dc" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <path d="M406 250 Q430 254 452 266"/>
+    <path d="M400 260 Q422 264 442 274"/>
+  </g>
+  <ellipse cx="500" cy="266" rx="14" ry="9" fill="#eef2f6" stroke="#c9d2dc" stroke-width="2"/>
+
+  <g stroke="#8ecae6" stroke-width="6" stroke-linecap="round" opacity="0.85">
+    <line x1="96" y1="300" x2="176" y2="300"/>
+    <line x1="60" y1="344" x2="158" y2="344"/>
+    <line x1="104" y1="388" x2="172" y2="388"/>
+  </g>
+</svg>

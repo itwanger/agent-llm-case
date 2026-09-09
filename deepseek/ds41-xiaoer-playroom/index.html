@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>小二的三维玩具房 · Xiaoer's Playroom</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="stage"></canvas>
+
+      <div id="hud" class="hud">
+        <div class="hud-card">
+          <h1>小二的三维玩具房</h1>
+          <p class="hud-sub">Animal-Crossing 风格 · 奶油色 + 原木色</p>
+          <div class="hud-state">
+            <span class="dot" id="state-dot"></span>
+            <span id="state-text">小二正在房间里东张西望…</span>
+          </div>
+          <ul class="hud-tips">
+            <li><b>左键拖动</b> 旋转视角</li>
+            <li><b>滚轮 / 双指</b> 缩放</li>
+            <li><b>右键拖动</b> 平移</li>
+            <li><b>点击玩具</b> 让小二过去玩</li>
+            <li><b>按键 1~5</b> 切换预设视角</li>
+          </ul>
+          <div class="hud-toys" id="toy-buttons"></div>
+        </div>
+        <div class="hud-badge">2 岁 · 小二</div>
+      </div>
+
+      <div id="loader">
+        <div class="loader-box">
+          <div class="loader-dots"><i></i><i></i><i></i></div>
+          <p>正在铺拼图爬爬垫…</p>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

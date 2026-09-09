@@ -1,0 +1,27 @@
+# Dependencies and generated builds, including nested cases
+node_modules/
+.next/
+dist/
+build/
+.vite/
+coverage/
+*.tsbuildinfo
+
+# Local browser automation artifacts
+.playwright-cli/
+.playwright-mcp/
+/output/
+test-results/
+playwright-report/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+
+# OS files and logs
+.DS_Store
+*.log

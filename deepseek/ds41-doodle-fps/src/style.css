@@ -1,0 +1,602 @@
+/* ------------------------------------------------------------------
+   DS41 · 横格纸涂鸦 FPS — 全部 UI 都是「画」在纸上的
+   纸：#f7f2e4   蓝圆珠笔：#24408e   红笔：#d8402f
+------------------------------------------------------------------- */
+:root {
+  --paper: #f7f2e4;
+  --paper-deep: #efe7d3;
+  --ink: #24408e;
+  --ink-soft: #5b74b8;
+  --red: #d8402f;
+  --pencil: #6d6353;
+  --font-hand: 'Chalkboard SE', 'Comic Sans MS', 'Bradley Hand', 'Segoe Print',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', cursive, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-hand);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+}
+
+#scene {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+/* 纸面纹理（叠在 canvas 上方，营造纸张颗粒感） */
+#app::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: radial-gradient(rgba(160, 140, 100, 0.16) 0.6px, transparent 0.7px),
+    radial-gradient(rgba(160, 140, 100, 0.1) 0.6px, transparent 0.7px);
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 2px 2px;
+}
+
+/* ------------------------------ 准星 ------------------------------ */
+.crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.crosshair.on {
+  opacity: 1;
+}
+
+.ch-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  margin: -1.5px 0 0 -1.5px;
+  background: var(--ink);
+  border-radius: 50%;
+  opacity: 0.85;
+}
+
+.ch-line {
+  position: absolute;
+  background: var(--ink);
+  opacity: 0.75;
+  border-radius: 2px;
+}
+
+.ch-up,
+.ch-down {
+  left: 50%;
+  width: 2px;
+  height: 11px;
+  margin-left: -1px;
+}
+
+.ch-left,
+.ch-right {
+  top: 50%;
+  height: 2px;
+  width: 11px;
+  margin-top: -1px;
+}
+
+.ch-up {
+  top: 0;
+}
+.ch-down {
+  bottom: 0;
+}
+.ch-left {
+  left: 0;
+}
+.ch-right {
+  right: 0;
+}
+
+.crosshair.shot .ch-up {
+  transform: translateY(-5px);
+}
+.crosshair.shot .ch-down {
+  transform: translateY(5px);
+}
+.crosshair.shot .ch-left {
+  transform: translateX(-5px);
+}
+.crosshair.shot .ch-right {
+  transform: translateX(5px);
+}
+.crosshair .ch-line {
+  transition: transform 0.09s ease-out;
+}
+
+.ch-hitmark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  opacity: 0;
+  background: linear-gradient(45deg, transparent 45%, var(--red) 45%, var(--red) 55%, transparent 55%),
+    linear-gradient(-45deg, transparent 45%, var(--red) 45%, var(--red) 55%, transparent 55%);
+}
+
+.ch-hitmark.on {
+  animation: hitmark 0.28s ease-out;
+}
+
+@keyframes hitmark {
+  0% {
+    opacity: 1;
+    transform: scale(0.55) rotate(8deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35) rotate(0deg);
+  }
+}
+
+/* ------------------------------- HUD ------------------------------ */
+.hud {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.hud.hidden {
+  opacity: 0;
+}
+
+.hud-label {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+.hud-label.small {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+
+.hud-left {
+  position: absolute;
+  left: 28px;
+  bottom: 26px;
+}
+
+.hud-right {
+  position: absolute;
+  right: 30px;
+  bottom: 24px;
+  text-align: right;
+}
+
+.hud-top {
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 34px;
+  text-align: center;
+}
+
+.hud-top strong {
+  font-size: 30px;
+  line-height: 1;
+  color: var(--red);
+  display: block;
+  margin-top: 2px;
+  font-weight: 700;
+}
+
+.wave-box strong {
+  color: var(--ink);
+}
+
+/* 生命条：手绘墨条 */
+.hp-bar {
+  position: relative;
+  width: 218px;
+  height: 26px;
+  margin-top: 6px;
+  border: 2px solid var(--ink);
+  border-radius: 4px 8px 5px 9px / 8px 4px 9px 5px;
+  transform: rotate(-0.4deg);
+  background: rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+
+.hp-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--red) 0 5px,
+    #b62f21 5px 7px
+  );
+  transition: width 0.18s ease-out;
+}
+
+.hp-bar span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(36, 64, 142, 0.55);
+  letter-spacing: 0.05em;
+}
+
+.ammo-line {
+  font-size: 52px;
+  line-height: 0.95;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  margin: 2px 0 4px;
+}
+
+.ammo-line .ammo-sep {
+  opacity: 0.4;
+  margin: 0 6px;
+  font-size: 34px;
+}
+
+#ammo-reserve {
+  font-size: 30px;
+  opacity: 0.7;
+}
+
+.ammo-line.low #ammo-mag {
+  color: var(--red);
+}
+
+/* 武器栏 */
+.weapon-rack {
+  position: absolute;
+  right: 30px;
+  bottom: 128px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  align-items: flex-end;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 11px 3px 7px;
+  border: 2px solid rgba(36, 64, 142, 0.35);
+  border-radius: 10px 4px 11px 5px / 5px 11px 4px 10px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.16s ease;
+}
+
+.slot b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-size: 11px;
+}
+
+.slot.active {
+  color: var(--ink);
+  border-color: var(--ink);
+  background: rgba(255, 255, 255, 0.75);
+  transform: translateX(-5px) rotate(-0.6deg);
+  box-shadow: 3px 3px 0 rgba(36, 64, 142, 0.14);
+}
+
+/* 提示气泡 */
+.hud-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%) rotate(-0.7deg);
+  padding: 5px 18px;
+  border: 2px solid var(--red);
+  border-radius: 13px 5px 15px 6px / 6px 15px 5px 13px;
+  background: rgba(255, 251, 242, 0.9);
+  color: var(--red);
+  font-size: 16px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+  /* 双描边，像笔尖来回描了一遍 */
+  box-shadow: 2px 2px 0 rgba(216, 64, 47, 0.2), -1.5px -1.5px 0 rgba(216, 64, 47, 0.1);
+}
+
+.hud-toast.on {
+  opacity: 1;
+}
+
+/* 受伤 / 墨迹 晕染：只在画面边缘晕开，中间保持清晰 */
+.damage-vignette {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(216, 64, 47, 0) 56%,
+    rgba(216, 64, 47, 0.16) 78%,
+    rgba(216, 64, 47, 0.42) 100%
+  );
+  transition: opacity 0.32s ease-out;
+}
+
+.ink-vignette {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(36, 64, 142, 0) 62%,
+    rgba(36, 64, 142, 0.12) 82%,
+    rgba(36, 64, 142, 0.3) 100%
+  );
+  transition: opacity 0.5s ease-out;
+}
+
+/* ---------------------------- 遮罩层 ----------------------------- */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(247, 242, 228, 0.82);
+  backdrop-filter: blur(1.5px);
+  transition: opacity 0.3s ease;
+}
+
+.overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.paper-card {
+  position: relative;
+  width: min(560px, 88vw);
+  padding: 34px 40px 28px;
+  background: #fffdf6;
+  border: 2.5px solid var(--ink);
+  border-radius: 6px 14px 8px 16px / 14px 6px 16px 8px;
+  box-shadow: 7px 8px 0 rgba(36, 64, 142, 0.16), 0 0 0 8px rgba(255, 253, 246, 0.7);
+  text-align: center;
+  transform: rotate(-0.35deg);
+}
+
+.paper-card::before {
+  content: '';
+  position: absolute;
+  left: 34px;
+  right: 34px;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 27px,
+    rgba(120, 150, 190, 0.22) 27px 28px
+  );
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+}
+
+.paper-card h1 {
+  position: relative;
+  margin: 0 0 12px;
+  font-size: 30px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.paper-card h1::after {
+  content: '';
+  display: block;
+  width: 148px;
+  height: 4px;
+  margin: 9px auto 0;
+  background: var(--red);
+  border-radius: 60% 40% 55% 45% / 100% 100% 100% 100%;
+  opacity: 0.85;
+  transform: rotate(-0.8deg);
+}
+
+.paper-card p {
+  position: relative;
+  margin: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--pencil);
+}
+
+.keymap {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 20px;
+  margin: 0 0 22px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.keymap > div {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  border-bottom: 1px dashed rgba(36, 64, 142, 0.22);
+  padding-bottom: 4px;
+}
+
+.keymap b {
+  color: var(--ink);
+  min-width: 72px;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+}
+
+.keymap span {
+  color: var(--pencil);
+}
+
+.pen-button {
+  position: relative;
+  font-family: var(--font-hand);
+  font-size: 19px;
+  letter-spacing: 0.08em;
+  color: #fffdf6;
+  background: var(--ink);
+  border: 2.5px solid var(--ink);
+  border-radius: 14px 6px 15px 7px / 7px 15px 6px 14px;
+  padding: 11px 42px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 rgba(36, 64, 142, 0.28);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.2s ease;
+}
+
+.pen-button:hover {
+  transform: translate(-1px, -2px) rotate(-0.5deg);
+  box-shadow: 6px 6px 0 rgba(36, 64, 142, 0.28);
+}
+
+.pen-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 rgba(36, 64, 142, 0.28);
+}
+
+.pen-button.dead {
+  background: var(--red);
+  border-color: var(--red);
+  box-shadow: 4px 4px 0 rgba(216, 64, 47, 0.3);
+}
+
+.tiny {
+  position: relative;
+  margin: 14px 0 0 !important;
+  font-size: 12px !important;
+  opacity: 0.7;
+}
+
+/* 死亡态卡片 */
+.paper-card.dead h1 {
+  color: var(--red);
+}
+
+.paper-card.dead h1::after {
+  background: var(--ink);
+}
+
+.death-stats {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 4px 0 20px;
+}
+
+.death-stats div {
+  text-align: center;
+}
+
+.death-stats strong {
+  display: block;
+  font-size: 32px;
+  color: var(--red);
+  line-height: 1.1;
+}
+
+.death-stats span {
+  font-size: 12px;
+  color: var(--pencil);
+  letter-spacing: 0.1em;
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 18px;
+  letter-spacing: 0.2em;
+  transition: opacity 0.4s ease;
+}
+
+.loading.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 小屏幕压缩一下 */
+@media (max-width: 720px) {
+  .ammo-line {
+    font-size: 38px;
+  }
+  .hp-bar {
+    width: 160px;
+  }
+  .weapon-rack {
+    bottom: 104px;
+  }
+  .keymap {
+    grid-template-columns: 1fr;
+  }
+  .paper-card {
+    padding: 24px 22px 20px;
+  }
+  .paper-card h1 {
+    font-size: 23px;
+  }
+}

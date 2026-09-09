@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>DS41 · 横格纸涂鸦 FPS</title>
+    <meta name="description" content="画在横格笔记本上的第一人称射击游戏：蓝圆珠笔线条、排线阴影、红色火柴人。" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="scene"></canvas>
+
+      <!-- 准星 -->
+      <div id="crosshair" class="crosshair" aria-hidden="true">
+        <span class="ch-dot"></span>
+        <span class="ch-line ch-up"></span>
+        <span class="ch-line ch-down"></span>
+        <span class="ch-line ch-left"></span>
+        <span class="ch-line ch-right"></span>
+        <span class="ch-hitmark"></span>
+      </div>
+
+      <!-- HUD -->
+      <div id="hud" class="hud hidden">
+        <div class="hud-left">
+          <div class="hud-label">生命 / HP</div>
+          <div class="hp-bar"><i id="hp-fill"></i><span id="hp-num">100</span></div>
+          <div class="hud-label small" id="hp-state">状态：正常</div>
+        </div>
+
+        <div class="hud-right">
+          <div class="hud-label" id="weapon-name">圆珠笔步枪</div>
+          <div class="ammo-line">
+            <span id="ammo-mag">30</span><span class="ammo-sep">/</span><span id="ammo-reserve">120</span>
+          </div>
+          <div class="hud-label small" id="weapon-hint">左键射击 · R 换弹</div>
+        </div>
+
+        <div class="hud-top">
+          <div class="kill-box">
+            <span class="hud-label">击杀</span>
+            <strong id="kill-count">0</strong>
+          </div>
+          <div class="wave-box">
+            <span class="hud-label">纸面威胁</span>
+            <strong id="threat-count">0</strong>
+          </div>
+        </div>
+
+        <div class="weapon-rack" id="weapon-rack">
+          <div class="slot" data-slot="0"><b>1</b><span>步枪</span></div>
+          <div class="slot" data-slot="1"><b>2</b><span>霰弹</span></div>
+          <div class="slot" data-slot="2"><b>3</b><span>武士刀</span></div>
+        </div>
+
+        <div class="hud-toast" id="hud-toast"></div>
+        <div class="damage-vignette" id="damage-vignette"></div>
+        <div class="ink-vignette" id="ink-vignette"></div>
+      </div>
+
+      <!-- 开始 / 暂停 / 死亡 遮罩 -->
+      <div id="overlay" class="overlay">
+        <div class="paper-card" id="overlay-card">
+          <h1 id="overlay-title">横格纸涂鸦 · FPS</h1>
+          <p id="overlay-sub">整个世界画在一页横格笔记本上。<br />你是被蓝圆珠笔画出来的一支笔，红色火柴人正在纸面上游荡。</p>
+          <div class="keymap">
+            <div><b>W A S D</b><span>移动</span></div>
+            <div><b>鼠标</b><span>瞄准</span></div>
+            <div><b>左键</b><span>攻击 / 射击</span></div>
+            <div><b>R</b><span>换弹</span></div>
+            <div><b>1 / 2 / 3</b><span>步枪 / 霰弹枪 / 武士刀</span></div>
+            <div><b>空格</b><span>跳跃</span></div>
+            <div><b>Shift</b><span>疾走</span></div>
+            <div><b>Esc</b><span>暂停</span></div>
+          </div>
+          <button id="overlay-btn" class="pen-button">点击开始</button>
+          <p class="tiny">点击后锁定鼠标 · 死亡后按 <b>Enter</b> 或点击按钮重开</p>
+        </div>
+      </div>
+
+      <div id="loading" class="loading">正在削铅笔…</div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

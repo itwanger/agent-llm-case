@@ -1,0 +1,26 @@
+{
+  "name": "xiaoer-playroom",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "tsx --test src/systems/*.test.ts",
+    "format": "prettier --write src index.html vite.config.ts README.md",
+    "format:check": "prettier --check src index.html vite.config.ts README.md"
+  },
+  "dependencies": {
+    "lucide": "^0.468.0",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/three": "^0.180.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vite": "^6.4.3"
+  }
+}

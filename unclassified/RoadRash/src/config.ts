@@ -1,0 +1,72 @@
+export const CONFIG = {
+  track: {
+    length: 5200,
+    ds: 2,
+    roadHalf: 7,
+    shoulder: 3,
+    finishOffset: 30,
+  },
+  bike: {
+    vmax: 62,
+    accel: 13,
+    brake: 32,
+    drag: 5.5,
+    offroadDrag: 26,
+    steerSpeed: 8.5,
+    steerSmooth: 9,
+    driftCoef: 0.15,
+    rollMax: 0.62,
+    tClamp: 9.6,
+  },
+  combat: {
+    hp: 100,
+    hitInvuln: 0.5,
+    hitStun: 0.35,
+    knockT: 3.2,
+    knockV: 0.9,
+    punch: { dmg: 22, windup: 0.12, active: 0.1, recover: 0.24, cooldown: 0.5, rangeS: 3.6, rangeT: 2.7 },
+    club: { dmg: 38, windup: 0.26, active: 0.12, recover: 0.46, cooldown: 1.2, rangeS: 4.6, rangeT: 3.1 },
+  },
+  crash: {
+    headOnClosing: 18,
+    playerDown: 2.6,
+    aiDown: 3.5,
+    respawnHp: 60,
+    respawnV: 10,
+    respawnInvuln: 3,
+    scrapeDmg: 4,
+  },
+  ai: {
+    count: 5,
+    latAccel: 14,
+    aggroMax: 2,
+    aggroRange: 30,
+    attackCdMin: 1.6,
+    attackCdMax: 3.4,
+    disengageTime: 2.2,
+  },
+  traffic: {
+    maxCars: 9,
+    speedMin: 12,
+    speedMax: 19,
+    spawnMin: 350,
+    spawnMax: 800,
+    despawnBehind: 160,
+    laneOffsets: [-2.0, -5.2],
+  },
+  camera: {
+    dist: 9.5,
+    height: 3.6,
+    lookAhead: 13,
+    fovBase: 62,
+    fovSpeed: 16,
+    shakeDecay: 5,
+  },
+  race: { countdown: 3.2 },
+  step: 1 / 60,
+  substeps: 3,
+};
+
+export const RACER_NAMES = ['YOU', 'BLAZE', 'VIPER', 'DIESEL', 'NITRO', 'RAZOR'];
+export const RACER_COLORS = [0xe23b3b, 0x8e44ad, 0xf1c40f, 0x2ecc71, 0x3498db, 0xe67e22];
+export const CAR_COLORS = [0xd8d8d8, 0x4a6fa5, 0xb03a2e, 0x6c3483, 0x1e8449, 0xca6f1e];

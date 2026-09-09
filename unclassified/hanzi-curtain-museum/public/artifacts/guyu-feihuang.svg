@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
+  <defs>
+    <linearGradient id="j" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e0ddb6"/><stop offset=".25" stop-color="#9ca77d"/><stop offset=".58" stop-color="#626f57"/><stop offset="1" stop-color="#c9ca9f"/></linearGradient>
+    <filter id="s"><feDropShadow dy="15" stdDeviation="19" flood-opacity=".48"/></filter>
+    <pattern id="v" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="12" fill="none" stroke="#e7e0b5" stroke-opacity=".32" stroke-width="6"/><circle cx="25" cy="25" r="3" fill="#394c3a" fill-opacity=".5"/></pattern>
+    <mask id="m"><rect width="900" height="900" fill="black"/><path d="M157 335Q450 75 743 335L682 398Q450 215 218 398Z" fill="white"/><path d="M218 398Q450 215 682 398Q648 666 450 791Q252 666 218 398Z" fill="white"/><path d="M331 428Q450 337 569 428Q548 584 450 655Q352 584 331 428Z" fill="black"/></mask>
+  </defs>
+  <g filter="url(#s)">
+    <rect x="110" y="90" width="680" height="730" fill="url(#j)" mask="url(#m)"/>
+    <rect x="110" y="90" width="680" height="730" fill="url(#v)" mask="url(#m)"/>
+    <path d="M157 335Q122 312 111 270L162 285L190 239L218 294M743 335Q778 312 789 270L738 285L710 239L682 294" fill="url(#j)" stroke="#d8d6aa" stroke-width="7"/>
+    <path d="M205 393Q450 172 695 393M219 400Q254 667 450 790Q646 667 681 400" fill="none" stroke="#e2ddb2" stroke-opacity=".65" stroke-width="10"/>
+    <path d="M330 429Q450 338 570 429Q548 585 450 655Q352 585 330 429Z" fill="#071018" stroke="#c8c59a" stroke-opacity=".45" stroke-width="8"/>
+  </g>
+</svg>
