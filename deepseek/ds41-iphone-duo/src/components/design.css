@@ -1,0 +1,135 @@
+.design {
+  padding: var(--sp-section) 0;
+  background: linear-gradient(var(--c-bg) calc(100% - 197px), var(--c-bg-alt));
+}
+
+.design__headline {
+  font-size: var(--fs-section-xxl);
+  line-height: var(--fs-section-xxl-lh);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.design__gallery {
+  margin-top: 72px;
+}
+
+.design__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2524 / 1376;
+}
+
+.design__figure {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 380ms var(--ease-out);
+  pointer-events: none;
+}
+
+.design__figure[data-active='true'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.design__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---------------- 配色切换 ---------------- */
+
+.colornav {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.colornav--center {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.colornav__items {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.colornav__item {
+  display: flex;
+}
+
+.colornav__input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.colornav__label {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 14px;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.colornav__label:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.colornav__swatch {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  transition: box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.colornav__input:checked + .colornav__label .colornav__swatch {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12), 0 0 0 2px var(--c-bg-alt),
+    0 0 0 4px var(--c-text);
+}
+
+.colornav__input:focus-visible + .colornav__label {
+  outline: 3px solid var(--c-focus);
+  outline-offset: 2px;
+}
+
+.colornav__name {
+  font-size: var(--fs-caption);
+  line-height: var(--fs-caption-lh);
+  color: var(--c-text);
+}
+
+@media (max-width: 1068px) {
+  .design {
+    background: linear-gradient(var(--c-bg) calc(100% - 150px), var(--c-bg-alt));
+  }
+  .design__gallery {
+    margin-top: 48px;
+  }
+}
+
+@media (max-width: 734px) {
+  .design {
+    background: linear-gradient(var(--c-bg) calc(100% - 120px), var(--c-bg-alt));
+  }
+  .design__gallery {
+    margin-top: 32px;
+  }
+  .design__stage {
+    aspect-ratio: 1 / 1;
+  }
+  .colornav__items {
+    gap: 10px;
+  }
+}

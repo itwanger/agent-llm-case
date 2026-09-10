@@ -1,0 +1,135 @@
+/* ------------------------------------------------------------------
+   设计变量
+   数值取自参考页面在 1440×900 下的计算样式与几何测量。
+   ------------------------------------------------------------------ */
+
+:root {
+  /* 颜色 */
+  --c-text: #1d1d1f;
+  --c-text-2: #6e6e73;
+  --c-text-3: #86868b;
+  --c-bg: #ffffff;
+  --c-bg-alt: #f5f5f7;
+  --c-bg-elevated: #fafafc;
+  --c-surface: #ffffff;
+  --c-chip: #e8e8ed;
+  --c-chip-hover: #dcdce1;
+  --c-blue: #0071e3;
+  --c-blue-hover: #0077ed;
+  --c-blue-pressed: #006edb;
+  --c-link: #0066cc;
+  --c-link-hover: #0077ed;
+  --c-hairline: #d2d2d7;
+  --c-hairline-soft: #e8e8ed;
+  --c-focus: #0071e3;
+  --c-scrim: rgba(0, 0, 0, 0.48);
+
+  /* 字体 */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "SF Pro SC", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Microsoft YaHei",
+    sans-serif;
+
+  /* 字号阶梯 */
+  --fs-hero: 80px;
+  --fs-hero-lh: 87px;
+  --fs-section-xxl: 80px;
+  --fs-section-xxl-lh: 87px;
+  --fs-section-h2: 48px;
+  --fs-section-h2-lh: 52px;
+  --fs-eyebrow: 21px;
+  --fs-copy-lg: 21px;
+  --fs-copy-lg-lh: 29px;
+  --fs-body: 17px;
+  --fs-body-lh: 25px;
+  --fs-body-reduced: 14px;
+  --fs-body-reduced-lh: 19px;
+  --fs-caption: 12px;
+  --fs-caption-lh: 16px;
+  --fs-card-headline: 28px;
+  --fs-card-headline-lh: 35px;
+  --fs-stat-value: 56px;
+  --fs-stat-value-lh: 60px;
+
+  /* 内容宽度 */
+  --w-content: 1260px;
+  --w-content-narrow: 980px;
+  --w-small: 692px;
+  --gutter: 90px;
+
+  /* 间距 */
+  --sp-section: 128px;
+  --sp-section-lg: 144px;
+  --sp-section-xl: 224px;
+  --sp-48: 48px;
+  --sp-64: 64px;
+  --sp-96: 96px;
+
+  /* 圆角 */
+  --r-tile: 28px;
+  --r-card: 18px;
+  --r-sm: 12px;
+  --r-pill: 980px;
+
+  /* 导航高度 */
+  --h-globalnav: 44px;
+  --h-localnav: 52px;
+
+  /* 动效 */
+  --ease-out: cubic-bezier(0.28, 0.11, 0.32, 1);
+  --ease-soft: cubic-bezier(0.42, 0, 0.58, 1);
+  --dur-fast: 160ms;
+  --dur-base: 320ms;
+  --dur-slow: 640ms;
+}
+
+@media (max-width: 1068px) {
+  :root {
+    --fs-hero: 56px;
+    --fs-hero-lh: 61px;
+    --fs-section-xxl: 56px;
+    --fs-section-xxl-lh: 61px;
+    --fs-section-h2: 40px;
+    --fs-section-h2-lh: 44px;
+    --fs-card-headline: 24px;
+    --fs-card-headline-lh: 30px;
+    --fs-stat-value: 44px;
+    --fs-stat-value-lh: 48px;
+    --gutter: 40px;
+    --w-content: 100%;
+    --sp-section: 96px;
+    --sp-section-lg: 96px;
+    --sp-section-xl: 128px;
+  }
+}
+
+@media (max-width: 734px) {
+  :root {
+    /* 实测：390 宽下主标题 48/52.5、章节标题 32/39、眉题仍是 21px */
+    --fs-hero: 48px;
+    --fs-hero-lh: 52.5px;
+    --fs-section-xxl: 40px;
+    --fs-section-xxl-lh: 44px;
+    --fs-section-h2: 32px;
+    --fs-section-h2-lh: 39px;
+    --fs-eyebrow: 21px;
+    --fs-copy-lg: 19px;
+    --fs-copy-lg-lh: 26px;
+    --fs-card-headline: 21px;
+    --fs-card-headline-lh: 26px;
+    --fs-stat-value: 36px;
+    --fs-stat-value-lh: 40px;
+    --gutter: 20px;
+    --sp-section: 64px;
+    --sp-section-lg: 64px;
+    --sp-section-xl: 80px;
+    --r-tile: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 1ms;
+    --dur-base: 1ms;
+    --dur-slow: 1ms;
+  }
+}

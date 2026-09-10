@@ -1,0 +1,313 @@
+.viewer {
+  padding: var(--sp-section) 0 0;
+}
+
+/* 参考页面：整幅产品画面 1440×760，白底，控制列浮在左侧 90px 处 */
+.viewer__component {
+  margin-top: 64px;
+  background: var(--c-surface);
+  overflow: hidden;
+}
+
+.viewer__inner {
+  position: relative;
+  max-width: 1440px;
+  margin-inline: auto;
+}
+
+.viewer__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1440 / 760;
+  background: var(--c-surface);
+}
+
+.viewer__frames {
+  position: absolute;
+  inset: 0;
+}
+
+.viewer__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 260ms var(--ease-out);
+}
+
+.viewer__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.viewer__frame--enter {
+  animation: viewer-in 380ms var(--ease-out);
+}
+
+@keyframes viewer-in {
+  from {
+    opacity: 0;
+    transform: scale(1.012);
+  }
+}
+
+/* ---------------- 左侧控制列 ---------------- */
+
+.viewer__rail {
+  position: absolute;
+  left: 90px;
+  top: 148px;
+  width: 236px;
+  z-index: 2;
+}
+
+.viewer__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.viewer__control {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 56px;
+  padding: 0 22px;
+  border-radius: 28px;
+  background: rgba(232, 232, 237, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--c-text);
+  font-size: var(--fs-body);
+  line-height: 1;
+  white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.viewer__control:hover {
+  background: var(--c-chip);
+}
+
+.viewer__control[data-selected='true'] {
+  background: var(--c-text);
+  color: #fff;
+}
+
+.viewer__control-icon {
+  display: inline-flex;
+  flex: none;
+}
+
+/* ---------------- 展开的说明卡 ---------------- */
+
+.viewer__panel {
+  margin-top: 10px;
+  width: 340px;
+  max-width: calc(100vw - 2 * var(--gutter));
+  padding: 20px 22px 22px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--c-hairline-soft);
+  animation: viewer-in 300ms var(--ease-out);
+}
+
+.viewer__panel-copy {
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text-2);
+}
+
+.viewer__panel-copy strong {
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+/* ---------------- 折叠滑块 ---------------- */
+
+.viewer__slider {
+  margin-top: 16px;
+}
+
+.viewer__slider-caption {
+  color: var(--c-text-2);
+}
+
+.viewer__range {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  margin-top: 10px;
+  background: transparent;
+  cursor: grab;
+  /* 允许纵向滚动页面，横向拖动交给滑块 */
+  touch-action: pan-y;
+}
+
+.viewer__range:active {
+  cursor: grabbing;
+}
+
+.viewer__range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--c-hairline);
+}
+
+.viewer__range::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--c-hairline);
+}
+
+.viewer__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  margin-top: -8px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.24);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.viewer__range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.24);
+}
+
+.viewer__range:active::-webkit-slider-thumb,
+.viewer__range:focus-visible::-webkit-slider-thumb {
+  transform: scale(1.08);
+}
+
+.viewer__slider-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.viewer__slider-end {
+  font-size: var(--fs-caption);
+  line-height: var(--fs-caption-lh);
+  color: var(--c-text-3);
+}
+
+.viewer__slider-state {
+  font-size: var(--fs-caption);
+  line-height: var(--fs-caption-lh);
+  color: var(--c-text);
+  text-align: center;
+  flex: 1;
+}
+
+.viewer__slider-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+}
+
+.viewer__step {
+  flex: 1;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  background: var(--c-bg-alt);
+  color: var(--c-text);
+  font-size: 14px;
+  line-height: 1;
+  box-shadow: inset 0 0 0 1px var(--c-hairline);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.viewer__step:hover {
+  background: var(--c-chip);
+}
+
+/* ---------------- 中等屏幕 ---------------- */
+
+@media (max-width: 1200px) {
+  .viewer__rail {
+    left: 40px;
+    top: 110px;
+    width: 200px;
+  }
+
+  .viewer__panel {
+    width: 300px;
+  }
+
+  .viewer__control {
+    height: 48px;
+    padding: 0 18px;
+    font-size: 14px;
+  }
+}
+
+/* ---------------- 手机：控制列改为横向滚动条 ---------------- */
+
+@media (max-width: 833px) {
+  .viewer__component {
+    margin-top: 32px;
+  }
+
+  .viewer__inner {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 32px;
+  }
+
+  .viewer__stage {
+    aspect-ratio: 1440 / 900;
+  }
+
+  .viewer__rail {
+    position: static;
+    width: auto;
+    order: 2;
+    margin-top: 24px;
+    padding-inline: 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .viewer__rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .viewer__controls {
+    flex-direction: row;
+    gap: 8px;
+    width: max-content;
+    align-items: flex-start;
+  }
+
+  .viewer__control-item {
+    flex: none;
+    position: relative;
+  }
+
+  /* 说明卡放在控制条下方（不用绝对定位），避免撑宽横向滚动条 */
+  .viewer__panel {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 10px);
+    width: min(320px, calc(100vw - 32px));
+    z-index: 3;
+  }
+
+  .viewer__rail {
+    padding-bottom: 8px;
+  }
+}

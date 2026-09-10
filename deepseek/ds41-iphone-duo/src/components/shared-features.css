@@ -1,0 +1,121 @@
+.shared {
+  padding: var(--sp-section-lg) 0 var(--sp-section-xl);
+}
+
+.shared__media {
+  /* 参考页面：产品大图 751×600 居中，无圆角 */
+  margin: 68px auto 0;
+  max-width: 751px;
+}
+
+.shared__media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 751 / 600;
+  object-fit: contain;
+}
+
+.shared__body {
+  /* 正文在大图之后，840 宽居中 */
+  max-width: 840px;
+  margin: 64px auto 0;
+  text-align: center;
+}
+
+.shared__ai {
+  margin-top: 96px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.shared__ai-title {
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.shared__ai-note {
+  margin-top: 16px;
+}
+
+.shared__ai-media img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.shared__connectivity {
+  margin-top: 120px;
+}
+
+.shared__cards {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.shared__card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.shared__card-media {
+  border-radius: var(--r-card);
+  overflow: hidden;
+  background: #fff;
+}
+
+.shared__card-media img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.shared__card-copy {
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text-2);
+}
+
+.shared__card-copy strong {
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+@media (max-width: 1068px) {
+  .shared__ai {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 64px;
+  }
+
+  .shared__connectivity {
+    margin-top: 80px;
+  }
+
+  .shared__cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 734px) {
+  .shared__media {
+    margin-top: 32px;
+  }
+
+  .shared__cards {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 32px;
+  }
+
+  .shared__ai-title {
+    font-size: 24px;
+    line-height: 30px;
+  }
+}

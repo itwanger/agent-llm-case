@@ -1,0 +1,247 @@
+.localnav {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  z-index: 7900;
+  width: min(calc(100vw - 32px), 1024px);
+  transform: translate(-50%, -150%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 420ms var(--ease-out), opacity 260ms var(--ease-out);
+}
+
+.localnav[data-visible='true'] {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.localnav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 53px;
+  padding: 0 8px 0 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: 0 0 0 1px var(--c-hairline-soft);
+}
+
+.localnav__name {
+  font-size: 21px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--c-text);
+  white-space: nowrap;
+}
+
+.localnav__name:hover {
+  text-decoration: none;
+}
+
+.localnav__ctas {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.localnav__explore,
+.localnav__buy {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: var(--r-pill);
+  font-size: 14px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.localnav__explore {
+  color: var(--c-link);
+  background: transparent;
+}
+
+.localnav__explore:hover {
+  background: rgba(0, 113, 227, 0.08);
+}
+
+.localnav__buy {
+  background: var(--c-blue);
+  color: #fff;
+}
+
+.localnav__buy:hover {
+  background: var(--c-blue-hover);
+}
+
+/* ---------------- 探索弹层 ---------------- */
+
+.explore {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) 1fr;
+  gap: 40px;
+}
+
+.explore__heading {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--c-text-2);
+  margin-bottom: 12px;
+}
+
+.explore__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.explore__link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 9px 0;
+  font-size: 17px;
+  color: var(--c-text);
+  border-radius: 6px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.explore__link:hover {
+  color: var(--c-link);
+}
+
+.explore__link[data-active='true'] {
+  color: var(--c-link);
+  font-weight: 600;
+}
+
+.explore__link--muted {
+  color: var(--c-text-3);
+  cursor: default;
+}
+
+.explore__products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px;
+}
+
+.explore__product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.explore__product-image img {
+  width: 100%;
+  max-width: 110px;
+  margin-inline: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+}
+
+.explore__product-name {
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--c-text);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.explore__product[data-current='true'] .explore__product-name {
+  font-weight: 600;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  background: var(--c-chip);
+  color: var(--c-text-2);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+.explore__price {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--c-hairline-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.explore__price-value {
+  font-size: 17px;
+  color: var(--c-text);
+}
+
+.explore__price .button-pill {
+  margin-top: 10px;
+}
+
+/* 价格说明弹层 */
+
+.price-modal__product {
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.price-modal__price {
+  margin-top: 8px;
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 600;
+}
+
+.price-modal__note {
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--c-text-2);
+}
+
+.price-modal__actions {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.price-modal__cancel {
+  color: var(--c-link);
+  font-size: 17px;
+}
+
+.price-modal__cancel:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 833px) {
+  .explore {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .localnav__name {
+    font-size: 17px;
+  }
+
+  .localnav__inner {
+    padding-left: 16px;
+    height: 48px;
+  }
+}

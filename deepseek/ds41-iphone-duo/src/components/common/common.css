@@ -1,0 +1,218 @@
+/* ---------------- 大标题锁定（type-lockup 结构由各章节直接书写） ---------------- */
+
+.type-lockup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.type-lockup--center {
+  align-items: center;
+  text-align: center;
+}
+
+.type-lockup--start {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.type-lockup__eyebrow {
+  color: var(--c-text);
+}
+
+.type-lockup__headline {
+  color: var(--c-text);
+  max-width: 1000px;
+}
+
+.type-lockup__body {
+  max-width: 840px;
+  margin-top: 44px;
+}
+
+@media (max-width: 734px) {
+  .type-lockup__body {
+    margin-top: 28px;
+  }
+}
+
+/* ---------------- 上一页 / 下一页 ---------------- */
+
+.paddlenav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.paddlenav__button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--c-chip);
+  color: var(--c-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
+}
+
+.paddlenav__button:hover:not(:disabled) {
+  background: var(--c-chip-hover);
+}
+
+.paddlenav__button:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
+/* ---------------- 弹层 ---------------- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: var(--c-scrim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: modal-fade var(--dur-base) var(--ease-out);
+}
+
+@keyframes modal-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.modal {
+  background: #fff;
+  border-radius: var(--r-card);
+  width: 100%;
+  max-height: min(86vh, 900px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.22);
+  animation: modal-rise var(--dur-base) var(--ease-out);
+}
+
+@keyframes modal-rise {
+  from {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+}
+
+.modal--narrow {
+  max-width: 720px;
+}
+
+.modal--wide {
+  max-width: 1040px;
+}
+
+.modal__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--c-hairline-soft);
+}
+
+.modal__title {
+  font-size: 21px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.modal__close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--c-chip);
+  position: relative;
+  flex: none;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.modal__close:hover {
+  background: var(--c-chip-hover);
+}
+
+.modal__close > span::before,
+.modal__close > span::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 1.6px;
+  background: var(--c-text);
+  border-radius: 2px;
+}
+
+.modal__close > span::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.modal__close > span::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.modal__body {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.modal__body p + p {
+  margin-top: 16px;
+}
+
+.modal__video {
+  width: 100%;
+  border-radius: 12px;
+  background: #000;
+  aspect-ratio: 16 / 9;
+}
+
+@media (max-width: 734px) {
+  .modal-backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .modal {
+    max-height: 92vh;
+    border-radius: 20px 20px 0 0;
+  }
+}
+
+/* ---------------- 视频 ---------------- */
+
+.lazy-video {
+  display: block;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.lazy-video__poster,
+.lazy-video__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.lazy-video__media {
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.lazy-video__media[data-ready='true'] {
+  opacity: 1;
+}

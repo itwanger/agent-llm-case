@@ -1,0 +1,227 @@
+.performance {
+  padding: var(--sp-section) 0;
+}
+
+.performance__base-stats {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 320px));
+  gap: 40px;
+}
+
+.performance__stat-caption {
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text-2);
+}
+
+.performance__stat-value {
+  font-size: var(--fs-stat-value);
+  line-height: var(--fs-stat-value-lh);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--c-text);
+}
+
+.performance__stat-value--lg {
+  font-size: 64px;
+  line-height: 68px;
+}
+
+.performance__stat-label {
+  margin-top: 4px;
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text);
+}
+
+.performance__stat-note {
+  margin-top: 4px;
+  font-size: var(--fs-caption);
+  line-height: var(--fs-caption-lh);
+  color: var(--c-text-3);
+}
+
+.performance__intro .type-lockup {
+  /* 参考页面为 ric-large-9 + offset-1：宽 945，左缩进 105 */
+  max-width: 945px;
+  margin-left: 105px;
+}
+
+.performance__media {
+  /* 参考页面芯片主视觉是整幅 1440 宽，无圆角 */
+  margin-top: 64px;
+  background: var(--c-bg-alt);
+  overflow: hidden;
+}
+
+.performance__media img {
+  width: 100%;
+  aspect-ratio: 1440 / 960;
+  object-fit: cover;
+}
+
+.performance__battery {
+  margin-top: 96px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.performance__battery-title {
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.performance__battery-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.performance__compare {
+  margin-top: 96px;
+  padding-top: 40px;
+  border-top: 1px solid var(--c-hairline);
+}
+
+.performance__compare-bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.performance__compare-label {
+  font-size: var(--fs-body);
+  color: var(--c-text);
+}
+
+.performance__select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.performance__select {
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: inherit;
+  font-size: var(--fs-body);
+  color: var(--c-text);
+  background: #fff;
+  border: 1px solid var(--c-hairline);
+  border-radius: var(--r-pill);
+  padding: 10px 44px 10px 20px;
+  min-width: 220px;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.performance__select:hover {
+  border-color: var(--c-text-3);
+}
+
+.performance__select:focus-visible {
+  outline: 3px solid var(--c-focus);
+  outline-offset: 2px;
+}
+
+.performance__select-chevron {
+  position: absolute;
+  right: 18px;
+  width: 8px;
+  height: 8px;
+  border-right: 1.6px solid var(--c-text-2);
+  border-bottom: 1.6px solid var(--c-text-2);
+  transform: translateY(-2px) rotate(45deg);
+  pointer-events: none;
+}
+
+.performance__compare-note {
+  margin-top: 16px;
+}
+
+.performance__compare-grid {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.performance__compare-item {
+  border-top: 1px solid var(--c-hairline);
+  padding-top: 18px;
+  animation: perf-in 320ms var(--ease-out);
+}
+
+@keyframes perf-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (max-width: 1200px) {
+  .performance__intro .type-lockup {
+    max-width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 1068px) {
+  .performance__battery {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .performance__compare-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 734px) {
+  .performance__base-stats {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 32px;
+  }
+
+  .performance__stat-value {
+    font-size: 32px;
+    line-height: 36px;
+  }
+
+  .performance__stat-value--lg {
+    font-size: 36px;
+    line-height: 40px;
+  }
+
+  .performance__media {
+    margin-top: 40px;
+  }
+
+  .performance__battery,
+  .performance__compare {
+    margin-top: 56px;
+  }
+
+  .performance__battery-stats,
+  .performance__compare-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .performance__select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .performance__select-wrap {
+    width: 100%;
+  }
+}

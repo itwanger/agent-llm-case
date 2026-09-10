@@ -1,0 +1,108 @@
+.faq {
+  padding: var(--sp-section-lg) 0;
+}
+
+.faq__list {
+  margin-top: 56px;
+  border-top: 1px solid var(--c-hairline);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--c-hairline);
+}
+
+.faq__question {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.faq__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  /* 参考页面单行 91px 高：35px 行高 + 上下各 28px */
+  padding: 28px 0;
+  text-align: left;
+  color: var(--c-text);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.faq__trigger:hover {
+  color: var(--c-link);
+}
+
+.faq__question-text {
+  font-size: 28px;
+  line-height: 35px;
+  font-weight: 600;
+}
+
+.faq__icon {
+  display: inline-flex;
+  width: 26px;
+  height: 15px;
+  flex: none;
+  color: var(--c-text);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.faq__item[data-open='true'] .faq__icon {
+  transform: rotate(180deg);
+}
+
+.faq__tray {
+  overflow: hidden;
+  animation: faq-open 260ms var(--ease-out);
+}
+
+.faq__tray[hidden] {
+  display: none;
+}
+
+@keyframes faq-open {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.faq__answer {
+  /* 参考页面正文宽度为 1050（内容宽 1260 的 10 列） */
+  max-width: 1050px;
+  padding: 0 0 28px;
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text-2);
+}
+
+.faq__answer p + p {
+  margin-top: 14px;
+}
+
+.link-more--button {
+  background: none;
+  padding: 0;
+}
+
+@media (max-width: 734px) {
+  .faq__list {
+    margin-top: 32px;
+  }
+
+  .faq__trigger {
+    padding: 21px 0;
+    gap: 16px;
+  }
+
+  .faq__question-text {
+    font-size: 21px;
+    line-height: 28px;
+  }
+
+  .faq__answer {
+    padding-bottom: 22px;
+  }
+}

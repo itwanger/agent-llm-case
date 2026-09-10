@@ -1,0 +1,472 @@
+/* 产品故事章节共用的排版与布局 */
+
+.story {
+  padding: var(--sp-section) 0;
+}
+
+.story__intro {
+  margin-bottom: 0;
+}
+
+.story__body {
+  max-width: 840px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.viewport-content.story__stage-wrap {
+  /* 参考页面为 ric-large-10 + offset-1：内容宽 1050 居中 */
+  margin-top: 64px;
+  max-width: 1050px;
+  margin-inline: auto;
+}
+
+.story__stage {
+  background: transparent;
+}
+
+.story__caption {
+  margin-top: 16px;
+  text-align: center;
+}
+
+/* ---------------- 显示屏章节 ---------------- */
+
+.display-story__details {
+  margin-top: 96px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.display-story__body {
+  max-width: 480px;
+}
+
+.display-story__facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.display-story__features {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.display-story__feature-title {
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.display-story__feature-body {
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text-2);
+}
+
+.display-story__stat-value {
+  display: block;
+  font-size: 40px;
+  line-height: 44px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.display-story__stat-label {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--fs-body);
+  color: var(--c-text-2);
+}
+
+.display-story__band {
+  margin-top: 96px;
+  background: var(--c-bg-alt);
+  border-radius: var(--r-tile);
+  padding: 64px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.display-story__band-item {
+  padding-inline: 64px;
+}
+
+.display-story__band-item + .display-story__band-item {
+  border-left: 1px solid var(--c-hairline-soft);
+}
+
+.display-story__band-caption {
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text-2);
+}
+
+.display-story__band-value {
+  margin-top: 6px;
+  font-size: 40px;
+  line-height: 46px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+/* ---------------- 灵活多用章节 ---------------- */
+
+.versatility__hero-media {
+  margin-top: 48px;
+}
+
+.versatility__hero-media img {
+  width: 100%;
+  aspect-ratio: 1440 / 648;
+  object-fit: cover;
+}
+
+.versatility__hero .story__body {
+  margin-top: 64px;
+}
+
+.versatility__header {
+  margin-top: 120px;
+}
+
+.versatility__gallery {
+  margin-top: 40px;
+}
+
+.versatility__track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 0 var(--gutter) 20px;
+  scroll-padding-inline: var(--gutter);
+}
+
+.versatility__track::-webkit-scrollbar {
+  display: none;
+}
+
+.versatility__card {
+  flex: 0 0 auto;
+  width: min(600px, calc(100vw - 2 * var(--gutter)));
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.versatility__card-media {
+  border-radius: var(--r-card);
+  overflow: hidden;
+  background: var(--c-bg-alt);
+}
+
+.versatility__card-media img {
+  width: 100%;
+  aspect-ratio: 1260 / 708;
+  object-fit: cover;
+}
+
+.versatility__card-title {
+  font-size: 21px;
+  line-height: 27px;
+  font-weight: 600;
+  color: var(--c-text);
+  display: inline;
+}
+
+.versatility__card-body {
+  display: inline;
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text-2);
+}
+
+.versatility__card-note {
+  margin-top: 12px;
+}
+
+.versatility__controls {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.versatility__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------------- 摄像头章节 ---------------- */
+
+.cameras__intro .type-lockup {
+  /* 参考页面为 ric-large-8 + offset-1：宽 840，左缩进 105（1260 的 1 列） */
+  max-width: 840px;
+  margin-left: 105px;
+}
+
+.viewport-content.cameras__hardware {
+  /* 参考页面为 ric-large-10 + offset-1：内容宽 1050 居中，两列 489 + 72 间距 */
+  margin-top: 80px;
+  max-width: 1050px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 72px;
+}
+
+.cameras__hardware-item img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.cameras__stats {
+  grid-column: 1 / -1;
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.cameras__stat {
+  border-top: 1px solid var(--c-hairline);
+  padding-top: 18px;
+}
+
+.cameras__stat-value {
+  font-size: 32px;
+  line-height: 36px;
+  font-weight: 600;
+  color: var(--c-text);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.cameras__stat-unit {
+  font-size: var(--fs-body);
+  font-weight: 400;
+  color: var(--c-text-2);
+}
+
+.cameras__stat-label {
+  margin-top: 6px;
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text-2);
+}
+
+.cameras__features {
+  margin-top: 144px;
+}
+
+.cameras__tabs-wrap {
+  margin-top: 40px;
+}
+
+.tabnav {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--r-pill);
+  background: var(--c-chip);
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabnav::-webkit-scrollbar {
+  display: none;
+}
+
+.tabnav__link {
+  flex: none;
+  height: 36px;
+  padding: 0 18px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-body);
+  line-height: 1;
+  color: var(--c-text);
+  background: transparent;
+  transition: background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.tabnav__link:hover {
+  color: var(--c-link);
+}
+
+.tabnav__link[data-selected='true'] {
+  background: #fff;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.cameras__panel {
+  margin-top: 32px;
+}
+
+.cameras__panel-item[hidden] {
+  display: none;
+}
+
+.cameras__panel-item {
+  animation: viewer-in 420ms var(--ease-out);
+}
+
+.cameras__panel-copy,
+.cameras__gallery-copy {
+  margin-top: 24px;
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text-2);
+}
+
+.cameras__panel-copy strong,
+.cameras__gallery-copy strong {
+  color: var(--c-text);
+  font-weight: 600;
+}
+
+.cameras__gallery-block {
+  margin-top: 144px;
+}
+
+.cameras__gallery {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 28px;
+}
+
+.cameras__gallery-media {
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: var(--c-bg-alt);
+}
+
+.cameras__gallery-media img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* ---------------- 响应式 ---------------- */
+
+@media (max-width: 1068px) {
+  .display-story__details,
+  .display-story__band {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .display-story__band {
+    padding: 40px 0;
+  }
+
+  .display-story__band-item {
+    padding-inline: 40px;
+  }
+
+  .display-story__band-item + .display-story__band-item {
+    border-left: 0;
+    border-top: 1px solid var(--c-hairline-soft);
+    padding-top: 32px;
+  }
+
+  .cameras__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cameras__gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .versatility__header,
+  .cameras__features,
+  .cameras__gallery-block {
+    margin-top: 96px;
+  }
+}
+
+@media (max-width: 734px) {
+  .story__stage-wrap {
+    margin-top: 32px;
+  }
+
+  .display-story__details {
+    margin-top: 56px;
+  }
+
+  .display-story__facts {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .display-story__band {
+    margin-top: 56px;
+    padding: 32px 0;
+  }
+
+  .display-story__band-item {
+    padding-inline: 24px;
+  }
+
+  .display-story__band-value,
+  .display-story__stat-value {
+    font-size: 28px;
+    line-height: 34px;
+  }
+
+  .versatility__header,
+  .cameras__features,
+  .cameras__gallery-block {
+    margin-top: 64px;
+  }
+
+  .versatility__hero-media {
+    margin-top: 28px;
+  }
+
+  .versatility__hero .story__body {
+    margin-top: 32px;
+    text-align: left;
+  }
+
+  .versatility__card {
+    width: min(360px, calc(100vw - 2 * var(--gutter)));
+  }
+
+  .cameras__hardware {
+    grid-template-columns: 1fr;
+    margin-top: 40px;
+  }
+
+  .cameras__stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .cameras__stat-value {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .cameras__gallery {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 24px;
+  }
+}

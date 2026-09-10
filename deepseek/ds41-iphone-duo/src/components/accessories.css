@@ -1,0 +1,58 @@
+.accessories {
+  padding: var(--sp-section) 0;
+}
+
+.accessories__bento {
+  margin-top: 64px;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 20px;
+}
+
+.accessories__item {
+  border-radius: var(--r-tile);
+  overflow: hidden;
+  background: var(--c-bg-alt);
+}
+
+.accessories__item img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.accessories__item--1 img {
+  aspect-ratio: 16 / 11;
+}
+
+.accessories__cta {
+  margin-top: 48px;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 1068px) {
+  .accessories__bento {
+    grid-template-columns: 1fr;
+  }
+
+  .accessories__item img,
+  .accessories__item--1 img {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 734px) {
+  .accessories__bento {
+    margin-top: 32px;
+  }
+
+  .accessories__cta {
+    margin-top: 32px;
+  }
+
+  .accessories__cta .button-pill {
+    width: 100%;
+  }
+}

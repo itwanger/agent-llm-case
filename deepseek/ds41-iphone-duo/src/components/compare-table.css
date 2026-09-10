@@ -1,0 +1,361 @@
+.compare {
+  padding: 0 0 var(--sp-section-xl);
+}
+
+.compare__scroll {
+  margin-top: 60px;
+}
+
+.compare__grid {
+  /* 参考页面：一块 1260 宽的白色圆角面板，里面两列 372 宽的机型卡，全部居中排版 */
+  background: #fff;
+  border-radius: var(--r-tile);
+  padding: 120px 0 96px;
+  display: grid;
+  grid-template-columns: repeat(2, 372px);
+  /* 7 行分别对应 图 / 色板 / 名称 / 定位语 / 价格 / 按钮 / 规格 */
+  grid-template-rows: repeat(7, auto);
+  justify-content: center;
+  gap: 20px;
+}
+
+.compare__tile {
+  display: grid;
+  /* 两块机型卡共享父级的行轨道（参考页面用的就是 subgrid），
+     这样左右两列的规格行能横向对齐。不支持 subgrid 时自动退回普通网格。 */
+  grid-row: 1 / -1;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: subgrid;
+  min-width: 0;
+  text-align: center;
+}
+
+/* 参考页面的视觉顺序：图 → 色板 → 徽标与名称 → 定位语 → 价格 → 按钮 → 规格 */
+.compare__image {
+  order: 1;
+}
+
+.compare__colors {
+  order: 2;
+  justify-content: center;
+  margin-top: 12px;
+  min-height: 16px;
+}
+
+.compare__head {
+  order: 3;
+  margin-top: 27px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-height: 41px;
+}
+
+.compare__name {
+  font-size: 28px;
+  line-height: 35px;
+  font-weight: 600;
+  color: var(--c-text);
+  width: 100%;
+  max-width: 316px;
+}
+
+.compare__positioning {
+  order: 4;
+  margin-top: 8px;
+  max-width: 316px;
+  margin-inline: auto;
+  font-size: var(--fs-body);
+  line-height: 23px;
+  font-weight: 600;
+  color: var(--c-text);
+  min-height: 69px;
+}
+
+.compare__price {
+  order: 5;
+  margin-top: 20px;
+  font-size: var(--fs-body-reduced);
+  line-height: 19px;
+  color: var(--c-text);
+  min-height: 38px;
+}
+
+.compare__ctas {
+  order: 6;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-height: 82px;
+}
+
+.compare__touts {
+  order: 7;
+  margin-top: 48px;
+  border-top: 1px solid var(--c-hairline-soft);
+  padding-top: 8px;
+  text-align: center;
+}
+
+.compare__image img {
+  width: 261px;
+  height: 334px;
+  margin-inline: auto;
+  object-fit: contain;
+}
+
+.compare__colors {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 20px;
+}
+
+.compare__swatch {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.compare__badge {
+  font-size: var(--fs-caption);
+  line-height: var(--fs-caption-lh);
+  font-weight: 600;
+  color: #b64400;
+}
+
+.compare__positioning {
+  margin-top: 20px;
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text);
+  min-height: 75px;
+}
+
+.compare__price {
+  margin-top: 12px;
+  font-size: var(--fs-caption);
+  line-height: 18px;
+  color: var(--c-text-2);
+  min-height: 40px;
+}
+
+.compare__ctas {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 62px;
+}
+
+.compare__current {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  background: var(--c-chip);
+  color: var(--c-text-2);
+  font-size: var(--fs-caption);
+  line-height: 18px;
+}
+
+.compare__touts {
+  margin-top: 24px;
+  border-top: 1px solid var(--c-hairline-soft);
+  padding-top: 8px;
+}
+
+.compare__tout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--c-hairline-soft);
+}
+
+.compare__tout-icon {
+  width: 46px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.compare__tout-icon--text {
+  /* 文字小标题比图标宽，必须覆盖 .compare__tout-icon 的固定宽高，否则会折行溢出 */
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  min-height: 56px;
+  font-size: 21px;
+  line-height: 26px;
+  font-weight: 600;
+  color: var(--c-text);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compare__tout-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* 参考页面的规格文字是一列约 200px 宽的居中细栏 */
+  max-width: 200px;
+  margin-inline: auto;
+}
+
+.compare__tout-list li {
+  font-size: var(--fs-caption);
+  line-height: var(--fs-caption-lh);
+  color: var(--c-text);
+}
+
+.compare__footer {
+  /* 参考页面底部是一颗居中的悬浮胶囊按钮 */
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.compare__footer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 11px 22px;
+  border-radius: var(--r-pill);
+  background: #fff;
+  color: var(--c-link);
+  font-size: var(--fs-body);
+  line-height: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.compare__footer-pill::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 6px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.compare__footer-pill:hover {
+  background: var(--c-bg-alt);
+  text-decoration: none;
+}
+
+@media (max-width: 1340px) {
+  .compare__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(7, auto);
+    padding: 64px 32px;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 1068px) {
+  .compare__scroll {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .compare__scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .compare__grid {
+    width: max-content;
+    grid-template-columns: repeat(2, 372px);
+    grid-template-rows: repeat(7, auto);
+  }
+
+  .compare__tile {
+    width: 372px;
+  }
+}
+
+@media (max-width: 734px) {
+  .compare__scroll {
+    margin-top: 32px;
+    padding-inline: 0;
+  }
+
+  /* 手机上参考页面同样并排两列，整页不横向溢出 */
+  .compare__grid {
+    width: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(7, auto);
+    gap: 0;
+    padding: 32px 12px 40px;
+    border-radius: 0;
+  }
+
+  .compare__tile {
+    width: auto;
+    min-width: 0;
+    padding-inline: 8px;
+  }
+
+  .compare__positioning {
+    max-width: 100%;
+  }
+
+  /* 实测：390 宽下型号名 21/28、定位语 14/19、价格与规格 12/16 */
+  .compare__name {
+    font-size: 21px;
+    line-height: 28px;
+  }
+
+  .compare__price {
+    font-size: var(--fs-caption);
+    line-height: 16px;
+  }
+
+  .compare__image img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 261 / 334;
+  }
+
+  .compare__positioning {
+    font-size: 14px;
+    line-height: 19px;
+    min-height: 0;
+  }
+
+  .compare__ctas {
+    margin-top: 20px;
+    min-height: 0;
+  }
+
+  .compare__touts {
+    margin-top: 24px;
+  }
+
+  .compare__tout-icon {
+    width: 34px;
+    height: 42px;
+  }
+
+  .compare__tout-icon--text {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .compare__tout-list li {
+    font-size: var(--fs-caption);
+    line-height: var(--fs-caption-lh);
+  }
+}

@@ -38,11 +38,19 @@
 | [![锦鲤池实测截图](deepseek/ds41-koi-pond/shots/01-initial.png)](deepseek/ds41-koi-pond/README.md) | [![彩色流体实测截图](deepseek/ds41-fluid/shots/hero.png)](deepseek/ds41-fluid/README.md) |
 | 观察鱼体运动、水面表现和投食互动 | 观察连续流动、混色和实时响应 |
 
+| Apple iPhone Duo 产品页复刻 · 桌面 | Apple iPhone Duo 产品页复刻 · 手机 |
+| --- | --- |
+| [![iPhone Duo 桌面首屏](deepseek/ds41-iphone-duo/shots/01-hero-desktop.png)](deepseek/ds41-iphone-duo/README.md) | [![iPhone Duo 手机首屏](deepseek/ds41-iphone-duo/shots/09-hero-mobile.png)](deepseek/ds41-iphone-duo/README.md) |
+| 真实产品素材、首屏构图、整页 17 章与核心交互（配色切换 / 折叠滑块 / 轮播 / FAQ / 弹层） | 手机端重新组织布局而非等比缩小，机型比较并排两列且不横向溢出 |
+
+> 更多截图（含与参考页面的同位置对照）见 [案例 README](deepseek/ds41-iphone-duo/README.md#效果)；
+> 提示词有[完整版](prompts/iphone-duo.md)与[精简版](prompts/iphone-duo-short.md)两版。
+
 ## 按分类浏览
 
 | 分类 | 当前内容 | 入口 |
 | --- | --- | --- |
-| DeepSeek | 6 个 `ds41-*` 案例 | [查看案例](deepseek/README.md) |
+| DeepSeek | 7 个 `ds41-*` 案例 | [查看案例](deepseek/README.md) |
 | ChatGPT | 分类已建立，案例待添加 | [查看分类](chatgpt/README.md) |
 | GLM | 分类已建立，案例待添加 | [查看分类](glm/README.md) |
 | 待分类 | 历史作品，模型或 Agent 来源未确认 | [查看案例](unclassified/README.md) |
@@ -66,6 +74,7 @@ agent-llm-case/
 
 | 案例 | 目录或入口 | 主要观察点 |
 | --- | --- | --- |
+| iPhone Duo 产品页复刻 | [ds41-iphone-duo](deepseek/ds41-iphone-duo/README.md) | 真实素材本地化、首屏构图、整页 17 章节、配色 / 姿态 / 滑块 / 轮播 / FAQ / 弹层交互 |
 | 草稿纸涂鸦 FPS | [ds41-doodle-fps](deepseek/ds41-doodle-fps/README.md) | 画风一致性、射击反馈、敌人行为 |
 | 暴力摩托 | [ds41-road-rash](deepseek/ds41-road-rash/README.md) · [RoadRash](unclassified/RoadRash/README.md) | 驾驶、格斗、碰撞、完整比赛 |
 | 日式锦鲤池 | [ds41-koi-pond](deepseek/ds41-koi-pond/README.md) | 水面、鱼体运动、投食互动 |

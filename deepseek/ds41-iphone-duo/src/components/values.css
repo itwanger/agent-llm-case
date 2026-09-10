@@ -1,0 +1,112 @@
+.environment {
+  padding: 0 0 var(--sp-section-lg);
+}
+
+.environment__stats {
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.environment__stat img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.environment__stat-caption {
+  margin-top: 20px;
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text-2);
+}
+
+.environment__stat-value {
+  margin-top: 4px;
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.environment__stat-label {
+  display: block;
+}
+
+/* ---------------- 价值观 ---------------- */
+
+.values {
+  padding: 0 0 var(--sp-section-lg);
+}
+
+.values__headline {
+  max-width: 720px;
+}
+
+.values__cards {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.values__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 32px;
+  background: #fff;
+  border-radius: var(--r-tile);
+}
+
+.values__card img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.values__card-eyebrow {
+  font-size: 21px;
+  line-height: 27px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.values__card-body {
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  color: var(--c-text-2);
+  flex: 1;
+}
+
+@media (max-width: 1068px) {
+  .environment__stats,
+  .values__cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 734px) {
+  .environment__stats,
+  .values__cards {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-top: 32px;
+  }
+
+  .environment__stat-value {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .values__card {
+    padding: 24px;
+  }
+
+  .values__card-eyebrow {
+    font-size: 19px;
+    line-height: 25px;
+  }
+}

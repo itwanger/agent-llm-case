@@ -1,0 +1,315 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* 锚点不落在固定导航下面 */
+  scroll-padding-top: calc(var(--h-globalnav) + var(--h-localnav) + 12px);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+a {
+  color: var(--c-link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+fieldset {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--c-focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- 布局工具类 ---------- */
+
+.viewport-content {
+  width: 100%;
+  max-width: var(--w-content);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@media (min-width: 1341px) {
+  .viewport-content {
+    padding-inline: 0;
+  }
+}
+
+.section {
+  position: relative;
+}
+
+.section--alt {
+  background: var(--c-bg-alt);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 排版基础 */
+
+.type-eyebrow {
+  font-size: var(--fs-eyebrow);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.011em;
+}
+
+.type-headline {
+  font-size: var(--fs-section-xxl);
+  line-height: var(--fs-section-xxl-lh);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.type-section-header {
+  font-size: var(--fs-section-h2);
+  line-height: var(--fs-section-h2-lh);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+
+.type-copy {
+  font-size: var(--fs-copy-lg);
+  line-height: var(--fs-copy-lg-lh);
+  color: var(--c-text-2);
+  letter-spacing: 0.011em;
+}
+
+.type-body {
+  font-size: var(--fs-body);
+  line-height: var(--fs-body-lh);
+}
+
+.type-caption {
+  font-size: var(--fs-caption);
+  line-height: var(--fs-caption-lh);
+  color: var(--c-text-2);
+}
+
+/* 蓝色胶囊按钮 */
+
+.button-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 11px 21px;
+  border-radius: var(--r-pill);
+  background: var(--c-blue);
+  color: #fff;
+  font-size: var(--fs-body);
+  line-height: 20px;
+  text-align: center;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.button-pill:hover {
+  background: var(--c-blue-hover);
+  text-decoration: none;
+}
+
+.button-pill:active {
+  background: var(--c-blue-pressed);
+}
+
+.button-pill[aria-disabled='true'],
+.button-pill:disabled {
+  background: var(--c-chip);
+  color: var(--c-text-3);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* 文字链接（带 chevron） */
+
+.link-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--c-link);
+  font-size: var(--fs-body);
+  line-height: 23px;
+}
+
+.link-more::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg) translateY(-1px);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.link-more:hover::after {
+  transform: rotate(-45deg) translate(2px, 1px);
+}
+
+.link-more--lg {
+  font-size: var(--fs-copy-lg);
+}
+
+/* 章节头 */
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.section-header__headline {
+  flex: 0 0 50%;
+  max-width: 75%;
+}
+
+@media (max-width: 734px) {
+  /* 参考页面在手机上仍是一行：标题左对齐，操作链接右对齐 */
+  .section-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .section-header__headline {
+    flex: 1 1 auto;
+    max-width: 100%;
+  }
+
+  .section-header__action {
+    flex: none;
+  }
+}
+
+/* 进入视口动画 */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 没有 JS 时也要能读 */
+.no-js .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------- 图片降级 ----------------
+   任一张图加载失败时隐藏它本身（不留破图图标），
+   由外层容器的浅灰背景保持版面完整。 */
+
+img.is-broken {
+  opacity: 0;
+}
+
+/* 只有容器里真的出现了加载失败的图片，才显示中性占位底色；
+   正常渲染时不额外加背景，避免在 contain 的图片周围露出灰块。 */
+.hero__media:has(img.is-broken),
+.highlights__media:has(img.is-broken),
+.design__stage:has(img.is-broken),
+.viewer__stage:has(img.is-broken),
+.story__stage:has(img.is-broken),
+.versatility__card-media:has(img.is-broken),
+.cameras__hardware-item:has(img.is-broken),
+.cameras__gallery-media:has(img.is-broken),
+.performance__media:has(img.is-broken),
+.shared__media:has(img.is-broken),
+.shared__card-media:has(img.is-broken),
+.accessories__item:has(img.is-broken),
+.incentives__card-media:has(img.is-broken),
+.compare__image:has(img.is-broken),
+.shared__ai-media:has(img.is-broken) {
+  background-color: var(--c-bg-alt);
+}

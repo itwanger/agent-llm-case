@@ -10,10 +10,13 @@
 
 以下两题单独保存本次确认的完整提示词，不受本页原有短题的 600 字限制。目标模型为 DeepSeek V4.1 Flash；运行结果应另行记录。
 
-| Case | 完整提示词 | 主要观察点 |
-| --- | --- | --- |
-| Apple iPhone Duo 官网复刻 | [复制提示词](prompts/iphone-duo.md) | 真实素材、首屏构图、整页结构、交互与响应式 |
-| 自行车骑鹈鹕 | [复制提示词](prompts/bicycle-riding-pelican.md) | 主客体反转、自行车辨识、骑乘接触与动作协调 |
+| Case | 提示词 | 主要观察点 | 实测结果 |
+| --- | --- | --- | --- |
+| Apple iPhone Duo 官网复刻 | [完整版](prompts/iphone-duo.md) · [精简版](prompts/iphone-duo-short.md) | 真实素材、首屏构图、整页结构、交互与响应式 | [查看实现与截图](deepseek/ds41-iphone-duo/README.md) |
+| 自行车骑鹈鹕 | [完整版](prompts/bicycle-riding-pelican.md) | 主客体反转、自行车辨识、骑乘接触与动作协调 | 待补充 |
+
+> iPhone Duo 提供两版：完整版逐条给出区域顺序、素材地址与每屏构图，属于「有引导」的版本；
+> 精简版把这些判断交回给模型，正文约为完整版的 1/2.7。**两版难度不同，结果不适合直接横向比较。**
 
 ## 选题速览
 
