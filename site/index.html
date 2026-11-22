@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>agent-llm-case · 互动案例展厅</title>
+  <meta name="description" content="收集可以在浏览器里动手玩的 AI 与数学互动演示，所有案例开源并提供在线体验。">
+  <style>
+    :root {
+      --bg-studio: #FAF9F5;
+      --surface: #FFFFFF;
+      --surface-alt: #F2F4F8;
+      --ink: #141C2B;
+      --ink-muted: #475569;
+      --grid: #E2E8F0;
+
+      --cobalt: #1D4ED8;
+      --coral: #D93821;
+      --marigold: #E09600;
+      --marigold-text: #8F5C00;
+      --emerald: #0C8568;
+
+      --tint-cobalt: #E8F0FE;
+      --tint-coral: #FDECE9;
+      --tint-marigold: #FFF6DB;
+      --tint-emerald: #E4F6F0;
+
+      --font-sans: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+      --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+      --radius-panel: 1rem;
+      --radius-btn: 0.625rem;
+      --shadow-panel: 4px 4px 0 var(--ink);
+      --shadow-btn: 0 3px 0 var(--ink);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      overflow-x: clip;
+      background-color: var(--bg-studio);
+      color: var(--ink);
+    }
+
+    body {
+      margin: 0;
+      min-block-size: 100dvh;
+      overflow-x: clip;
+      font-family: var(--font-sans);
+      font-size: clamp(1rem, 0.96rem + 0.16vw, 1.05rem);
+      line-height: 1.65;
+      color: var(--ink);
+      background-color: var(--bg-studio);
+      background-image: radial-gradient(#D8D5C8 1.15px, transparent 1.15px);
+      background-size: 24px 24px;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .visually-hidden:where(:not(:focus-within, :active)) {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+      padding: 0;
+      margin: -1px;
+    }
+
+    .skip-link:focus-visible {
+      position: fixed;
+      inset-block-start: 0.75rem;
+      inset-inline-start: 0.75rem;
+      z-index: 200;
+      padding: 0.55rem 0.95rem;
+      background: var(--cobalt);
+      color: #FFFFFF;
+      font-weight: 700;
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius-btn);
+      text-decoration: none;
+      box-shadow: var(--shadow-btn);
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--cobalt);
+      outline-offset: 3px;
+    }
+
+    /* Sticky Header */
+    .site-header {
+      position: sticky;
+      inset-block-start: 0;
+      z-index: 100;
+      background: rgba(250, 249, 245, 0.96);
+      border-block-end: 2.5px solid var(--ink);
+    }
+
+    .header-inner {
+      max-inline-size: 72rem;
+      margin-inline: auto;
+      padding: 0.55rem clamp(0.9rem, 2.5vw, 1.75rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      text-decoration: none;
+      color: var(--ink);
+      min-block-size: 2.5rem;
+    }
+
+    .brand-mark {
+      display: inline-grid;
+      place-items: center;
+      inline-size: 2rem;
+      block-size: 2rem;
+      background: var(--coral);
+      color: #FFFFFF;
+      border: 2px solid var(--ink);
+      border-radius: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 800;
+      box-shadow: 0 2px 0 var(--ink);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .brand-repo {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 0.96rem;
+    }
+
+    .brand-sub {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+    }
+
+    /* Tactile Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      min-block-size: 2.55rem;
+      min-inline-size: 2.55rem;
+      padding: 0.42rem 0.92rem;
+      background: var(--surface);
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-btn);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: var(--shadow-btn);
+    }
+
+    .btn-sm {
+      min-block-size: 2.5rem;
+      padding: 0.34rem 0.75rem;
+      font-size: 0.86rem;
+    }
+
+    .btn-primary {
+      background: var(--cobalt);
+      color: #FFFFFF;
+    }
+
+    .btn-pill {
+      border-radius: 999px;
+      box-shadow: 0 2px 0 var(--ink);
+    }
+
+    .btn.is-active {
+      background: var(--cobalt);
+      color: #FFFFFF;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .btn {
+        transition: transform 90ms ease, box-shadow 90ms ease, background-color 120ms ease;
+      }
+      .btn:active {
+        transform: translateY(3px);
+        box-shadow: 0 0 0 var(--ink);
+      }
+    }
+
+    /* Main Content */
+    main {
+      flex: 1 0 auto;
+      inline-size: 100%;
+      max-inline-size: 72rem;
+      margin-inline: auto;
+      padding: 1.25rem clamp(0.9rem, 2.5vw, 1.75rem) 3.5rem;
+    }
+
+    /* Hero Banner */
+    .hero-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: clamp(1rem, 2.5vw, 2rem);
+      padding: clamp(1.15rem, 2.2vw, 1.65rem) clamp(1.15rem, 2.6vw, 1.85rem);
+      background: var(--surface);
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius-panel);
+      box-shadow: var(--shadow-panel);
+      margin-block-end: 1.35rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-block-end: 0.55rem;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 0.18rem 0.65rem;
+      background: var(--tint-marigold);
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      color: var(--marigold-text);
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .count-badge {
+      display: inline-block;
+      padding: 0.18rem 0.65rem;
+      background: var(--tint-emerald);
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      color: var(--emerald);
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .hero-copy h1 {
+      margin: 0 0 0.45rem;
+      font-size: clamp(1.7rem, 1.25rem + 1.7vw, 2.45rem);
+      font-weight: 800;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      max-inline-size: 56ch;
+      color: var(--ink-muted);
+      font-size: clamp(0.95rem, 0.92rem + 0.14vw, 1.02rem);
+      text-wrap: pretty;
+    }
+
+    .hero-emblem {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .emblem-svg {
+      display: block;
+      max-inline-size: 100%;
+      block-size: auto;
+      filter: drop-shadow(3px 3px 0 var(--ink));
+    }
+
+    @media (max-width: 48rem) {
+      .hero-card {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-emblem {
+        display: none;
+      }
+    }
+
+    /* Filter & Search Bar */
+    .toolbar-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem 1rem;
+      padding: 0.8rem 1rem;
+      background: var(--surface);
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius-panel);
+      box-shadow: 3px 3px 0 var(--ink);
+      margin-block-end: 1.35rem;
+    }
+
+    .category-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.42rem;
+    }
+
+    .search-group {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex: 1 1 14rem;
+      max-inline-size: 21rem;
+    }
+
+    .search-input {
+      inline-size: 100%;
+      min-block-size: 2.55rem;
+      padding: 0.38rem 0.8rem;
+      background: var(--bg-studio);
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-btn);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .search-input::placeholder {
+      color: var(--ink-muted);
+    }
+
+    .result-meta {
+      margin: 0 0 0.85rem;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+    }
+
+    /* Case Grid */
+    .gallery-container {
+      container-type: inline-size;
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.25rem;
+    }
+
+    @container (min-width: 48rem) {
+      .case-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .case-card.is-solo {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.35fr);
+      }
+    }
+
+    .case-card {
+      background: var(--surface);
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius-panel);
+      box-shadow: var(--shadow-panel);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .case-preview {
+      position: relative;
+      background: var(--surface-alt);
+      border-block-end: 2px solid var(--ink);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-block-size: 12.5rem;
+    }
+
+    @container (min-width: 48rem) {
+      .case-card.is-solo .case-preview {
+        border-block-end: 0;
+        border-inline-end: 2px solid var(--ink);
+        min-block-size: 15.5rem;
+      }
+    }
+
+    .case-preview svg {
+      display: block;
+      inline-size: 100%;
+      max-inline-size: 22rem;
+      block-size: auto;
+    }
+
+    .featured-ribbon {
+      position: absolute;
+      inset-block-start: 0.65rem;
+      inset-inline-start: 0.7rem;
+      padding: 0.16rem 0.56rem;
+      background: var(--tint-coral);
+      color: var(--coral);
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 800;
+    }
+
+    .case-body {
+      padding: 1.1rem 1.2rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      flex: 1 1 auto;
+    }
+
+    .case-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.45rem;
+    }
+
+    .cat-pill {
+      display: inline-block;
+      padding: 0.14rem 0.58rem;
+      background: var(--tint-cobalt);
+      color: var(--cobalt);
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .case-date {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+    }
+
+    .case-title {
+      margin: 0;
+      font-size: clamp(1.18rem, 1.05rem + 0.5vw, 1.42rem);
+      font-weight: 800;
+      line-height: 1.28;
+      text-wrap: balance;
+    }
+
+    .case-title a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .case-title a:hover {
+      color: var(--cobalt);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .case-summary {
+      margin: 0;
+      color: var(--ink-muted);
+      font-size: 0.94rem;
+      line-height: 1.65;
+      max-inline-size: 56ch;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.38rem;
+      list-style: none;
+      margin: 0.1rem 0 0;
+      padding: 0;
+    }
+
+    .tag-chip {
+      padding: 0.12rem 0.5rem;
+      background: var(--bg-studio);
+      border: 1.5px solid var(--ink);
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .case-actions {
+      margin-block-start: auto;
+      padding-block-start: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    /* Empty / Error States */
+    .empty-state {
+      padding: 2rem 1.25rem;
+      background: var(--surface);
+      border: 2.5px dashed var(--ink);
+      border-radius: var(--radius-panel);
+      text-align: center;
+    }
+
+    .empty-state p {
+      margin: 0 0 0.85rem;
+      color: var(--ink-muted);
+      font-weight: 700;
+    }
+
+    /* Bottom Guide: How to Publish the Next Case */
+    .publish-guide {
+      margin-block-start: 2rem;
+      background: var(--surface);
+      border: 2.5px solid var(--ink);
+      border-radius: var(--radius-panel);
+      box-shadow: 3px 3px 0 var(--ink);
+      padding: 0.85rem 1.15rem;
+    }
+
+    .publish-guide summary {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--ink);
+      cursor: pointer;
+      min-block-size: 2.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .guide-badge {
+      padding: 0.12rem 0.5rem;
+      background: var(--tint-emerald);
+      color: var(--emerald);
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .guide-body {
+      margin-block-start: 0.75rem;
+      padding-block-start: 0.75rem;
+      border-block-start: 2px dashed var(--grid);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+      gap: 0.85rem;
+    }
+
+    .guide-step {
+      padding: 0.75rem 0.85rem;
+      background: var(--bg-studio);
+      border: 2px solid var(--ink);
+      border-radius: 0.75rem;
+    }
+
+    .guide-step-num {
+      display: inline-block;
+      margin-block-end: 0.3rem;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--cobalt);
+    }
+
+    .guide-step p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--ink-muted);
+      line-height: 1.55;
+    }
+
+    .guide-step code {
+      padding: 0.08rem 0.32rem;
+      background: var(--surface);
+      border: 1px solid var(--grid);
+      border-radius: 4px;
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+    }
+
+    /* Footer */
+    .site-footer {
+      border-block-start: 2.5px solid var(--ink);
+      background: var(--surface);
+    }
+
+    .footer-inner {
+      max-inline-size: 72rem;
+      margin-inline: auto;
+      padding: 1rem clamp(0.9rem, 2.5vw, 1.75rem);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+    }
+
+    .footer-inner p {
+      margin: 0;
+    }
+
+    .footer-link {
+      color: var(--cobalt);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    @media (max-width: 36rem) {
+      .brand-sub {
+        display: none;
+      }
+      .search-group {
+        max-inline-size: none;
+      }
+    }
+
+    @media (forced-colors: active) {
+      .hero-card,
+      .toolbar-panel,
+      .case-card,
+      .publish-guide,
+      .btn {
+        box-shadow: none;
+        border-color: ButtonBorder;
+      }
+      .btn-primary,
+      .btn.is-active {
+        background: Highlight;
+        color: HighlightText;
+        border-color: Highlight;
+      }
+      :focus-visible {
+        outline: 3px solid Highlight;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link visually-hidden">跳到案例列表</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="./" class="brand">
+        <span class="brand-mark" aria-hidden="true">AG</span>
+        <span class="brand-text">
+          <span class="brand-repo">agent-llm-case</span>
+          <span class="brand-sub">互动案例展厅</span>
+        </span>
+      </a>
+
+      <a
+        id="header-repo-link"
+        href="https://github.com/itwanger/agent-llm-case"
+        class="btn btn-sm"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub 仓库 ↗
+      </a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero-card" aria-labelledby="portal-heading">
+      <div class="hero-copy">
+        <div class="hero-badges">
+          <span class="eyebrow">沉默王二 · 开源互动案例集</span>
+          <span class="count-badge mono" id="hero-case-count">已收录 1 个案例</span>
+        </div>
+        <h1 id="portal-heading">点开浏览器就能玩的 AI 与数学互动案例</h1>
+        <p id="portal-subtitle">
+          收集可以在浏览器里动手玩的 AI 与数学互动演示。每个案例保留完整源码，点开链接就能操作。
+        </p>
+      </div>
+
+      <div class="hero-emblem" aria-hidden="true">
+        <svg class="emblem-svg" viewBox="0 0 220 132" width="220" height="132" focusable="false">
+          <rect x="4" y="4" width="212" height="124" rx="12" fill="#FFFFFF" stroke="#141C2B" stroke-width="2.5" />
+          <path d="M6 16 Q6 6 16 6 L204 6 Q214 6 214 16 L214 26 L6 26 Z" fill="#F2F4F8" />
+          <line x1="4" y1="26" x2="216" y2="26" stroke="#141C2B" stroke-width="2" />
+          <circle cx="18" cy="16" r="3" fill="#D93821" stroke="#141C2B" stroke-width="1.3" />
+          <circle cx="29" cy="16" r="3" fill="#E09600" stroke="#141C2B" stroke-width="1.3" />
+          <circle cx="40" cy="16" r="3" fill="#0C8568" stroke="#141C2B" stroke-width="1.3" />
+
+          <!-- Left wooden tiles -->
+          <rect x="18" y="44" width="26" height="26" rx="5" fill="#D93821" stroke="#141C2B" stroke-width="2" />
+          <rect x="48" y="44" width="26" height="26" rx="5" fill="#1D4ED8" stroke="#141C2B" stroke-width="2" />
+          <rect x="18" y="76" width="26" height="26" rx="5" fill="#E09600" stroke="#141C2B" stroke-width="2" />
+          <rect x="48" y="76" width="26" height="26" rx="5" fill="#0C8568" stroke="#141C2B" stroke-width="2" />
+
+          <!-- Right chart card -->
+          <rect x="88" y="40" width="114" height="72" rx="8" fill="#FAF9F5" stroke="#141C2B" stroke-width="2" />
+          <line x1="145" y1="44" x2="145" y2="108" stroke="#D93821" stroke-width="2" stroke-dasharray="4 3" />
+          <path d="M96 98 H112 V84 H128 V70 H148 V56 H192" fill="none" stroke="#141C2B" stroke-width="2.2" stroke-linejoin="round" />
+          <path d="M96 96 Q138 74 192 52" fill="none" stroke="#1D4ED8" stroke-width="2.2" stroke-dasharray="4 3" />
+          <circle cx="145" cy="74" r="5" fill="#E09600" stroke="#141C2B" stroke-width="1.8" />
+        </svg>
+      </div>
+    </section>
+
+    <section class="toolbar-panel" aria-label="案例筛选与搜索">
+      <div class="category-bar" id="category-bar" role="group" aria-label="按分类筛选"></div>
+      <div class="search-group">
+        <label for="case-search" class="visually-hidden">搜索案例标题、简介或标签</label>
+        <input
+          type="search"
+          id="case-search"
+          class="search-input"
+          placeholder="搜索案例名称或标签…"
+          autocomplete="off"
+        >
+      </div>
+    </section>
+
+    <p class="result-meta" id="result-meta" aria-live="polite">正在加载案例列表…</p>
+
+    <section class="gallery-container" aria-label="互动案例列表">
+      <div class="case-grid" id="case-grid"></div>
+      <div class="empty-state" id="empty-state" hidden>
+        <p id="empty-state-msg">没有找到匹配的案例，试试换个关键词或切换回“全部”。</p>
+        <button type="button" class="btn btn-sm btn-primary" id="clear-filters-btn">清空筛选</button>
+      </div>
+    </section>
+
+    <details class="publish-guide">
+      <summary>
+        <span class="guide-badge">维护说明</span>
+        <span>如何把下一个新案例发布到这个展厅？三步搞定</span>
+      </summary>
+      <div class="guide-body">
+        <div class="guide-step">
+          <span class="guide-step-num mono">STEP 01</span>
+          <p>把新案例放进仓库的独立文件夹（或者单个 <code>.html</code> 文件），确保内部引用的脚本与样式都使用相对路径（如 <code>./app.js</code>）。</p>
+        </div>
+        <div class="guide-step">
+          <span class="guide-step-num mono">STEP 02</span>
+          <p>在 <code>site/cases.json</code> 的 <code>cases</code> 数组里加一条配置（填好 <code>slug</code>、<code>title</code>、<code>source</code> 等字段）。</p>
+        </div>
+        <div class="guide-step">
+          <span class="guide-step-num mono">STEP 03</span>
+          <p>推送到 <code>main</code> 分支后，GitHub Actions 会自动运行 <code>node site/build.mjs</code>，把新案例发布到 <code>./cases/&lt;slug&gt;/</code>。</p>
+        </div>
+      </div>
+    </details>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p id="footer-copy">agent-llm-case · 由 GitHub Actions 自动构建并发布到 GitHub Pages。</p>
+      <a
+        id="footer-repo-link"
+        href="https://github.com/itwanger/agent-llm-case"
+        class="footer-link"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        查看完整仓库源码 →
+      </a>
+    </div>
+  </footer>
+
+  <script type="module">
+    const categoryBar = document.getElementById('category-bar');
+    const searchInput = document.getElementById('case-search');
+    const resultMeta = document.getElementById('result-meta');
+    const caseGrid = document.getElementById('case-grid');
+    const emptyState = document.getElementById('empty-state');
+    const emptyStateMsg = document.getElementById('empty-state-msg');
+    const clearBtn = document.getElementById('clear-filters-btn');
+    const heroCount = document.getElementById('hero-case-count');
+    const portalSubtitle = document.getElementById('portal-subtitle');
+    const headerRepoLink = document.getElementById('header-repo-link');
+    const footerRepoLink = document.getElementById('footer-repo-link');
+
+    const state = {
+      repoUrl: 'https://github.com/itwanger/agent-llm-case',
+      cases: [],
+      category: '全部',
+      query: '',
+    };
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function buildPreviewSvg(item) {
+      if (item.slug === 'riemann-hypothesis') {
+        return `
+          <svg viewBox="0 0 340 190" width="340" height="190" aria-hidden="true" focusable="false">
+            <rect x="6" y="6" width="328" height="178" rx="12" fill="#FFFFFF" stroke="#141C2B" stroke-width="2.2" />
+            <g stroke="#E2E8F0" stroke-width="1">
+              <line x1="22" y1="54" x2="318" y2="54" />
+              <line x1="22" y1="98" x2="318" y2="98" />
+              <line x1="22" y1="142" x2="318" y2="142" />
+              <line x1="112" y1="24" x2="112" y2="164" />
+              <line x1="222" y1="24" x2="222" y2="164" />
+            </g>
+            <!-- Ch1 wooden prime blocks -->
+            <rect x="24" y="114" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="1.8" />
+            <rect x="50" y="114" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="1.8" />
+            <rect x="24" y="88" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="1.8" />
+            <rect x="50" y="88" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="1.8" />
+            <rect x="24" y="62" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="1.8" />
+            <rect x="50" y="62" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="1.8" />
+            <rect x="78" y="108" width="22" height="22" rx="4" fill="#E09600" stroke="#141C2B" stroke-width="1.8" />
+
+            <!-- Ch2/3 staircase + wave -->
+            <path d="M120 152 H138 V134 H156 V114 H176 V92 H196 V72 H214" fill="none" stroke="#141C2B" stroke-width="2.4" stroke-linejoin="round" />
+            <path d="M120 148 Q164 114 214 68" fill="none" stroke="#1D4ED8" stroke-width="2.2" stroke-dasharray="5 4" />
+            <circle cx="138" cy="134" r="3.5" fill="#D93821" />
+            <circle cx="156" cy="114" r="3.5" fill="#D93821" />
+            <circle cx="176" cy="92" r="3.5" fill="#D93821" />
+            <circle cx="196" cy="72" r="3.5" fill="#D93821" />
+
+            <!-- Ch4 1/2 balance line + brass pegs -->
+            <rect x="258" y="30" width="32" height="130" rx="8" fill="#E4F6F0" />
+            <line x1="274" y1="30" x2="274" y2="160" stroke="#D93821" stroke-width="2.4" />
+            <path d="M232 98 Q246 60 260 98 T288 98 T312 88" fill="none" stroke="#0C8568" stroke-width="2.4" stroke-linecap="round" />
+            <circle cx="274" cy="54" r="6.5" fill="#E09600" stroke="#141C2B" stroke-width="2" />
+            <circle cx="274" cy="94" r="6.5" fill="#E09600" stroke="#141C2B" stroke-width="2" />
+            <circle cx="274" cy="134" r="6.5" fill="#E09600" stroke="#141C2B" stroke-width="2" />
+          </svg>
+        `;
+      }
+
+      return `
+        <svg viewBox="0 0 340 190" width="340" height="190" aria-hidden="true" focusable="false">
+          <rect x="6" y="6" width="328" height="178" rx="12" fill="#FFFFFF" stroke="#141C2B" stroke-width="2.2" />
+          <rect x="28" y="34" width="118" height="120" rx="10" fill="#E8F0FE" stroke="#141C2B" stroke-width="2" />
+          <rect x="164" y="34" width="148" height="54" rx="10" fill="#FFF6DB" stroke="#141C2B" stroke-width="2" />
+          <rect x="164" y="100" width="148" height="54" rx="10" fill="#E4F6F0" stroke="#141C2B" stroke-width="2" />
+          <circle cx="87" cy="94" r="24" fill="#D93821" stroke="#141C2B" stroke-width="2" />
+        </svg>
+      `;
+    }
+
+    function renderCategories() {
+      const counts = new Map();
+      state.cases.forEach((c) => {
+        const cat = c.category || '其他';
+        counts.set(cat, (counts.get(cat) || 0) + 1);
+      });
+
+      const list = [['全部', state.cases.length], ...counts.entries()];
+      categoryBar.innerHTML = '';
+      list.forEach(([cat, count]) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `btn btn-sm btn-pill${state.category === cat ? ' is-active' : ''}`;
+        btn.setAttribute('aria-pressed', state.category === cat ? 'true' : 'false');
+        btn.textContent = `${cat} (${count})`;
+        btn.addEventListener('click', () => {
+          state.category = cat;
+          renderCategories();
+          renderCases();
+        });
+        categoryBar.appendChild(btn);
+      });
+    }
+
+    function renderCases() {
+      const q = state.query.trim().toLowerCase();
+      const filtered = state.cases.filter((item) => {
+        const catOk = state.category === '全部' || (item.category || '其他') === state.category;
+        if (!catOk) return false;
+        if (!q) return true;
+        const haystack = [
+          item.title,
+          item.shortTitle,
+          item.summary,
+          item.category,
+          ...(item.tags || []),
+        ]
+          .join(' ')
+          .toLowerCase();
+        return haystack.includes(q);
+      });
+
+      resultMeta.textContent =
+        filtered.length === state.cases.length
+          ? `共展示 ${filtered.length} 个互动案例`
+          : `筛选结果：共 ${filtered.length} / ${state.cases.length} 个案例`;
+
+      caseGrid.innerHTML = '';
+      if (filtered.length === 0) {
+        emptyState.hidden = false;
+        return;
+      }
+      emptyState.hidden = true;
+
+      const isSolo = filtered.length === 1;
+      const baseRepo = state.repoUrl.replace(/\/$/, '');
+
+      filtered.forEach((item) => {
+        const card = document.createElement('article');
+        card.className = `case-card${isSolo ? ' is-solo' : ''}`;
+        const demoUrl = `./cases/${encodeURIComponent(item.slug)}/`;
+        const sourceUrl = `${baseRepo}/tree/main/${item.source}`;
+        const tagsHtml = (item.tags || [])
+          .map((t) => `<li class="tag-chip">${escapeHtml(t)}</li>`)
+          .join('');
+
+        card.innerHTML = `
+          <div class="case-preview">
+            ${item.featured ? '<span class="featured-ribbon">精选首发</span>' : ''}
+            ${buildPreviewSvg(item)}
+          </div>
+          <div class="case-body">
+            <div class="case-meta-row">
+              <span class="cat-pill">${escapeHtml(item.category || '互动演示')}</span>
+              <time class="case-date mono" datetime="${escapeHtml(item.date || '')}">${escapeHtml(item.date || '')}</time>
+            </div>
+            <h2 class="case-title"><a href="${demoUrl}">${escapeHtml(item.title)}</a></h2>
+            <p class="case-summary">${escapeHtml(item.summary || '')}</p>
+            <ul class="tag-row" aria-label="案例标签">${tagsHtml}</ul>
+            <div class="case-actions">
+              <a href="${demoUrl}" class="btn btn-primary">在线体验 →</a>
+              <a href="${sourceUrl}" class="btn" target="_blank" rel="noopener noreferrer">查看源码</a>
+            </div>
+          </div>
+        `;
+        caseGrid.appendChild(card);
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      state.query = searchInput.value;
+      renderCases();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      state.category = '全部';
+      state.query = '';
+      searchInput.value = '';
+      renderCategories();
+      renderCases();
+    });
+
+    async function boot() {
+      try {
+        const res = await fetch('./cases.json');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (data.site) {
+          if (data.site.subtitle) portalSubtitle.textContent = data.site.subtitle;
+          if (data.site.repoUrl) {
+            state.repoUrl = data.site.repoUrl;
+            headerRepoLink.href = data.site.repoUrl;
+            footerRepoLink.href = data.site.repoUrl;
+          }
+        }
+        state.cases = Array.isArray(data.cases) ? data.cases : [];
+        heroCount.textContent = `已收录 ${state.cases.length} 个案例`;
+        renderCategories();
+        renderCases();
+      } catch (err) {
+        resultMeta.textContent = '未能读取 ./cases.json';
+        emptyStateMsg.textContent = '请通过本地静态服务器或 GitHub Pages 访问本展厅页面，才能自动加载案例清单。';
+        emptyState.hidden = false;
+        clearBtn.hidden = true;
+      }
+    }
+
+    boot();
+  </script>
+</body>
+</html>

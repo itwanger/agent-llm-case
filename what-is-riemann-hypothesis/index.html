@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>质数里藏着一首歌 · 黎曼猜想互动游乐场</title>
+  <meta name="description" content="给 9–12 岁小探索家和好奇大人的黎曼猜想互动科学工坊：亲手排积木、看质数楼梯、叠加波浪，再把零点拖离 1/2 平衡线，五关看懂百万美元数学难题。">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link visually-hidden">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#top" class="brand-badge" aria-label="回到顶部：质数音乐盒">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span class="brand-name">质数音乐盒</span>
+      </a>
+
+      <nav class="chapter-map" aria-label="关卡地图">
+        <ol class="chapter-pills">
+          <li><a href="#ch1" class="nav-pill" data-chapter="ch1"><span class="pill-num">1</span><span class="pill-label">积木</span><span class="pill-check" aria-hidden="true">✓</span></a></li>
+          <li><a href="#ch2" class="nav-pill" data-chapter="ch2"><span class="pill-num">2</span><span class="pill-label">楼梯</span><span class="pill-check" aria-hidden="true">✓</span></a></li>
+          <li><a href="#ch3" class="nav-pill" data-chapter="ch3"><span class="pill-num">3</span><span class="pill-label">波浪</span><span class="pill-check" aria-hidden="true">✓</span></a></li>
+          <li><a href="#ch4" class="nav-pill" data-chapter="ch4"><span class="pill-num">4</span><span class="pill-label">1/2 平衡线</span><span class="pill-check" aria-hidden="true">✓</span></a></li>
+          <li><a href="#ch5" class="nav-pill" data-chapter="ch5"><span class="pill-num">5</span><span class="pill-label">悬赏挑战</span><span class="pill-check" aria-hidden="true">✓</span></a></li>
+        </ol>
+      </nav>
+
+      <button
+        type="button"
+        id="header-sound-switch"
+        class="sound-switch"
+        role="switch"
+        aria-checked="false"
+        aria-label="柔和木琴音效开关"
+      >
+        <span class="switch-icon" aria-hidden="true">♪</span>
+        <span class="switch-text">音效</span>
+        <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Compact Hero: keeps Hero + Chapter 1 wooden blocks workbench visible together on 1440×900 -->
+    <section id="top" class="hero-section">
+      <div class="hero-card">
+        <div class="hero-copy">
+          <p class="hero-eyebrow">给 9–12 岁小探索家的互动数学工坊</p>
+          <h1>质数里藏着一首歌</h1>
+          <p class="hero-lead">
+            质数在数轴上出现得东一个西一个，看起来乱糟糟的。1859 年，德国数学家黎曼发现，它们藏在一组波浪的合唱里。拉一拉滑块、拖一拖圆点，五关玩下来，你就能看懂数学界著名的 100 万美元难题到底在问什么。
+          </p>
+          <div class="hero-actions">
+            <a href="#ch1" class="btn btn-primary">开始第 1 关：拆数字积木 ↓</a>
+            <span class="hero-meta">5 关互动实验 · 零高等公式门槛</span>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <svg class="musicbox-svg" viewBox="0 0 280 176" width="280" height="176" focusable="false">
+            <!-- Backing card -->
+            <rect x="6" y="6" width="268" height="164" rx="14" fill="#FFFFFF" stroke="#141C2B" stroke-width="2.5" />
+            <!-- Top brass strip -->
+            <path d="M8 20 Q8 8 20 8 L260 8 Q272 8 272 20 L272 30 L8 30 Z" fill="#F2F4F8" />
+            <line x1="6" y1="30" x2="274" y2="30" stroke="#141C2B" stroke-width="2" />
+            <circle cx="22" cy="19" r="3.5" fill="#D93821" stroke="#141C2B" stroke-width="1.5" />
+            <circle cx="34" cy="19" r="3.5" fill="#E09600" stroke="#141C2B" stroke-width="1.5" />
+            <circle cx="46" cy="19" r="3.5" fill="#0C8568" stroke="#141C2B" stroke-width="1.5" />
+            <rect x="192" y="13" width="68" height="12" rx="6" fill="#E8F0FE" stroke="#141C2B" stroke-width="1.5" />
+            <line x1="202" y1="19" x2="250" y2="19" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" />
+
+            <!-- Faint drafting grid inside box -->
+            <g stroke="#E2E8F0" stroke-width="1">
+              <line x1="20" y1="62" x2="260" y2="62" />
+              <line x1="20" y1="98" x2="260" y2="98" />
+              <line x1="20" y1="134" x2="260" y2="134" />
+              <line x1="88" y1="42" x2="88" y2="154" />
+              <line x1="176" y1="42" x2="176" y2="154" />
+            </g>
+
+            <!-- Left: wooden coral prime blocks (2, 3, 5, 7 silhouette) -->
+            <g class="hero-blocks">
+              <rect x="20" y="114" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="2" />
+              <rect x="46" y="114" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="2" />
+              <rect x="20" y="88" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="2" />
+              <rect x="46" y="88" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="2" />
+              <rect x="20" y="62" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="2" />
+              <rect x="46" y="62" width="22" height="22" rx="4" fill="#D93821" stroke="#141C2B" stroke-width="2" />
+              <!-- Stray 7th block slightly lifted -->
+              <rect class="hero-stray-block" x="72" y="110" width="22" height="22" rx="4" fill="#E09600" stroke="#141C2B" stroke-width="2" />
+            </g>
+
+            <!-- Center: Prime staircase + smooth cobalt slide -->
+            <path d="M104 146 H120 V128 H138 V110 H156 V90 H174 V72 H190" fill="none" stroke="#141C2B" stroke-width="2.5" stroke-linejoin="round" />
+            <path d="M104 144 Q142 114 190 68" fill="none" stroke="#1D4ED8" stroke-width="2.5" stroke-dasharray="5 4" stroke-linecap="round" />
+            <circle cx="120" cy="128" r="3.2" fill="#D93821" />
+            <circle cx="138" cy="110" r="3.2" fill="#D93821" />
+            <circle cx="156" cy="90" r="3.2" fill="#D93821" />
+            <circle cx="174" cy="72" r="3.2" fill="#D93821" />
+
+            <!-- Right: 1/2 balance beam with brass pegs and harmonic wave -->
+            <rect x="218" y="42" width="24" height="112" rx="6" fill="#E4F6F0" />
+            <line x1="230" y1="42" x2="230" y2="154" stroke="#D93821" stroke-width="2.5" />
+            <path class="hero-wave" d="M196 102 Q208 66 220 102 T244 102 T264 94" fill="none" stroke="#0C8568" stroke-width="2.5" stroke-linecap="round" />
+            <circle cx="230" cy="64" r="6" fill="#E09600" stroke="#141C2B" stroke-width="2" />
+            <circle cx="230" cy="98" r="6" fill="#E09600" stroke="#141C2B" stroke-width="2" />
+            <circle cx="230" cy="132" r="6" fill="#E09600" stroke="#141C2B" stroke-width="2" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CHAPTER 1: WOODEN PRIME BLOCKS + 2-30 SIEVE TRAY
+         ========================================================= -->
+    <section id="ch1" class="chapter-section" aria-labelledby="ch1-heading">
+      <div class="chapter-header">
+        <span class="chapter-tag tag-coral">第 1 关</span>
+        <div class="chapter-titles">
+          <h2 id="ch1-heading">拆不散的数字积木</h2>
+          <p class="chapter-sub">能排成多行多列整齐长方形的数叫<strong>合数</strong>；怎么排都会多出零头、只能排成孤零零一长排的数叫<strong>质数</strong>。</p>
+        </div>
+      </div>
+
+      <div class="workbench-container">
+        <div class="ch1-grid">
+          <!-- Left: Wooden Block Workbench -->
+          <div class="instrument-panel">
+            <div class="nameplate">
+              <div class="nameplate-left">
+                <span class="plate-chip">实验台 01</span>
+                <h3>木块分队桌</h3>
+              </div>
+              <div class="telemetry-pill mono" id="ch1-readout">当前数字：7 · 试排 2 行</div>
+            </div>
+
+            <div class="panel-body">
+              <div class="controls-row" role="group" aria-label="选择要排的行数">
+                <span class="control-prefix">试试排成：</span>
+                <div class="btn-group" id="ch1-row-buttons">
+                  <button type="button" class="btn btn-sm" data-rows="1">1 行</button>
+                  <button type="button" class="btn btn-sm is-active" data-rows="2">2 行</button>
+                  <button type="button" class="btn btn-sm" data-rows="3">3 行</button>
+                  <button type="button" class="btn btn-sm" data-rows="4">4 行</button>
+                  <button type="button" class="btn btn-sm" data-rows="5">5 行</button>
+                  <button type="button" class="btn btn-sm" data-rows="6">6 行</button>
+                </div>
+                <button type="button" class="btn btn-sm btn-marigold" id="ch1-auto-test">自动全部试一遍</button>
+              </div>
+
+              <div class="ch1-status-bar">
+                <div class="status-stamp stamp-coral" id="ch1-stamp" role="status">
+                  排成 2 行，每行 3 块，还多出 1 块！再换别的行数试试
+                </div>
+                <p class="ch1-alt-hint" id="ch1-alt-hint"></p>
+              </div>
+
+              <div class="block-stage" id="ch1-stage" aria-label="木块排列舞台">
+                <!-- Populated dynamically by app.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Interactive 2-30 Sieve Tray -->
+          <div class="instrument-panel">
+            <div class="nameplate">
+              <div class="nameplate-left">
+                <span class="plate-chip">寻宝盘</span>
+                <h3>2–30 质数寻宝盘</h3>
+              </div>
+              <div class="telemetry-pill mono" id="ch1-sieve-count">已盖掉合数：0 / 19</div>
+            </div>
+
+            <div class="panel-body">
+              <p class="tray-hint">点任意数字放到左侧木块桌上试一试，或者用下方“倍数印章”把合数一块块盖掉。</p>
+
+              <div class="sieve-grid" id="ch1-sieve-grid" role="group" aria-label="数字 1 到 30 选择盘">
+                <!-- 1..30 tiles built by app.js -->
+              </div>
+
+              <div class="sieve-tools" role="group" aria-label="倍数印章工具">
+                <button type="button" class="btn btn-sm stamp-btn" data-sieve="2">盖掉 2 的倍数</button>
+                <button type="button" class="btn btn-sm stamp-btn" data-sieve="3">盖掉 3 的倍数</button>
+                <button type="button" class="btn btn-sm stamp-btn" data-sieve="5">盖掉 5 的倍数</button>
+                <button type="button" class="btn btn-sm btn-ghost" id="ch1-sieve-reset">重置印章</button>
+              </div>
+
+              <div class="sieve-complete-note" id="ch1-sieve-note" hidden>
+                ✓ 三步筛完！剩下的 10 个带星数字（2, 3, 5, 7, 11, 13, 17, 19, 23, 29）就是 30 以内的全部质数。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="discovery-note" id="ch1-note">
+        <span class="note-badge">探索发现</span>
+        <p id="ch1-note-text">2、3、5、7、11、13……这些“拆不散的积木”藏在所有数字里。它们什么时候冒出来，看起来毫无规律。下一关，我们把它们叠成楼梯看看。</p>
+      </aside>
+    </section>
+
+    <!-- =========================================================
+         CHAPTER 2: PRIME STAIRCASE vs SMOOTH RIEMANN SLIDE
+         ========================================================= -->
+    <section id="ch2" class="chapter-section" aria-labelledby="ch2-heading">
+      <div class="chapter-header">
+        <span class="chapter-tag tag-cobalt">第 2 关</span>
+        <div class="chapter-titles">
+          <h2 id="ch2-heading">近看像乱走，远看像滑梯</h2>
+          <p class="chapter-sub">从 1 往前走，每遇到 1 个质数就往上走 1 级台阶，画出<strong>质数楼梯 π(x)</strong>。把望远镜拉远，乱糟糟的台阶会紧紧贴住一条蓝色光滑滑梯 <strong>R(x)</strong>。</p>
+        </div>
+      </div>
+
+      <div class="instrument-panel">
+        <div class="nameplate">
+          <div class="nameplate-left">
+            <span class="plate-chip">实验台 02</span>
+            <h3>质数楼梯望远镜</h3>
+          </div>
+          <div class="telemetry-strip mono" aria-label="探针实时读数">
+            <span class="tele-item">位置 x = <strong id="ch2-probe-x">23</strong></span>
+            <span class="tele-item">质数楼梯：<strong id="ch2-probe-pi">9</strong> 级</span>
+            <span class="tele-item">蓝色滑梯：<strong id="ch2-probe-r">8.3</strong> 级</span>
+            <span class="tele-item">相差：<strong id="ch2-probe-diff">0.7</strong> 级</span>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="ch2-controls">
+            <div class="controls-row" role="group" aria-label="望远镜视野快捷档位">
+              <span class="control-prefix">望远镜视野：</span>
+              <div class="btn-group" id="ch2-zoom-presets">
+                <button type="button" class="btn btn-sm is-active" data-xmax="30">近看 1–30</button>
+                <button type="button" class="btn btn-sm" data-xmax="100">中距 1–100</button>
+                <button type="button" class="btn btn-sm" data-xmax="500">拉远 1–500</button>
+                <button type="button" class="btn btn-sm" data-xmax="2000">高空 1–2000</button>
+              </div>
+              <button
+                type="button"
+                id="ch2-slide-switch"
+                class="sound-switch inline-switch"
+                role="switch"
+                aria-checked="true"
+              >
+                <span class="switch-text">显示蓝色滑梯 R(x)</span>
+                <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+              </button>
+            </div>
+
+            <div class="sliders-pair">
+              <div class="slider-field">
+                <div class="slider-head">
+                  <label for="ch2-zoom-slider">连续变焦视野</label>
+                  <span class="mono slider-val" id="ch2-zoom-val">1 – 30</span>
+                </div>
+                <input
+                  type="range"
+                  id="ch2-zoom-slider"
+                  class="tactile-slider"
+                  min="0"
+                  max="1000"
+                  step="1"
+                  value="88"
+                >
+              </div>
+
+              <div class="slider-field">
+                <div class="slider-head">
+                  <label for="ch2-probe-slider">探险脚印位置 x（也可在图上悬停或拖动）</label>
+                  <span class="mono slider-val" id="ch2-probe-val">x = 23</span>
+                </div>
+                <input
+                  type="range"
+                  id="ch2-probe-slider"
+                  class="tactile-slider slider-coral"
+                  min="2"
+                  max="30"
+                  step="1"
+                  value="23"
+                >
+              </div>
+            </div>
+          </div>
+
+          <figure class="canvas-figure">
+            <div class="canvas-wrap ch2-canvas-wrap">
+              <canvas id="ch2-canvas" width="900" height="390"></canvas>
+            </div>
+            <figcaption id="ch2-caption">
+              黑色实线为真实质数楼梯 π(x)，钴蓝色虚线为黎曼光滑滑梯 R(x)。当前视野 1–30，在 x = 23 处共有 9 个质数。
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <aside class="discovery-note">
+        <span class="note-badge">探索发现</span>
+        <p id="ch2-note-text">凑近看，质数楼梯走得忽快忽慢：11 和 13 刚连爬两级，23 到 29 之间却平平地空了 5 格。试着点上面的“拉远 1–500”看看！</p>
+      </aside>
+    </section>
+
+    <!-- =========================================================
+         CHAPTER 3: ADDING RIEMANN WAVES STEP BY STEP (DEFAULT K=1)
+         ========================================================= -->
+    <section id="ch3" class="chapter-section" aria-labelledby="ch3-heading">
+      <div class="chapter-header">
+        <span class="chapter-tag tag-marigold">第 3 关</span>
+        <div class="chapter-titles">
+          <h2 id="ch3-heading">把波浪加进滑梯，变出真楼梯</h2>
+          <p class="chapter-sub">往光滑滑梯上逐条叠加来自黎曼零点的纯正波浪，光溜溜的斜坡就会被一条条“雕”出棱角分明的质数台阶。</p>
+        </div>
+      </div>
+
+      <div class="instrument-panel">
+        <div class="nameplate">
+          <div class="nameplate-left">
+            <span class="plate-chip">实验台 03</span>
+            <h3>质数波浪合成器</h3>
+          </div>
+          <div class="ch3-telemetry" aria-label="波浪叠加实时仪表">
+            <span class="tele-pill mono">波浪：<strong id="ch3-k-badge">1 / 30</strong> 条</span>
+            <span class="tele-pill mono">最新音高：<strong id="ch3-gamma-badge">t = 14.13</strong></span>
+            <span class="tele-pill tele-fit mono">
+              <span>贴合度：<strong id="ch3-fit-badge">55%</strong></span>
+              <span class="fit-bar" aria-hidden="true"><span class="fit-fill" id="ch3-fit-fill"></span></span>
+            </span>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="ch3-controls">
+            <div class="controls-row">
+              <button type="button" class="btn btn-primary" id="ch3-play-btn">▶ 逐条叠加</button>
+              <div class="btn-group" id="ch3-presets" role="group" aria-label="波浪数量快捷档位">
+                <button type="button" class="btn btn-sm" data-k="0">0 条（纯滑梯）</button>
+                <button type="button" class="btn btn-sm is-active" data-k="1">1 条</button>
+                <button type="button" class="btn btn-sm" data-k="5">5 条</button>
+                <button type="button" class="btn btn-sm" data-k="15">15 条</button>
+                <button type="button" class="btn btn-sm" data-k="30">30 条（大合唱）</button>
+              </div>
+              <button
+                type="button"
+                id="ch3-sound-switch"
+                class="sound-switch inline-switch"
+                role="switch"
+                aria-checked="false"
+              >
+                <span class="switch-icon" aria-hidden="true">♪</span>
+                <span class="switch-text">听波浪音符</span>
+                <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+              </button>
+            </div>
+
+            <div class="slider-field">
+              <div class="slider-head">
+                <label for="ch3-k-slider">叠加的波浪数量 K（从 0 条滑到 30 条）</label>
+                <span class="mono slider-val" id="ch3-k-val">1 条波浪</span>
+              </div>
+              <input
+                type="range"
+                id="ch3-k-slider"
+                class="tactile-slider"
+                min="0"
+                max="30"
+                step="1"
+                value="1"
+              >
+            </div>
+          </div>
+
+          <!-- Dual stacked canvases: Main synthesis + Solo wave ribbon -->
+          <figure class="canvas-figure">
+            <div class="canvas-wrap ch3-main-wrap">
+              <canvas id="ch3-main-canvas" width="900" height="300"></canvas>
+            </div>
+            <figcaption id="ch3-main-caption">
+              细黑阶梯为真实质数楼梯 π(x)，淡蓝虚线为纯光滑滑梯 R(x)，粗彩色实线为叠加 1 条波浪后的合成曲线。
+            </figcaption>
+          </figure>
+
+          <div class="solo-wave-box">
+            <div class="solo-wave-head">
+              <h3 id="ch3-solo-title">单独看看第 1 条波浪（音高刻度 t = 14.13）— 刻度越大，波浪抖得越密</h3>
+              <span class="solo-tip">点下方任意音栓可单独试看</span>
+            </div>
+            <figure class="canvas-figure solo-figure">
+              <div class="canvas-wrap ch3-solo-wrap">
+                <canvas id="ch3-solo-canvas" width="900" height="112"></canvas>
+              </div>
+              <figcaption class="visually-hidden" id="ch3-solo-caption">
+                当前单独展示第 1 条波浪的形状，音高刻度 t = 14.13。
+              </figcaption>
+            </figure>
+
+            <div class="peg-keyboard" id="ch3-pegs" role="group" aria-label="30 条波浪音栓选择栏">
+              <!-- 30 clickable mini pegs built by app.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="discovery-note">
+        <span class="note-badge">探索发现</span>
+        <p id="ch3-note-text">才加了 1 条波浪，光滑滑梯已经开始微微起伏了。点一下“▶ 逐条叠加”或把滑块向右拉到 30，看看奇迹怎么发生。</p>
+      </aside>
+    </section>
+
+    <!-- =========================================================
+         CHAPTER 4: THE 1/2 BALANCE LINE (CENTERPIECE INTERACTIVE)
+         ========================================================= -->
+    <section id="ch4" class="chapter-section" aria-labelledby="ch4-heading">
+      <div class="chapter-header">
+        <span class="chapter-tag tag-emerald">第 4 关 · 核心实验</span>
+        <div class="chapter-titles">
+          <h2 id="ch4-heading">1/2 平衡线：黎曼猜想的秘密</h2>
+          <p class="chapter-sub">每一条波浪背后都有一枚“指挥小圆点”（黎曼零点）：<strong>上下高度 t</strong> 决定波浪抖得多快，<strong>左右位置 σ</strong> 决定波浪长得多大。亲手抓起一枚圆点往左或往右拖离 <strong>1/2 平衡线</strong>，看看右侧示波纸会发生什么！</p>
+        </div>
+      </div>
+
+      <div class="workbench-container">
+        <div class="ch4-grid">
+          <!-- Left: 2D Interactive Zero Drag Board + Synced Keyboard Controls -->
+          <div class="instrument-panel">
+            <div class="nameplate nameplate-nowrap">
+              <div class="nameplate-left">
+                <span class="plate-chip">平衡琴板</span>
+                <h3>零点 #1–#6</h3>
+              </div>
+              <div class="telemetry-pill mono" id="ch4-pin-readout">#1 · σ=0.50 · t=14.13</div>
+            </div>
+
+            <div class="panel-body">
+              <figure class="canvas-figure">
+                <div class="canvas-wrap ch4-board-wrap">
+                  <canvas id="ch4-board-canvas" width="440" height="365"></canvas>
+                </div>
+                <figcaption id="ch4-board-caption">
+                  2D 零点平衡琴板：中央竖线是 1/2 平衡线，6 枚黄铜圆钮可以上下左右拖动；偏离 1/2 线时，对面 1 − σ 处会出现虚线镜像伙伴。
+                </figcaption>
+              </figure>
+
+              <!-- Synced keyboard-accessible controls below the 2D drag board -->
+              <div class="ch4-control-tray">
+                <div class="pin-selector-row" role="group" aria-label="选择要调整的零点">
+                  <span class="control-prefix">选中零点：</span>
+                  <div class="btn-group" id="ch4-pin-buttons">
+                    <button type="button" class="btn btn-xs is-active" data-pin="0">#1</button>
+                    <button type="button" class="btn btn-xs" data-pin="1">#2</button>
+                    <button type="button" class="btn btn-xs" data-pin="2">#3</button>
+                    <button type="button" class="btn btn-xs" data-pin="3">#4</button>
+                    <button type="button" class="btn btn-xs" data-pin="4">#5</button>
+                    <button type="button" class="btn btn-xs" data-pin="5">#6</button>
+                  </div>
+                </div>
+
+                <div class="sliders-pair compact-pair">
+                  <div class="slider-field">
+                    <div class="slider-head">
+                      <label for="ch4-sigma-slider">左右位置 σ（中间 0.50 为平衡线）</label>
+                      <span class="mono slider-val" id="ch4-sigma-val">0.50</span>
+                    </div>
+                    <input
+                      type="range"
+                      id="ch4-sigma-slider"
+                      class="tactile-slider slider-coral"
+                      min="0.06"
+                      max="0.94"
+                      step="0.01"
+                      value="0.50"
+                    >
+                  </div>
+
+                  <div class="slider-field">
+                    <div class="slider-head">
+                      <label for="ch4-gamma-slider">上下音高 t（波浪快慢）</label>
+                      <span class="mono slider-val" id="ch4-gamma-val">14.13</span>
+                    </div>
+                    <input
+                      type="range"
+                      id="ch4-gamma-slider"
+                      class="tactile-slider"
+                      min="11"
+                      max="43"
+                      step="0.1"
+                      value="14.13"
+                    >
+                  </div>
+                </div>
+
+                <div class="ch4-demo-actions" role="group" aria-label="一键演示操作">
+                  <button type="button" class="btn btn-sm btn-coral-outline" id="ch4-demo-right">往右拖偏试试</button>
+                  <button type="button" class="btn btn-sm btn-coral-outline" id="ch4-demo-left">往左拖偏试试</button>
+                  <button type="button" class="btn btn-sm btn-emerald" id="ch4-demo-reset">全部一键归位</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Dual Live Oscilloscope -->
+          <div class="instrument-panel">
+            <div class="nameplate">
+              <div class="nameplate-left">
+                <span class="plate-chip">双联示波纸</span>
+                <h3>波浪稳不稳？立刻看结果</h3>
+              </div>
+              <div class="telemetry-pill mono" id="ch4-ratio-pill">轨道占比：57%</div>
+            </div>
+
+            <div class="panel-body ch4-scope-body">
+              <div class="balance-banner is-balanced" id="ch4-balance-banner" aria-live="polite">
+                <span class="banner-badge" id="ch4-banner-badge">✓ 平衡稳住</span>
+                <p id="ch4-banner-msg">6 个零点都站在 1/2 线上，波浪稳稳守在绿色安全轨道里。</p>
+              </div>
+
+              <!-- Top Oscilloscope: Fluctuation Wave vs 1/2 Safe Corridor -->
+              <div class="scope-block">
+                <div class="scope-subhead">
+                  <h3>偏差浪潮放大镜（x = 2 到 500）</h3>
+                  <span class="scope-legend">
+                    <span class="leg-chip leg-emerald">斜线区：1/2 安全轨道</span>
+                    <span class="leg-chip leg-ink">细黑线：真实质数偏差</span>
+                  </span>
+                </div>
+                <figure class="canvas-figure">
+                  <div class="canvas-wrap ch4-wave-wrap">
+                    <canvas id="ch4-wave-canvas" width="600" height="215"></canvas>
+                  </div>
+                  <figcaption class="visually-hidden" id="ch4-wave-caption">
+                    偏差浪潮示波图：当前 6 个零点都在 1/2 平衡线上，合成波浪保持在绿色安全轨道内部。
+                  </figcaption>
+                </figure>
+              </div>
+
+              <!-- Bottom Oscilloscope: Prime Staircase Fit -->
+              <div class="scope-block">
+                <div class="scope-subhead">
+                  <h3 id="ch4-stair-title">质数楼梯对比（x = 2 到 120）</h3>
+                  <div class="btn-group" id="ch4-stair-range" role="group" aria-label="楼梯对比显示范围">
+                    <button type="button" class="btn btn-xs is-active" data-range="120">看 120</button>
+                    <button type="button" class="btn btn-xs" data-range="300">看 300</button>
+                  </div>
+                </div>
+                <figure class="canvas-figure">
+                  <div class="canvas-wrap ch4-stair-wrap">
+                    <canvas id="ch4-stair-canvas" width="600" height="190"></canvas>
+                  </div>
+                  <figcaption class="visually-hidden" id="ch4-stair-caption">
+                    质数楼梯对比图：黑色阶梯为真实质数楼梯，彩色曲线为当前零点合成的预测曲线。
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Museum Plaque Cards -->
+      <div class="plaque-grid">
+        <article class="plaque-card plaque-emerald">
+          <h3>黎曼猜想一句话</h3>
+          <p>所有控制质数波浪的非平凡零点，全都整整齐齐排在 <strong>1/2 这条平衡线</strong>上，一个都不会偏。哪怕往左偏一点，1/2 线就像一面镜子，会在右边照出一个对称的镜像伙伴，照样把波浪越推越大。</p>
+        </article>
+
+        <article class="plaque-card plaque-cobalt">
+          <h3>为什么查了 12.36 万亿个还不算证明？</h3>
+          <p>2021 年，数学家 Platt 和 Trudgian 用计算机严格检验了前 <strong>12.36 万亿</strong>个零点，它们全都站在 1/2 线上，一个反例也没发现。但零点有无穷多个，就像天上数不完的弹珠。计算机数不到“无穷大”，所以人类需要一段严密的逻辑推理，一次管住所有零点。</p>
+        </article>
+      </div>
+
+      <!-- Collapsible Formal Math Corner (no h2/h3 inside summary) -->
+      <details class="math-corner">
+        <summary>想看数学家在论文里怎么写？点这里展开对照</summary>
+        <div class="math-corner-body">
+          <p>我们在实验台上用的通俗名字，和大学数学课本里的正式记号一一对应：</p>
+          <ul>
+            <li>零点的<strong>左右位置 σ</strong> → 叫作复数 s 的“实部”，写作 <code class="mono">Re(s)</code>。</li>
+            <li>零点的<strong>上下高度 t</strong> → 叫作复数 s 的“虚部”，写作 <code class="mono">Im(s)</code>。</li>
+            <li>正中间的 <strong>1/2 平衡线</strong> → 叫作“临界线”，写作 <code class="mono">Re(s) = 1/2</code>。</li>
+            <li><strong>黎曼猜想的正式表述</strong>：黎曼 ζ 函数的所有非平凡零点，都满足 <code class="mono">Re(s) = 1/2</code>。</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- =========================================================
+         CHAPTER 5: 3 STAMP-CARD MINI-CHECKS + $1M LEDGER
+         ========================================================= -->
+    <section id="ch5" class="chapter-section" aria-labelledby="ch5-heading">
+      <div class="chapter-header">
+        <span class="chapter-tag tag-coral">第 5 关</span>
+        <div class="chapter-titles">
+          <h2 id="ch5-heading">小侦探盖章挑战与百万悬赏</h2>
+          <p class="chapter-sub">用刚刚做过的实验回答 3 张小考题，集齐 3 枚翠绿通关印章，再看看为什么全世界的数学家都在等这道题的答案。</p>
+        </div>
+      </div>
+
+      <!-- Part A: 3 Interactive Stamp-Card Mini-Checks -->
+      <div class="instrument-panel quiz-panel">
+        <div class="nameplate">
+          <div class="nameplate-left">
+            <span class="plate-chip">盖章挑战</span>
+            <h3>小侦探三题检验台</h3>
+          </div>
+          <div class="telemetry-pill mono" id="ch5-score-pill">已收集印章：0 / 3</div>
+        </div>
+
+        <div class="panel-body">
+          <div class="quiz-grid" id="ch5-quiz-grid">
+            <!-- Card 1 -->
+            <article class="stamp-card" data-question="0">
+              <div class="card-top">
+                <span class="postage-num mono">题 01</span>
+                <span class="earned-stamp" aria-hidden="true">✓ 答对了</span>
+              </div>
+              <h3 class="quiz-q">下面哪个数是“拆不散的数字积木（质数）”？</h3>
+              <div class="quiz-options" role="group" aria-label="第 1 题选项">
+                <button type="button" class="btn quiz-opt" data-choice="0">A. 15（能排成 3 × 5）</button>
+                <button type="button" class="btn quiz-opt" data-choice="1">B. 17（只能排成 1 × 17）</button>
+                <button type="button" class="btn quiz-opt" data-choice="2">C. 21（能排成 3 × 7）</button>
+              </div>
+              <p class="quiz-feedback" aria-live="polite"></p>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="stamp-card" data-question="1">
+              <div class="card-top">
+                <span class="postage-num mono">题 02</span>
+                <span class="earned-stamp" aria-hidden="true">✓ 答对了</span>
+              </div>
+              <h3 class="quiz-q">在黎曼的质数音乐里，把零点往上拖（高度 t 变大），波浪会怎么变？</h3>
+              <div class="quiz-options" role="group" aria-label="第 2 题选项">
+                <button type="button" class="btn quiz-opt" data-choice="0">A. 波浪抖得更密、音调更高</button>
+                <button type="button" class="btn quiz-opt" data-choice="1">B. 波浪会立刻失控冲破轨道</button>
+                <button type="button" class="btn quiz-opt" data-choice="2">C. 质数楼梯会变成一条直线</button>
+              </div>
+              <p class="quiz-feedback" aria-live="polite"></p>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="stamp-card" data-question="2">
+              <div class="card-top">
+                <span class="postage-num mono">题 03</span>
+                <span class="earned-stamp" aria-hidden="true">✓ 答对了</span>
+              </div>
+              <h3 class="quiz-q">如果把一个零点往左边拖到 σ = 0.2，质数波浪会发生什么？</h3>
+              <div class="quiz-options" role="group" aria-label="第 3 题选项">
+                <button type="button" class="btn quiz-opt" data-choice="0">A. 变小了，波浪更听话</button>
+                <button type="button" class="btn quiz-opt" data-choice="1">B. 右边 0.8 会冒出镜像伙伴，波浪照样失控放大</button>
+                <button type="button" class="btn quiz-opt" data-choice="2">C. 什么变化也没有</button>
+              </div>
+              <p class="quiz-feedback" aria-live="polite"></p>
+            </article>
+          </div>
+
+          <div class="completion-banner" id="ch5-completion" hidden aria-live="polite">
+            <div class="completion-text">
+              <span class="completion-star" aria-hidden="true">★</span>
+              <strong>3 / 3 全部通关！</strong>
+              <span>你已经看懂了百年数学谜题“黎曼猜想”的核心秘密。</span>
+            </div>
+            <button type="button" class="btn btn-sm" id="ch5-reset-quiz">再玩一遍挑战</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Part B: 3-Row Editorial Ledger on the $1M Millennium Prize -->
+      <div class="ledger-panel">
+        <div class="ledger-head">
+          <h3>为什么这个猜想值 100 万美元？</h3>
+          <span class="ledger-tag mono">1859 — 至今</span>
+        </div>
+
+        <ol class="ledger-list">
+          <li class="ledger-row">
+            <span class="ledger-num mono">01</span>
+            <div class="ledger-content">
+              <strong>克雷数学研究所悬赏 100 万美元</strong>
+              <p>德国数学家黎曼在 1859 年写下这个猜想，2000 年它被列为七大“千禧年大奖难题”之一。160 多年过去了，谁能给出严密无误的证明，或者找到哪怕一个偏离 1/2 线的反例，就能领走 100 万美元奖金。</p>
+            </div>
+          </li>
+          <li class="ledger-row">
+            <span class="ledger-num mono">02</span>
+            <div class="ledger-content">
+              <strong>上千条数学结论在等它点头</strong>
+              <p>数论里有很多关于“质数分布最多会偏离光滑滑梯多少”的定理，开头都写着“假设黎曼猜想成立……”。只要它被证明，这一整排结论就会同时变成确定的事实。</p>
+            </div>
+          </li>
+          <li class="ledger-row">
+            <span class="ledger-num mono">03</span>
+            <div class="ledger-content">
+              <strong>它是数字世界的一张底层地图</strong>
+              <p>平时网购付款、发加密消息，背后都在靠超大质数把信息锁起来。摸清质数的节奏，并不能瞬间解开这些密码锁，但能帮数学家更透彻地看清数字世界最底层的规律。</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>质数音乐盒 · 黎曼猜想互动游乐场 — 全部曲线由真实质数筛法与黎曼显式公式前 30 个非平凡零点实时计算。</p>
+      <a href="#top" class="footer-top-link">回到第 1 关顶部 ↑</a>
+    </div>
+  </footer>
+
+  <!-- Single polite live region for subtle interaction announcements -->
+  <div id="live-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

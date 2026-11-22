@@ -1,0 +1,23 @@
+{
+  "site": {
+    "title": "agent-llm-case · 互动案例展厅",
+    "subtitle": "收集可以在浏览器里动手玩的 AI 与数学互动演示。每个案例保留完整源码，点开链接就能操作。",
+    "repoUrl": "https://github.com/itwanger/agent-llm-case",
+    "author": "沉默王二"
+  },
+  "cases": [
+    {
+      "slug": "riemann-hypothesis",
+      "title": "质数里藏着一首歌 · 黎曼猜想互动游乐场",
+      "shortTitle": "黎曼猜想互动游乐场",
+      "summary": "给 9–12 岁小探索家和好奇大人的五关互动实验：拆数字积木、用望远镜看质数楼梯、逐条叠加黎曼波浪，再亲手把零点拖离 1/2 平衡线，看看波浪怎样冲破安全轨道。",
+      "category": "数学与科普",
+      "tags": ["互动实验", "Canvas", "零依赖"],
+      "date": "2026-11-22",
+      "source": "what-is-riemann-hypothesis",
+      "entry": "index.html",
+      "mode": "static",
+      "featured": true
+    }
+  ]
+}
