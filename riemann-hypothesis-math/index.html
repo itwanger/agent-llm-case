@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>黎曼猜想：纯数学交互图解 · agent-llm-case</title>
+  <meta name="description" content="去掉实物比喻，按纯数学推导展开黎曼猜想：从素数计数误差 π(x) − Li(x)、欧拉乘积公式到复平面零点与临界线 Re(s) = 1/2 对称性，四组实时计算交互实验。">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link visually-hidden">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <a href="../../" class="back-link">← 案例展厅</a>
+        <span class="header-sep" aria-hidden="true">/</span>
+        <span class="header-title">黎曼猜想 · 纯数学图解</span>
+      </div>
+
+      <nav class="section-nav" aria-label="章节目录">
+        <ol class="nav-list">
+          <li><a href="#m1" class="nav-link" data-sec="m1"><span class="nav-idx mono">01</span><span>素数计数与误差</span></a></li>
+          <li><a href="#m2" class="nav-link" data-sec="m2"><span class="nav-idx mono">02</span><span>欧拉乘积</span></a></li>
+          <li><a href="#m3" class="nav-link" data-sec="m3"><span class="nav-idx mono">03</span><span>复平面与显式公式</span></a></li>
+          <li><a href="#m4" class="nav-link" data-sec="m4"><span class="nav-idx mono">04</span><span>1/2 临界线与猜想</span></a></li>
+        </ol>
+      </nav>
+
+      <a href="../riemann-hypothesis/" class="edition-link">童趣科普版 ↗</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Compact Swiss Monograph Header -->
+    <section id="top" class="mono-hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="hero-kicker mono">ANALYTIC NUMBER THEORY · INTERACTIVE MONOGRAPH</p>
+          <h1>黎曼猜想：从素数计数到临界线 <span class="math-var">Re</span>(<span class="math-var">s</span>) = 1/2</h1>
+          <p class="hero-lead">
+            本页不使用类比故事，按解析数论的原始逻辑链逐段展开：从素数计数函数 <span class="math-var">π</span>(<span class="math-var">x</span>) 的估计误差出发，经欧拉乘积公式进入复平面上的 <span class="math-var">ζ</span>(<span class="math-var">s</span>) 零点与显式公式，最后检验为什么临界线 <span class="math-var">σ</span> = 1/2 决定了素数分布误差的最小增长指数。
+          </p>
+        </div>
+
+        <aside class="logic-chain" aria-label="四步推导总览">
+          <p class="chain-label mono">LOGIC CHAIN</p>
+          <ol class="chain-steps">
+            <li><span class="mono chain-num">01</span><span class="math-inline"><span class="math-var">π</span>(<span class="math-var">x</span>) − Li(<span class="math-var">x</span>) 的增长速度</span></li>
+            <li><span class="mono chain-num">02</span><span class="math-inline"><span class="math-var">ζ</span>(<span class="math-var">s</span>) = ∑ <span class="math-var">n</span><sup>−<span class="math-var">s</span></sup> = ∏ (1 − <span class="math-var">p</span><sup>−<span class="math-var">s</span></sup>)<sup>−1</sup></span></li>
+            <li><span class="mono chain-num">03</span><span class="math-inline"><span class="math-var">π</span>(<span class="math-var">x</span>) ≈ <span class="math-var">R</span>(<span class="math-var">x</span>) + ∑ <span class="math-var">W</span>(<span class="math-var">x</span>; <span class="math-var">ρ</span>)</span></li>
+            <li><span class="mono chain-num">04</span><span class="math-inline">Re(<span class="math-var">ρ</span>) = 1/2 ⇔ 误差为 <span class="math-var">O</span>(√<span class="math-var">x</span> ln <span class="math-var">x</span>)</span></li>
+          </ol>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         MODULE 01: PRIME COUNTING FUNCTION pi(x) & ERROR
+         ========================================================= -->
+    <section id="m1" class="math-section" aria-labelledby="m1-heading">
+      <div class="section-head">
+        <span class="sec-num mono">01</span>
+        <div>
+          <h2 id="m1-heading">素数计数函数 <span class="math-var">π</span>(<span class="math-var">x</span>) 与估计误差</h2>
+          <p class="sec-desc">
+            <span class="math-var">π</span>(<span class="math-var">x</span>) 统计不超过 <span class="math-var">x</span> 的素数个数。高斯与黎曼给出两个核心光滑逼近：对数积分 <span class="math-eq">Li(<span class="math-var">x</span>) = ∫<sub>2</sub><sup><span class="math-var">x</span></sup> d<span class="math-var">t</span> / ln <span class="math-var">t</span></span> 与黎曼函数 <span class="math-var">R</span>(<span class="math-var">x</span>)。核心问题是：当 <span class="math-var">x</span> 增大时，误差 <span class="math-var">π</span>(<span class="math-var">x</span>) − Li(<span class="math-var">x</span>) 增长有多快？
+          </p>
+        </div>
+      </div>
+
+      <div class="figure-plate">
+        <div class="plate-toolbar">
+          <div class="toolbar-group" role="group" aria-label="横轴范围预设">
+            <span class="ctrl-label">区间上限</span>
+            <div class="seg-group" id="m1-range-presets">
+              <button type="button" class="seg-btn" data-xmax="50">x ≤ 50</button>
+              <button type="button" class="seg-btn is-active" data-xmax="200">x ≤ 200</button>
+              <button type="button" class="seg-btn" data-xmax="1000">x ≤ 1000</button>
+              <button type="button" class="seg-btn" data-xmax="5000">x ≤ 5000</button>
+            </div>
+          </div>
+
+          <div class="toolbar-group" role="group" aria-label="曲线显示开关">
+            <button type="button" id="m1-toggle-li" class="toggle-chip is-on" role="switch" aria-checked="true">
+              <span class="chip-swatch swatch-blue" aria-hidden="true"></span>
+              <span>Li(x)</span>
+            </button>
+            <button type="button" id="m1-toggle-r" class="toggle-chip is-on" role="switch" aria-checked="true">
+              <span class="chip-swatch swatch-teal" aria-hidden="true"></span>
+              <span>R(x)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="plate-body">
+          <div class="slider-row">
+            <div class="slider-head">
+              <label for="m1-probe-slider">探测点 <span class="math-var">x</span>（支持在下方两幅图上悬停或拖动同步定位）</label>
+              <span class="mono slider-val" id="m1-probe-label">x = 100</span>
+            </div>
+            <input type="range" id="m1-probe-slider" class="math-slider" min="2" max="200" step="1" value="100">
+          </div>
+
+          <!-- 6-cell live tabular telemetry -->
+          <div class="metric-grid cols-6" aria-label="探测点实时数值">
+            <div class="metric-cell">
+              <span class="metric-label">位置 <span class="math-var">x</span></span>
+              <strong class="metric-val mono" id="m1-out-x">100</strong>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-label">精确值 <span class="math-var">π</span>(<span class="math-var">x</span>)</span>
+              <strong class="metric-val mono" id="m1-out-pi">25</strong>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-label">对数积分 Li(<span class="math-var">x</span>)</span>
+              <strong class="metric-val mono text-blue" id="m1-out-li">29.08</strong>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-label">黎曼函数 <span class="math-var">R</span>(<span class="math-var">x</span>)</span>
+              <strong class="metric-val mono text-teal" id="m1-out-r">25.66</strong>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-label">误差 <span class="math-var">π</span>(<span class="math-var">x</span>) − Li(<span class="math-var">x</span>)</span>
+              <strong class="metric-val mono text-red" id="m1-out-err">−4.08</strong>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-label">相对误差 |<span class="math-var">π</span>−Li|/<span class="math-var">π</span></span>
+              <strong class="metric-val mono" id="m1-out-rel">16.3%</strong>
+            </div>
+          </div>
+
+          <figure class="plot-figure">
+            <div class="plot-subhead">
+              <h3>图 1A · 素数计数函数 <span class="math-var">π</span>(<span class="math-var">x</span>) 与光滑逼近</h3>
+              <span class="plot-legend">
+                <span class="leg-item"><span class="leg-line line-ink"></span>π(x)</span>
+                <span class="leg-item"><span class="leg-line line-blue-dash"></span>Li(x)</span>
+                <span class="leg-item"><span class="leg-line line-teal"></span>R(x)</span>
+              </span>
+            </div>
+            <div class="canvas-frame m1-top-frame">
+              <canvas id="m1-count-canvas" width="960" height="270"></canvas>
+            </div>
+            <figcaption class="visually-hidden" id="m1-top-caption">
+              素数计数函数 π(x) 与 Li(x)、R(x) 在区间 2 到 200 的对比曲线。
+            </figcaption>
+          </figure>
+
+          <figure class="plot-figure plot-spaced">
+            <div class="plot-subhead">
+              <h3>图 1B · 同步残差 <span class="math-var">π</span>(<span class="math-var">x</span>) − Li(<span class="math-var">x</span>) 与 <span class="math-var">π</span>(<span class="math-var">x</span>) − <span class="math-var">R</span>(<span class="math-var">x</span>)（对比 ±√<span class="math-var">x</span> 参考包络）</h3>
+              <span class="plot-legend">
+                <span class="leg-item"><span class="leg-line line-blue"></span>π(x) − Li(x)</span>
+                <span class="leg-item"><span class="leg-line line-teal"></span>π(x) − R(x)</span>
+                <span class="leg-item"><span class="leg-line line-red-dash"></span>±√x</span>
+              </span>
+            </div>
+            <div class="canvas-frame m1-bot-frame">
+              <canvas id="m1-error-canvas" width="960" height="190"></canvas>
+            </div>
+            <figcaption id="m1-bot-caption">
+              随着 x 增大，相对误差持续缩小，但绝对残差仍在零轴上下振荡。要精确刻画这一残差，需要把全部素数放进一个解析函数中。
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         MODULE 02: EULER PRODUCT FORMULA
+         ========================================================= -->
+    <section id="m2" class="math-section" aria-labelledby="m2-heading">
+      <div class="section-head">
+        <span class="sec-num mono">02</span>
+        <div>
+          <h2 id="m2-heading">欧拉乘积公式：全部素数如何编码进 <span class="math-var">ζ</span>(<span class="math-var">s</span>)</h2>
+          <p class="sec-desc">
+            根据算术基本定理，每个大于 1 的正整数都能唯一写成素数幂的乘积。展开等比级数 <span class="math-eq">1/(1 − <span class="math-var">p</span><sup>−<span class="math-var">s</span></sup>) = 1 + <span class="math-var">p</span><sup>−<span class="math-var">s</span></sup> + <span class="math-var">p</span><sup>−2<span class="math-var">s</span></sup> + …</span> 后逐项相乘，所有整数的倒数幂恰好不重不漏地各出现一次。
+          </p>
+        </div>
+      </div>
+
+      <div class="equation-banner" aria-label="欧拉乘积恒等式">
+        <div class="eq-main">
+          <span class="math-var">ζ</span>(<span class="math-var">s</span>)
+          <span class="eq-op">=</span>
+          <span class="eq-big">∑</span><sub class="eq-lim">n=1</sub><sup class="eq-lim">∞</sup>
+          <span class="eq-frac">1 / <span class="math-var">n</span><sup><span class="math-var">s</span></sup></span>
+          <span class="eq-op">=</span>
+          <span class="eq-big">∏</span><sub class="eq-lim">p 素数</sub>
+          <span class="eq-frac">1 / (1 − <span class="math-var">p</span><sup>−<span class="math-var">s</span></sup>)</span>
+        </div>
+        <span class="eq-cond mono">s &gt; 1 时左右两侧和为有限值</span>
+      </div>
+
+      <div class="figure-plate">
+        <div class="plate-toolbar">
+          <div class="toolbar-group" role="group" aria-label="实参数 s 预设">
+            <span class="ctrl-label">参数 <span class="math-var">s</span></span>
+            <div class="seg-group" id="m2-s-presets">
+              <button type="button" class="seg-btn" data-s="1.5">s = 1.5</button>
+              <button type="button" class="seg-btn is-active" data-s="2">s = 2.0</button>
+              <button type="button" class="seg-btn" data-s="3">s = 3.0</button>
+            </div>
+          </div>
+
+          <div class="toolbar-group" role="group" aria-label="素数子集快捷操作">
+            <button type="button" class="seg-btn" id="m2-preset-23">仅选 2 和 3</button>
+            <button type="button" class="seg-btn" id="m2-preset-all">全选前 10 个素数</button>
+            <button type="button" class="seg-btn" id="m2-preset-clear">清空</button>
+          </div>
+        </div>
+
+        <div class="plate-body">
+          <div class="m2-controls-grid">
+            <div class="slider-row">
+              <div class="slider-head">
+                <label for="m2-s-slider">实参数 <span class="math-var">s</span>（1.20 至 4.00）</label>
+                <span class="mono slider-val" id="m2-s-val">s = 2.00</span>
+              </div>
+              <input type="range" id="m2-s-slider" class="math-slider" min="1.2" max="4.0" step="0.05" value="2.0">
+            </div>
+
+            <div class="prime-picker-wrap">
+              <span class="ctrl-label">勾选参与右侧乘积的素数因子 <span class="math-var">p</span> ∈ <span class="math-var">S</span>：</span>
+              <div class="prime-toggles" id="m2-prime-toggles" role="group" aria-label="前 10 个素数开关">
+                <!-- Built dynamically from EULER_PRIMES -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 4-cell live Euler numerical verification -->
+          <div class="metric-grid cols-4" aria-label="欧拉乘积数值对比">
+            <div class="metric-cell">
+              <span class="metric-label">右侧部分乘积 ∏<sub>p∈S</sub> (1 − p<sup>−s</sup>)<sup>−1</sup></span>
+              <strong class="metric-val mono text-blue" id="m2-out-prod">1.500000</strong>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-label">左侧已覆盖项之和 (n ≤ 60)</span>
+              <strong class="metric-val mono text-teal" id="m2-out-sum">1.491032</strong>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-label">精确值 ζ(s) · 占比</span>
+              <strong class="metric-val mono" id="m2-out-zeta">1.644934 (91.2%)</strong>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-label">1–60 中已覆盖整数</span>
+              <strong class="metric-val mono text-teal" id="m2-out-cov">16 / 60</strong>
+            </div>
+          </div>
+
+          <div class="factor-grid-header">
+            <h3>1–60 正整数素因数分解矩阵</h3>
+            <span class="plot-legend">
+              <span class="leg-item"><span class="chip-swatch swatch-teal"></span>全部素因子在 S 中（已展开）</span>
+              <span class="leg-item"><span class="chip-swatch swatch-muted"></span>含未选素因子（标红为缺失因子）</span>
+            </span>
+          </div>
+
+          <div class="factor-grid" id="m2-factor-grid" aria-label="1 到 60 整数素因数分解覆盖状态">
+            <!-- 60 cells populated by app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         MODULE 03: COMPLEX PLANE ZEROS & EXPLICIT FORMULA
+         ========================================================= -->
+    <section id="m3" class="math-section" aria-labelledby="m3-heading">
+      <div class="section-head">
+        <span class="sec-num mono">03</span>
+        <div>
+          <h2 id="m3-heading">复平面零点与黎曼显式公式</h2>
+          <p class="sec-desc">
+            通过解析延拓，<span class="math-var">ζ</span>(<span class="math-var">s</span>) 可扩展到整个复平面 <span class="math-var">s</span> = <span class="math-var">σ</span> + <span class="math-var">it</span>（除去 <span class="math-var">s</span> = 1）：平凡零点位于负偶数 −2, −4, −6, …，非平凡零点全部落在临界带 0 &lt; <span class="math-var">σ</span> &lt; 1 内。黎曼显式公式表明，每个非平凡零点 <span class="math-var">ρ</span> = <span class="math-var">σ</span> + <span class="math-var">it</span> 都向 <span class="math-var">π</span>(<span class="math-var">x</span>) 贡献一个振荡项，频率由虚部 <span class="math-var">t</span>（cos(<span class="math-var">t</span> ln <span class="math-var">x</span>)）决定，振幅增长由实部 <span class="math-var">σ</span>（<span class="math-var">x</span><sup><span class="math-var">σ</span></sup> / ln <span class="math-var">x</span>）决定。
+          </p>
+        </div>
+      </div>
+
+      <div class="workbench-container">
+        <div class="dual-plates">
+          <!-- Sub-panel A: Single zero (sigma, t) parameter lab -->
+          <div class="figure-plate">
+            <div class="plate-head">
+              <div>
+                <span class="plate-kicker mono">PART A · 单零点参数分析</span>
+                <h3>实部 <span class="math-var">σ</span> 与虚部 <span class="math-var">t</span> 对单项振幅和频率的影响</h3>
+              </div>
+              <span class="mono head-pill" id="m3a-rho-pill">ρ = 0.50 + 14.13i</span>
+            </div>
+
+            <div class="plate-body">
+              <div class="toolbar-compact" role="group" aria-label="选取已知零点虚部">
+                <span class="ctrl-label">零点预设</span>
+                <div class="seg-group" id="m3a-presets">
+                  <button type="button" class="seg-btn is-active" data-gamma="14.134725">γ₁ = 14.13</button>
+                  <button type="button" class="seg-btn" data-gamma="21.022040">γ₂ = 21.02</button>
+                  <button type="button" class="seg-btn" data-gamma="32.935062">γ₅ = 32.94</button>
+                </div>
+              </div>
+
+              <div class="sliders-two">
+                <div class="slider-row">
+                  <div class="slider-head">
+                    <label for="m3a-sigma-slider">实部 <span class="math-var">σ</span>（包络 <span class="math-var">x</span><sup><span class="math-var">σ</span></sup>）</label>
+                    <span class="mono slider-val" id="m3a-sigma-val">σ = 0.50</span>
+                  </div>
+                  <input type="range" id="m3a-sigma-slider" class="math-slider slider-red" min="0.20" max="0.90" step="0.01" value="0.50">
+                </div>
+
+                <div class="slider-row">
+                  <div class="slider-head">
+                    <label for="m3a-t-slider">虚部 <span class="math-var">t</span>（频率 cos）</label>
+                    <span class="mono slider-val" id="m3a-t-val">t = 14.13</span>
+                  </div>
+                  <input type="range" id="m3a-t-slider" class="math-slider" min="5" max="50" step="0.1" value="14.13">
+                </div>
+              </div>
+
+              <div class="metric-grid cols-2">
+                <div class="metric-cell">
+                  <span class="metric-label">包络解析式</span>
+                  <strong class="metric-val mono metric-sm" id="m3a-env-formula">±2·x^0.50 / (|ρ|·ln x)</strong>
+                </div>
+                <div class="metric-cell">
+                  <span class="metric-label">在 x = 120 处包络高度</span>
+                  <strong class="metric-val mono metric-sm" id="m3a-env-at120">±0.323</strong>
+                </div>
+              </div>
+
+              <figure class="plot-figure plot-spaced">
+                <div class="canvas-frame m3-frame">
+                  <canvas id="m3-single-canvas" width="520" height="250"></canvas>
+                </div>
+                <figcaption id="m3a-caption">
+                  实线为单项振荡贡献，虚线为精确振幅包络 ±2x^σ/(|ρ|ln x)。提高 σ 会放大右端包络，提高 t 会压缩水平周期。
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <!-- Sub-panel B: Explicit formula K-zero superposition -->
+          <div class="figure-plate">
+            <div class="plate-head">
+              <div>
+                <span class="plate-kicker mono">PART B · 显式公式叠加验证</span>
+                <h3><span class="math-var">π</span><sub><span class="math-var">K</span></sub>(<span class="math-var">x</span>) = <span class="math-var">R</span>(<span class="math-var">x</span>) + ∑<sub><span class="math-var">k</span>=1..<span class="math-var">K</span></sub> <span class="math-var">W</span>(<span class="math-var">x</span>; 1/2, <span class="math-var">γ</span><sub><span class="math-var">k</span></sub>)</h3>
+              </div>
+              <span class="mono head-pill text-teal" id="m3b-mae-pill">MAE = 0.256</span>
+            </div>
+
+            <div class="plate-body">
+              <div class="toolbar-compact">
+                <button type="button" class="action-btn btn-blue" id="m3b-play-btn">▶ 逐项叠加</button>
+                <div class="seg-group" id="m3b-presets" role="group" aria-label="零点对数 K 预设">
+                  <button type="button" class="seg-btn" data-k="0">K = 0</button>
+                  <button type="button" class="seg-btn is-active" data-k="5">K = 5</button>
+                  <button type="button" class="seg-btn" data-k="15">K = 15</button>
+                  <button type="button" class="seg-btn" data-k="30">K = 30</button>
+                </div>
+              </div>
+
+              <div class="slider-row">
+                <div class="slider-head">
+                  <label for="m3b-k-slider">叠加非平凡零点对数 <span class="math-var">K</span>（0 至 30）</label>
+                  <span class="mono slider-val" id="m3b-k-val">K = 5 · γ₅ = 32.94</span>
+                </div>
+                <input type="range" id="m3b-k-slider" class="math-slider" min="0" max="30" step="1" value="5">
+              </div>
+
+              <div class="metric-grid cols-2">
+                <div class="metric-cell">
+                  <span class="metric-label">平均绝对误差 MAE（x ∈ [2, 32]）</span>
+                  <strong class="metric-val mono metric-sm text-teal" id="m3b-mae-val">0.256（K=0 为 0.332）</strong>
+                </div>
+                <div class="metric-cell">
+                  <span class="metric-label">最新加入零点虚部 <span class="math-var">γ</span><sub><span class="math-var">K</span></sub></span>
+                  <strong class="metric-val mono metric-sm" id="m3b-gamma-val">32.935062</strong>
+                </div>
+              </div>
+
+              <figure class="plot-figure plot-spaced">
+                <div class="canvas-frame m3-frame">
+                  <canvas id="m3-sum-canvas" width="520" height="250"></canvas>
+                </div>
+                <figcaption id="m3b-caption">
+                  黑色阶梯为真实 π(x)，浅灰虚线为 R(x)，实线为叠加前 5 对零点后的 π_5(x)。随着 K 增至 30，曲线在每个素数处形成陡峭跃升。
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         MODULE 04: CRITICAL LINE sigma = 1/2 & SYMMETRY
+         ========================================================= -->
+    <section id="m4" class="math-section" aria-labelledby="m4-heading">
+      <div class="section-head">
+        <span class="sec-num mono">04</span>
+        <div>
+          <h2 id="m4-heading">临界线 <span class="math-var">σ</span> = 1/2、对称方程与黎曼猜想</h2>
+          <p class="sec-desc">
+            黎曼函数方程 <span class="math-eq"><span class="math-var">ξ</span>(<span class="math-var">s</span>) = <span class="math-var">ξ</span>(1 − <span class="math-var">s</span>)</span> 强制所有非平凡零点关于直线 <span class="math-var">σ</span> = 1/2 对称。若某个零点偏离 <span class="math-var">σ</span> = 1/2，它与对称点 <span class="math-var">1</span> − <span class="math-var">ρ̄</span> = (1 − <span class="math-var">σ</span>) + <span class="math-var">it</span> 必成对出现，其主导增长指数 <span class="math-eq">Θ = max(<span class="math-var">σ</span>, 1 − <span class="math-var">σ</span>) ≥ 1/2</span>。只有当全部零点满足 <span class="math-var">σ</span> = 1/2 时，主导指数才取得唯一最小值 1/2。
+          </p>
+        </div>
+      </div>
+
+      <div class="workbench-container">
+        <div class="m4-plates">
+          <!-- Left: Interactive 2D Complex Plane Critical Strip -->
+          <div class="figure-plate">
+            <div class="plate-head plate-head-nowrap">
+              <div>
+                <span class="plate-kicker mono">CRITICAL STRIP · 0 &lt; σ &lt; 1</span>
+                <h3>复平面零点 <span class="math-var">ρ</span><sub>1</sub> … <span class="math-var">ρ</span><sub>6</sub> 交互拖动</h3>
+              </div>
+              <span class="mono head-pill" id="m4-pin-pill">ρ₁ = 0.50 + 14.13i</span>
+            </div>
+
+            <div class="plate-body">
+              <figure class="plot-figure">
+                <div class="canvas-frame m4-strip-frame">
+                  <canvas id="m4-strip-canvas" width="440" height="310"></canvas>
+                </div>
+                <figcaption id="m4-strip-caption">
+                  拖动任意零点离开垂直临界线 σ = 1/2，对称点 (1 − σ, t) 将按函数方程 ξ(s) = ξ(1 − s) 自动出现。
+                </figcaption>
+              </figure>
+
+              <div class="m4-controls">
+                <div class="toolbar-compact" role="group" aria-label="选择零点">
+                  <span class="ctrl-label">选定零点</span>
+                  <div class="seg-group" id="m4-pin-buttons">
+                    <button type="button" class="seg-btn is-active" data-pin="0">ρ₁</button>
+                    <button type="button" class="seg-btn" data-pin="1">ρ₂</button>
+                    <button type="button" class="seg-btn" data-pin="2">ρ₃</button>
+                    <button type="button" class="seg-btn" data-pin="3">ρ₄</button>
+                    <button type="button" class="seg-btn" data-pin="4">ρ₅</button>
+                    <button type="button" class="seg-btn" data-pin="5">ρ₆</button>
+                  </div>
+                </div>
+
+                <div class="sliders-two">
+                  <div class="slider-row">
+                    <div class="slider-head">
+                      <label for="m4-sigma-slider">实部 <span class="math-var">σ</span> = Re(<span class="math-var">ρ</span>)</label>
+                      <span class="mono slider-val" id="m4-sigma-val">0.50</span>
+                    </div>
+                    <input type="range" id="m4-sigma-slider" class="math-slider slider-red" min="0.06" max="0.94" step="0.01" value="0.50">
+                  </div>
+
+                  <div class="slider-row">
+                    <div class="slider-head">
+                      <label for="m4-gamma-slider">虚部 <span class="math-var">t</span> = Im(<span class="math-var">ρ</span>)</label>
+                      <span class="mono slider-val" id="m4-gamma-val">14.13</span>
+                    </div>
+                    <input type="range" id="m4-gamma-slider" class="math-slider" min="11" max="43" step="0.1" value="14.13">
+                  </div>
+                </div>
+
+                <div class="m4-quick-actions" role="group" aria-label="快捷对称测试">
+                  <button type="button" class="action-btn btn-red-outline" id="m4-test-right">设 σ = 0.85</button>
+                  <button type="button" class="action-btn btn-red-outline" id="m4-test-left">设 σ = 0.15</button>
+                  <button type="button" class="action-btn btn-teal" id="m4-test-reset">重置全部到 σ = 0.50</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Live Error Bound vs sigma=1/2 Reference -->
+          <div class="figure-plate">
+            <div class="plate-head plate-head-nowrap">
+              <div>
+                <span class="plate-kicker mono">EXPLICIT ERROR RESPONSE · x ∈ [2, 500]</span>
+                <h3>误差项 <span class="math-var">π</span><sub><span class="math-var">K</span></sub>(<span class="math-var">x</span>) − <span class="math-var">R</span>(<span class="math-var">x</span>) 与 <span class="math-var">σ</span> = 1/2 参考界</h3>
+              </div>
+              <span class="mono status-badge is-bounded" id="m4-status-badge">界内 · σ = 1/2</span>
+            </div>
+
+            <div class="plate-body">
+              <div class="metric-grid cols-3" aria-live="polite">
+                <div class="metric-cell">
+                  <span class="metric-label">主导指数 Θ = max(σ, 1 − σ)</span>
+                  <strong class="metric-val mono text-teal" id="m4-out-theta">0.50</strong>
+                </div>
+                <div class="metric-cell">
+                  <span class="metric-label">误差增长量级</span>
+                  <strong class="metric-val mono metric-sm" id="m4-out-order">O(x^0.50 · ln x)</strong>
+                </div>
+                <div class="metric-cell">
+                  <span class="metric-label">峰值 / 边界比值</span>
+                  <strong class="metric-val mono text-teal" id="m4-out-ratio">0.57×（界内）</strong>
+                </div>
+              </div>
+
+              <p class="m4-diagnostic" id="m4-diagnostic" aria-live="polite">
+                全部 6 个可调零点均满足 Re(ρ) = 0.50，主导指数 Θ = 0.50 处于最小值，误差曲线位于 ±(0.60 + 0.72√x / ln x) 参考界内部。
+              </p>
+
+              <figure class="plot-figure">
+                <div class="canvas-frame m4-error-frame">
+                  <canvas id="m4-error-canvas" width="580" height="310"></canvas>
+                </div>
+                <figcaption id="m4-error-caption">
+                  浅青色斜线区域为 σ = 1/2 参考界 ±(0.60 + 0.72√x / ln x)，细黑线为真实 π(x) − R(x)，粗彩色线为当前 30 对零点合成误差。
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Crisp Mathematical Summary Card -->
+      <section class="summary-card" aria-label="黎曼猜想核心数学结论">
+        <div class="summary-head">
+          <h3>核心数学结论与当前研究进展</h3>
+          <span class="mono summary-year">1859 — PRESENT</span>
+        </div>
+        <dl class="summary-rows">
+          <div class="summary-row">
+            <dt>黎曼猜想陈述 (1859)</dt>
+            <dd>黎曼 <span class="math-var">ζ</span> 函数的全部非平凡零点都满足 <span class="math-eq">Re(<span class="math-var">s</span>) = 1/2</span>，即全部位于复平面的临界线上。</dd>
+          </div>
+          <div class="summary-row">
+            <dt>等价误差界 (von Koch, 1901)</dt>
+            <dd>黎曼猜想成立，当且仅当素数计数误差满足 <span class="math-eq">|<span class="math-var">π</span>(<span class="math-var">x</span>) − Li(<span class="math-var">x</span>)| = <span class="math-var">O</span>(√<span class="math-var">x</span> ln <span class="math-var">x</span>)</span>（对应最小可能增长指数 Θ = 1/2）。</dd>
+          </div>
+          <div class="summary-row">
+            <dt>数值验证与现状</dt>
+            <dd>Platt 与 Trudgian (2021) 通过严格区间算术验证了前约 <span class="mono">1.236 × 10¹³</span>（12.36 万亿）个非平凡零点均位于 <span class="math-var">σ</span> = 1/2 上，反例数为 0；克雷数学研究所将其列为千禧年大奖难题，悬赏 100 万美元征求一般性证明或反例。</dd>
+          </div>
+        </dl>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>黎曼猜想：纯数学交互图解 · 全部数值由欧拉–麦克劳林求和、对数积分数值求积与前 30 对零点显式公式实时计算。</p>
+      <div class="footer-links">
+        <a href="../../">返回案例展厅</a>
+        <span aria-hidden="true">·</span>
+        <a href="../riemann-hypothesis/">切换童趣科普版</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="live-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

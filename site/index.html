@@ -220,7 +220,7 @@
       inline-size: 100%;
       max-inline-size: 72rem;
       margin-inline: auto;
-      padding: 1.25rem clamp(0.9rem, 2.5vw, 1.75rem) 3.5rem;
+      padding: 0.9rem clamp(0.9rem, 2.5vw, 1.75rem) 3rem;
     }
 
     /* Hero Banner */
@@ -228,13 +228,13 @@
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
-      gap: clamp(1rem, 2.5vw, 2rem);
-      padding: clamp(1.15rem, 2.2vw, 1.65rem) clamp(1.15rem, 2.6vw, 1.85rem);
+      gap: clamp(1rem, 2.2vw, 1.75rem);
+      padding: clamp(0.95rem, 1.7vw, 1.25rem) clamp(1.1rem, 2.4vw, 1.7rem);
       background: var(--surface);
       border: 2.5px solid var(--ink);
       border-radius: var(--radius-panel);
       box-shadow: var(--shadow-panel);
-      margin-block-end: 1.35rem;
+      margin-block-end: 0.95rem;
     }
 
     .hero-badges {
@@ -312,13 +312,13 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem 1rem;
-      padding: 0.8rem 1rem;
+      gap: 0.65rem 1rem;
+      padding: 0.65rem 0.95rem;
       background: var(--surface);
       border: 2.5px solid var(--ink);
       border-radius: var(--radius-panel);
       box-shadow: 3px 3px 0 var(--ink);
-      margin-block-end: 1.35rem;
+      margin-block-end: 0.9rem;
     }
 
     .category-bar {
@@ -354,7 +354,7 @@
     }
 
     .result-meta {
-      margin: 0 0 0.85rem;
+      margin: 0 0 0.6rem;
       font-size: 0.86rem;
       font-weight: 700;
       color: var(--ink-muted);
@@ -396,11 +396,11 @@
       position: relative;
       background: var(--surface-alt);
       border-block-end: 2px solid var(--ink);
-      padding: 1rem;
+      padding: 0.7rem 0.9rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-block-size: 12.5rem;
+      min-block-size: 10.5rem;
     }
 
     @container (min-width: 48rem) {
@@ -414,7 +414,7 @@
     .case-preview svg {
       display: block;
       inline-size: 100%;
-      max-inline-size: 22rem;
+      max-inline-size: 19.5rem;
       block-size: auto;
     }
 
@@ -432,10 +432,10 @@
     }
 
     .case-body {
-      padding: 1.1rem 1.2rem 1.2rem;
+      padding: 0.9rem 1.15rem 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.52rem;
       flex: 1 1 auto;
     }
 
@@ -695,7 +695,7 @@
       <div class="hero-copy">
         <div class="hero-badges">
           <span class="eyebrow">沉默王二 · 开源互动案例集</span>
-          <span class="count-badge mono" id="hero-case-count">已收录 1 个案例</span>
+          <span class="count-badge mono" id="hero-case-count">已收录 2 个案例</span>
         </div>
         <h1 id="portal-heading">点开浏览器就能玩的 AI 与数学互动案例</h1>
         <p id="portal-subtitle">
@@ -853,6 +853,58 @@
             <circle cx="274" cy="54" r="6.5" fill="#E09600" stroke="#141C2B" stroke-width="2" />
             <circle cx="274" cy="94" r="6.5" fill="#E09600" stroke="#141C2B" stroke-width="2" />
             <circle cx="274" cy="134" r="6.5" fill="#E09600" stroke="#141C2B" stroke-width="2" />
+          </svg>
+        `;
+      }
+
+      if (item.slug === 'riemann-hypothesis-math') {
+        return `
+          <svg viewBox="0 0 340 190" width="340" height="190" aria-hidden="true" focusable="false">
+            <rect x="6" y="6" width="328" height="178" rx="12" fill="#FCFCFA" stroke="#141C2B" stroke-width="2.2" />
+            <!-- Fine Swiss graph grid -->
+            <g stroke="#E2E8F0" stroke-width="1">
+              <line x1="20" y1="46" x2="320" y2="46" />
+              <line x1="20" y1="86" x2="320" y2="86" />
+              <line x1="20" y1="126" x2="320" y2="126" />
+              <line x1="20" y1="166" x2="320" y2="166" />
+              <line x1="176" y1="20" x2="176" y2="172" />
+            </g>
+            <!-- Left half: Euler equation & prime-factor chips -->
+            <rect x="20" y="24" width="144" height="44" rx="6" fill="#FFFFFF" stroke="#0F172A" stroke-width="1.6" />
+            <text x="92" y="42" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="13" font-weight="700" fill="#0F172A">ζ(s) = ∑ n⁻ˢ</text>
+            <text x="92" y="59" text-anchor="middle" font-family="Georgia, serif" font-size="11.5" font-weight="700" fill="#1D4ED8">= ∏ (1 − p⁻ˢ)⁻¹</text>
+
+            <!-- Compact smooth-integer matrix -->
+            <g font-family="ui-monospace, monospace" font-size="10" font-weight="700" text-anchor="middle">
+              <rect x="20" y="80" width="32" height="24" rx="4" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.4" />
+              <text x="36" y="96" fill="#0F766E">2²</text>
+              <rect x="57" y="80" width="32" height="24" rx="4" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.4" />
+              <text x="73" y="96" fill="#0F766E">2·3</text>
+              <rect x="94" y="80" width="32" height="24" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.3" />
+              <text x="110" y="96" fill="#DC2626">5</text>
+              <rect x="131" y="80" width="33" height="24" rx="4" fill="#F0FDFA" stroke="#0F766E" stroke-width="1.4" />
+              <text x="147" y="96" fill="#0F766E">2²·3</text>
+            </g>
+
+            <!-- Error oscillation envelope at bottom-left -->
+            <rect x="20" y="116" width="144" height="52" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.3" />
+            <line x1="26" y1="142" x2="158" y2="142" stroke="#CBD5E1" stroke-width="1" />
+            <path d="M26 135 Q92 126 158 121" fill="none" stroke="#0F766E" stroke-width="1.3" stroke-dasharray="4 3" />
+            <path d="M26 149 Q92 158 158 163" fill="none" stroke="#0F766E" stroke-width="1.3" stroke-dasharray="4 3" />
+            <path d="M26 142 C42 130, 56 152, 72 136 C88 122, 102 156, 118 134 C132 118, 146 158, 158 138" fill="none" stroke="#1D4ED8" stroke-width="2" />
+
+            <!-- Right half: Complex Plane Critical Strip 0 < σ < 1 -->
+            <rect x="190" y="24" width="130" height="144" rx="6" fill="#FFFFFF" stroke="#0F172A" stroke-width="1.6" />
+            <rect x="235" y="26" width="40" height="140" fill="#EFF6FF" />
+            <line x1="255" y1="26" x2="255" y2="166" stroke="#1D4ED8" stroke-width="2.2" />
+            <!-- Symmetric off-line zero illustration -->
+            <line x1="220" y1="126" x2="290" y2="126" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="4 3" />
+            <circle cx="290" cy="126" r="5.5" fill="#DC2626" stroke="#FFFFFF" stroke-width="1.6" />
+            <circle cx="220" cy="126" r="5.5" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.6" stroke-dasharray="3 2" />
+            <!-- Zeros on critical line -->
+            <circle cx="255" cy="54" r="5" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="1.6" />
+            <circle cx="255" cy="86" r="5" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="1.6" />
+            <text x="255" y="159" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9.5" font-weight="700" fill="#1D4ED8">Re(s) = 1/2</text>
           </svg>
         `;
       }

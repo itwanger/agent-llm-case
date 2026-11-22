@@ -18,6 +18,19 @@
       "entry": "index.html",
       "mode": "static",
       "featured": true
+    },
+    {
+      "slug": "riemann-hypothesis-math",
+      "title": "黎曼猜想：纯数学交互图解",
+      "shortTitle": "黎曼猜想 · 纯数学版",
+      "summary": "去掉实物比喻，按纯数学推导展开：从素数计数误差、欧拉乘积公式到复平面零点与 σ = 1/2 临界线对称性，四组实时计算交互实验。",
+      "category": "数学与科普",
+      "tags": ["纯数学", "欧拉乘积", "复平面"],
+      "date": "2026-11-22",
+      "source": "riemann-hypothesis-math",
+      "entry": "index.html",
+      "mode": "static",
+      "featured": false
     }
   ]
 }
